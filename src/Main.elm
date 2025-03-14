@@ -8,10 +8,10 @@ module Main exposing (..)
 
 
 import Browser
-import Html exposing (Html, button, div, text)
-import Html.Events exposing (onClick)
+import Html exposing (Html)
 
-
+import Element exposing (..)
+import Styles exposing (..)
 
 -- MAIN
 
@@ -37,19 +37,14 @@ init =
 
 
 type Msg
-  = Increment
-  | Decrement
+  = None
 
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-    Increment ->
-      model + 1
-
-    Decrement ->
-      model - 1
-
+    _ ->
+      model
 
 
 -- VIEW
@@ -57,8 +52,28 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div []
-    [ button [ onClick Decrement ] [ text "-" ]
-    , div [] [ text (String.fromInt model) ]
-    , button [ onClick Increment ] [ text "+" ]
+   layout 
+    [ width fill, height fill
+    -- , Element.explain Debug.todo
+    ]
+    mainSection  
+
+
+mainSection: Element Msg
+mainSection = 
+  column 
+    [width (fill |> maximum 1000), centerX]
+    <| List.repeat 20 fontTest
+
+
+fontTest: Element Msg
+fontTest =
+  column [centerX, centerY]
+    [ Element.el
+        montserratBold
+        (text "Some bold text")
+    , 
+    Element.el
+        montserratLight
+        (text "some ligth paragraph long")
     ]

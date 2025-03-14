@@ -18,5 +18,5 @@ WORKDIR /app
 EXPOSE 8000
 
 # Comando por defecto para iniciar elm-live en modo watch
-CMD ["elm-live", "src/Main.elm", "--hot", "--open", "--start-page=build/index.html", "--host=0.0.0.0", "--", "--output=build/main.js" ]
+CMD ["elm-live", "src/Main.elm", "--open", "--start-page=build/index.html", "--host=0.0.0.0", "--", "--output=build/main.js" ]
 #CMD ["sh", "-c", "tail -f /dev/null"]
