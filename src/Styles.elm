@@ -13,6 +13,11 @@ import Element exposing (centerX)
 negro : Color   
 negro = rgb255 0 0 0
 
+
+blanco : Color   
+blanco = rgb255 256 256 256
+
+
 grisclaro : Color
 grisclaro = rgb255 170 170 170
 
@@ -103,18 +108,21 @@ montserratSemiBold =
         ]
 
 -- Para títulos
+
+
 montserratBold :  List (Attribute msg)
 montserratBold =
         [ montserrat
         , Font.size 20
-        , Font.semiBold
+        , Font.bold
         ]
+
 
 montserratTitulo :  List (Attribute msg)
 montserratTitulo =
         [ montserrat
         , Font.size 32
-        , Font.bold
+        , Font.extraBold
         ]
 
 

@@ -140,18 +140,22 @@ view model =
     --,  behindContent <| infoDebug model -- TODO hide maybeÇ
         --, Background.color white
         ]   
-        <| Element.el [ width fill, height fill]
-                    (contenido model)
+        <| column 
+            [centerX, centerY, width fill, height fill]
+            [ Element.el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20}]
+                (contenido model)
+            , footer 
+            ]
             
     ]
 
-headerHtml : Html msg
+headerHtml : Html Msg
 headerHtml =
     Html.div
         [ HtmlAttributes.class "fixed-header"]
         [ encabezadoFijado ]
 
-encabezadoFijado : Html msg
+encabezadoFijado : Html Msg
 encabezadoFijado =
     layout []
         <| 
@@ -163,6 +167,20 @@ encabezadoFijado =
         , Element.image [alignRight, paddingXY 20 0, height (px 50)] {src = "/assets/favicon.svg", description = "Logo de Mikel"}
         ]
 
+
+footer : Element Msg
+footer = 
+    column [paddingXY 20 40, width fill, height (px 200), Background.color negro, spaceEvenly]
+    [ Element.el 
+        ( montserratLight ++ [Font.color blanco, centerX]
+        ) 
+        (text "B1 Competencia digital del profesorado")
+    , Element.el 
+        ( montserratLight ++ [Font.color blanco, centerX]
+        ) 
+        (text "Mikel Dalmau")
+    , Element.image [centerX, paddingXY 20 0, height (px 50)] {src = "/assets/CC.webp", description = "Creative Commons, Non comercial, Share Alike"}
+    ]
 
 contenido : Model -> Element Msg
 contenido model =
@@ -408,7 +426,7 @@ botonCompetencia num desc entrega color ids hovered=
             Just id -> 
                 if (Set.member id hovered) then
                     ([Border.shadow
-                        { offset = (3, 3)
+                        { offset = (2, 2)
                         , size = 2
                         , blur = 0
                         , color = negro
@@ -422,7 +440,7 @@ botonCompetencia num desc entrega color ids hovered=
       , Events.onMouseEnter (HoverOnMany ids)
       , Events.onMouseLeave (HoverOffMany ids)
       ])
-      [Element.el (shadowStyle ++ montserratBold ++ [Font.center, centerX, centerY, width <| px 50, height <| px 50, Background.color color, Border.width 1, Border.solid, Border.rounded 50, padding 9]) (text num)
+      [Element.el (shadowStyle ++ montserratBold ++ [Font.center, centerX, centerY, width <| px 50, height <| px 50, Background.color color, Border.width 1, Border.solid, Border.rounded 50, padding 15]) (text num)
       , column [alignLeft, width (fill), spacing 10] 
             [ Element.paragraph (montserratSemiBold ++ [ Font.color color, Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer color factor}]) [text desc]
             , Element.paragraph (montserratLight ++ [ Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer grisclaro factor}]) [text entrega]
