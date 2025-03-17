@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/mikeldalmauc/b1portfolio/issues"
   },
-  "homepage": "https://github.com/mikeldalmauc/b1portfolio#readme"
+  "homepage": "https://github.com/mikeldalmauc/b1portfolio#readme",
+  "dependencies": {
+    "b1portfolio": "file:"
+  }
 }

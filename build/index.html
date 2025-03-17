@@ -23,15 +23,25 @@
     <meta itemprop="name" content="B1 digitalización portfolio">
     <meta name="author" content="Mikel Dalmau">
   
-    <!-- <script src="main.js"></script> -->
-    <script src="main.min.js"></script>
     <title>Mikel Dalmau - B1 digitalización portfolio</title>
+    <script src="build/main.js"></script>
 
 </head>
 <body>
-    <script src="build/main.js"></script>
+    <div id="app"></div>
     <script>
-        var app = Elm.Main.init({ node: document.body });
+         var app = Elm.Main.init({
+          node: document.getElementById('app'),
+          flags: {
+            width: window.innerWidth,
+            height: window.innerHeight
+          }
+        });
+
+        window.addEventListener("orientationchange", function() {
+          location.reload();
+        });
+
     </script>
 </body>
 </html>
