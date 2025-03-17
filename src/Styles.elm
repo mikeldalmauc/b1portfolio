@@ -1,28 +1,20 @@
 module Styles exposing (..)
 
 import Element.Font as Font
-import Element exposing (Attribute, rgba255, rgb255, Color)
+import Element exposing (Element, Attribute, rgba, rgba255, rgb255, Color, toRgb)
 import Element.Border as Border
+import Element.HexColor as HexColor exposing (hexa)
 
+import Html exposing (Html)
+import Svg 
+import Svg.Attributes as SvgAttrs
+import Element exposing (centerX)
 
-darkBlue : Color
-darkBlue = rgba255 0 4 25 1.0
+negro : Color   
+negro = rgb255 0 0 0
 
-naranja : Color
-naranja = rgba255 234 140 104 1.0
-
-verde : Color
-verde = rgba255 106 183 112 1.0
-
-turquesa : Color
-turquesa = rgba255 93 198 195 1.0
-
-morado : Color
-morado = rgba255 90 68 135 1.0
-
-rosa : Color
-rosa = rgba255 216 91 127 1.0
-
+grisclaro : Color
+grisclaro = rgb255 170 170 170
 
 ---  Colores chicle
 
@@ -34,7 +26,30 @@ azul = rgb255 144 168 237
 
 chicle : Color
 chicle = rgb255 255 144 232
+
+chicleHex : String
+chicleHex = "#ff90e8"
+
+naranja : Color
+naranja = rgb255 255 201 0
+
+turquesa : Color
+turquesa = rgb255 35 160 148
+
+rojo : Color
+rojo = rgb255 220 52 30
 --- 
+
+oscurecer : Color -> Float -> Color
+oscurecer color factor =
+    let
+        {red, green , blue , alpha } = toRgb color
+    in
+        rgba
+            (red * factor)
+            (green * factor)
+            (blue * factor)
+            (alpha)
 
 
 innerBorder : List (Attribute msg)
@@ -55,13 +70,6 @@ borderStyle =
     , Border.width 1
     ]
 
-borderStyleBoton : List (Attribute msg)
-borderStyleBoton = 
-    [ Border.rounded 10
-    , Border.solid
-    , Border.width 1
-    ]
-
 montserrat : Attribute msg
 montserrat = Font.family
             [ Font.external
@@ -76,14 +84,78 @@ montserratLight :  List (Attribute msg)
 montserratLight =
         [ montserrat
         , Font.size 16
-        , Font.light
+        , Font.regular
         ]
 
+montserratSemi :  List (Attribute msg)
+montserratSemi =
+        [ montserrat
+        , Font.size 16
+        , Font.semiBold
+        ]
+
+
+montserratSemiBold :  List (Attribute msg)
+montserratSemiBold =
+        [ montserrat
+        , Font.size 18
+        , Font.semiBold
+        ]
 
 -- Para títulos
 montserratBold :  List (Attribute msg)
 montserratBold =
         [ montserrat
-        , Font.size 28
+        , Font.size 20
         , Font.semiBold
+        ]
+
+montserratTitulo :  List (Attribute msg)
+montserratTitulo =
+        [ montserrat
+        , Font.size 32
+        , Font.bold
+        ]
+
+
+upArrowSvg : List (Attribute msg) -> String -> Element msg
+upArrowSvg attrs color =
+    Element.el attrs <|Element.html <| arrowSvg color "270"
+
+downArrowSvg : List (Attribute msg) -> String -> Element msg
+downArrowSvg attrs color =
+     Element.el attrs <| Element.html <| arrowSvg color "90"
+
+leftArrowSvg : String -> Element msg
+leftArrowSvg color =
+    Element.html <| arrowSvg color "270"
+
+rightArrowSvg : List (Attribute msg) -> String -> Element msg
+rightArrowSvg attrs color =
+    Element.el attrs <| Element.html <| arrowSvg color "0"
+
+
+arrowSvg : String -> String -> Html msg
+arrowSvg color rotation =
+    Svg.svg
+        [ SvgAttrs.width "40"
+        , SvgAttrs.height "40"
+        , SvgAttrs.viewBox "0 0 122.88 122.433"
+        , SvgAttrs.fill color
+        , SvgAttrs.transform <| "rotate(" ++ rotation ++ " 0 0)"
+        ][ 
+            -- Svg.path
+            -- [ SvgAttrs.d 
+            --     """M482.1,263.9h24.4v-15.8h-24.4V263.9z M434,263.9h32.3v-15.8H434V263.9z M386,263.9h32.3v-15.8H386V263.9z M337.9,263.9h32.3v-15.8h-32.3V263.9z M289.1,263.9h32.3v-15.8h-32.3V263.9z M241,263.9h32.3v-15.8H241V263.9z M193,263.9h32.3 v-15.8H193V263.9z M144.9,263.9h32.3v-15.8h-32.3V263.9z M96.1,263.9h32.3v-15.8H96.1V263.9z M48,263.9h32.3v-15.8H48V263.9z M0,263.9h32.3v-15.8H0V263.9z"""
+            -- , SvgAttrs.fill color
+            -- ]
+            -- []
+        -- , 
+        Svg.polygon
+            [ SvgAttrs.points "122.88,61.217 59.207,122.433 59.207,83.029 0,83.029 0,39.399 59.207,39.399 59.207,0 122.88,61.217"
+            , SvgAttrs.fill color
+            , SvgAttrs.fillRule "evenodd"
+            , SvgAttrs.clipRule "evenodd"
+            ]
+            []
         ]
