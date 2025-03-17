@@ -9,10 +9,14 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (Html)
+import Html.Attributes as HtmlAttributes
+
 import Browser.Events exposing (onResize)
 
 import Element exposing (..)
 import Element.Font as Font
+import Element.Background as Background
+import Element.Border as Border
 
 import Styles exposing (..)
 
@@ -98,17 +102,74 @@ view model =
   in
     layout 
       [ width fill, height fill
-    --, Element.explain Debug.todo
+    -- , Element.explain Debug.todo
     ,  behindContent <| infoDebug model -- TODO hide maybeÇ
+    --, Background.color white
+      ]   
+      <| mainSection model
+
+
+mainSection : Model -> Element Msg 
+mainSection model = 
+  row 
+    ( borderStyle ++ 
+    [centerX, centerY
+    , width (fill |> maximum 1300)
+    , height (fill |> maximum 800)
+    -- , Element.explain Debug.todo
+    ])
+    [
+      contextoColaborativo model,
+      centro model,
+      ensenanzaAprendizaje model
+    ]
+
+contextoColaborativo : Model -> Element Msg
+contextoColaborativo model = 
+  column
+    [alignLeft, alignTop, width (fillPortion 1), height fill, padding 25, Background.color limon, spacing 40]
+    [Element.paragraph []
+      [ Element.el montserratBold
+        (text "Contexto colaborativo del equipo docente")
       ]
-      mainSection  
+    , botones model
+    ]
+
+botones : Model -> Element Msg
+botones model = 
+   column
+    [alignLeft, alignTop, spacing 10]
+    [ botonEntregable "1.A" "Comunicación" chicle
+    , botonEntregable "1.A" "Trabajo en equipo" chicle
+    , botonEntregable "1.A" "Netiqueta" chicle
+    ]
+
+type alias DescripcionEntregable = String
+type alias NumeroEntregable = String
+
+botonEntregable : NumeroEntregable -> DescripcionEntregable -> Color -> Element Msg
+botonEntregable num desc color = 
+  row (borderStyleBoton ++ [centerX, centerY, Background.color color, padding 10])
+    [Element.el montserratBold (text num)
+    ,Element.el montserratLight (text desc)]
 
 
-mainSection: Element Msg
-mainSection = 
-  column 
-    [width (fill |> maximum 1000), centerX]
-    <| List.repeat 20 fontTest
+centro : Model -> Element Msg
+centro model = 
+ column
+    (innerBorder ++ [centerX, alignTop, width (fillPortion 2), height fill, padding 25])
+    [fontTest]
+
+
+ensenanzaAprendizaje : Model -> Element Msg
+ensenanzaAprendizaje model = 
+ column
+    [alignRight, alignTop, width (fillPortion 1), height fill, padding 25, Background.color azul]
+    [Element.paragraph [Font.alignRight]
+      [ Element.el montserratBold
+        (text "Enseñanza y aprendizaje")
+      ]
+    ]
 
 
 fontTest: Element Msg
@@ -122,6 +183,7 @@ fontTest =
         montserratLight
         (text "some ligth paragraph long")
     ]
+
 
 infoDebug : Model -> Element msg
 infoDebug model =
