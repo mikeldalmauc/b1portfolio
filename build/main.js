@@ -12609,6 +12609,7 @@ var $author$project$Main$asideEvidencias = function () {
 					textos))
 			]));
 }();
+var $author$project$Styles$blanco = A3($mdgriffith$elm_ui$Element$rgb255, 256, 256, 256);
 var $author$project$Styles$borderStyle = _List_fromArray(
 	[
 		$mdgriffith$elm_ui$Element$Border$rounded(5),
@@ -13412,7 +13413,8 @@ var $author$project$Main$mainSection = function (model) {
 					$mdgriffith$elm_ui$Element$centerY,
 					$mdgriffith$elm_ui$Element$width(
 					A2($mdgriffith$elm_ui$Element$maximum, 1150, $mdgriffith$elm_ui$Element$fill)),
-					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink)
+					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+					$mdgriffith$elm_ui$Element$Background$color($author$project$Styles$blanco)
 				])),
 		_List_fromArray(
 			[
@@ -13438,7 +13440,6 @@ var $author$project$Main$contenido = function (model) {
 				$author$project$Main$asideEvidencias
 			]));
 };
-var $author$project$Styles$blanco = A3($mdgriffith$elm_ui$Element$rgb255, 256, 256, 256);
 var $elm$html$Html$Attributes$href = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -13776,7 +13777,10 @@ var $author$project$Styles$montserratTitulo = _List_fromArray(
 	]);
 var $author$project$Main$encabezadoFijado = A2(
 	$mdgriffith$elm_ui$Element$layout,
-	_List_Nil,
+	_List_fromArray(
+		[
+			$mdgriffith$elm_ui$Element$Background$color($author$project$Styles$blanco)
+		]),
 	A2(
 		$mdgriffith$elm_ui$Element$row,
 		_List_fromArray(

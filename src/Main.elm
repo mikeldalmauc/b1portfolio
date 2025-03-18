@@ -316,7 +316,7 @@ headerHtml =
 
 encabezadoFijado : Html Msg
 encabezadoFijado =
-    layout []
+    layout [Background.color blanco]
         <| 
         row [centerY, paddingXY 20 0, width fill]
         [el 
@@ -409,7 +409,7 @@ mainSection model =
     [centerX, centerY
     , width (fill |> maximum 1150)
     , height (shrink)
-    -- , noneexplain Debug.todo
+    , Background.color blanco
     ])
     [ contextoColaborativo model
     , centro model

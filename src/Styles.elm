@@ -3,7 +3,7 @@ module Styles exposing (..)
 import Element.Font as Font
 import Element exposing (Element, Attribute, rgba, rgba255, rgb255, Color, toRgb)
 import Element.Border as Border
-import Element.HexColor as HexColor exposing (hexa)
+import Element.HexColor as HexColor exposing (hex)
 
 import Html exposing (Html)
 import Svg 
@@ -16,13 +16,14 @@ negro = rgb255 0 0 0
 negroHex : String
 negroHex = "#000000"
 
-
 blanco : Color   
 blanco = rgb255 256 256 256
 
-
 grisclaro : Color
 grisclaro = rgb255 170 170 170
+
+grisClaroFondo : Color
+grisClaroFondo = rgb255 244 244 240
 
 ---  Colores chicle
 
