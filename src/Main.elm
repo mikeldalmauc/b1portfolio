@@ -25,6 +25,8 @@ import Element.Events as Events
 
 import Styles exposing (..)
 
+import Dict exposing (Dict)
+
 import Entregables.Entregable1AComunicacion as E1A
 
 -- MAIN
@@ -53,11 +55,6 @@ subscriptions model =
 
 -- MODEL
 
-type ModalVisibilty
-    = Visible
-    | Hidden
-
-
 type alias Model = 
   { device : Device
   , dimensions : Dimensions
@@ -65,8 +62,74 @@ type alias Model =
   , modalVisibility : ModalVisibilty
   , modalView : Element Msg
   , modalTitle : String
+  , entregables : Dict String Entregable
   }
-  
+
+
+type ModalVisibilty
+    = Visible
+    | Hidden
+
+
+type alias Dimensions =
+    { width : Int
+    , height : Int
+    }
+
+
+type alias Flags = Dimensions
+
+
+type alias Entregable = 
+    { codigo : String
+    , descripcionEntregable : String
+    , tipoEvidencia : Maybe String
+    , tituloModal : String
+    , vistaModal : Element Msg
+    }
+
+
+entregables : Dict String Entregable
+entregables =
+  Dict.fromList
+    [ ("1", Entregable "1" "Compromiso profesional" (Just "video") E1A.title E1A.view)
+    , ("2", Entregable "2" "Contenidos digitales" (Just "video") E1A.title E1A.view)
+    , ("3", Entregable "3" "Enseñanza y aprendizaje" (Just "video") E1A.title E1A.view)
+    , ("4", Entregable "4" "Evaluación y retroalimentación" (Just "video") E1A.title E1A.view)
+    , ("5", Entregable "5" "Empoderamiento del alumnado" (Just "video") E1A.title E1A.view)
+    , ("6", Entregable "6" "Desarrollo de la competencia digital del alumnado" (Just "video") E1A.title E1A.view)
+        
+    , ("1.A", Entregable "1.A" "Comunicación" (Just "captura") E1A.title E1A.view)
+    , ("1.B", Entregable "1.B" "Trabajo en equipo" (Just "captura") E1A.title E1A.view)
+    , ("1.C", Entregable "1.C" "Netiqueta" (Just "infografia") E1A.title E1A.view)
+
+    , ("2.A", Entregable "2.A" "Básico" (Just "contenido") E1A.title E1A.view)
+    , ("2.B", Entregable "2.B" "Profundización" (Just "contenido") E1A.title E1A.view)
+
+    , ("3.A", Entregable "3.A" "Contexto colaborativo del alumnado" Nothing E1A.title E1A.view)
+    , ("3.B", Entregable "3.B" "Recursos" Nothing E1A.title E1A.view)
+
+    , ("4.A", Entregable "4.A" "Evaluación previa" Nothing E1A.title E1A.view)
+    , ("4.B", Entregable "4.B" "Formativa" Nothing E1A.title E1A.view)
+    , ("4.C", Entregable "4.C" "Retroalimentación" Nothing E1A.title E1A.view)
+
+    , ("5.A", Entregable "5.A" "Accesibilidad" Nothing E1A.title E1A.view)
+    , ("5.B", Entregable "5.B" "Personalización" Nothing E1A.title E1A.view)
+
+    , ("6.A", Entregable "6.A" "Búsquedas" (Just "doc") E1A.title E1A.view)
+    , ("6.B", Entregable "6.B" "Normas de conducta" (Just "doc") E1A.title E1A.view)
+    , ("6.C", Entregable "6.C" "Contenidos digitales" (Just "doc") E1A.title E1A.view)
+    , ("6.D", Entregable "6.D" "Uso responsable" (Just "doc") E1A.title E1A.view)
+    , ("6.E", Entregable "6.E" "Resolución de problemas" (Just "doc") E1A.title E1A.view)
+    ]
+
+
+getEntregable : String -> Dict String Entregable -> Entregable
+getEntregable key dict = 
+    case Dict.get key dict of
+        Just entregable -> entregable
+        Nothing -> Entregable "0" "Esto no es un entregable" Nothing "Esta pagina no debería verse" none
+
 
 init : Dimensions -> ( Model, Cmd Msg )
 init dimensions =
@@ -77,18 +140,10 @@ init dimensions =
       , modalVisibility = Hidden
       , modalView = none
       , modalTitle = ""
+      , entregables = entregables
     }
     , Cmd.none
     )
-
-
-type alias Dimensions =
-    { width : Int
-    , height : Int
-    }
-
-
-type alias Flags = Dimensions
 
 
 -- UPDATE
@@ -209,6 +264,7 @@ viewOverlay model =
             , style "box-shadow" "0 4px 6px rgba(0,0,0,0.3)"
             , style "width" "70%"       -- Ajusta al tamaño deseado
             , style "max-width" "80%" -- O lo que prefieras
+            , style "max-height" "80%" -- O lo que prefieras
             , style "padding" "20px"
              -- Evitamos que el clic aquí "suba" y cierre.  
             , stopPropagationOn "click" (Decode.succeed (NoOp, True))
@@ -224,6 +280,13 @@ alwaysPreventDefault msg =
 
 modalViewFun : Model -> Element Msg
 modalViewFun model =
+    let 
+        dropShadowValue =
+            if (Set.member 99 model.hovered) then
+                "drop-shadow(3px 3px 1px darkgray)"
+            else
+                "none"
+    in
     column
         [ scrollbars
         , width fill
@@ -234,7 +297,12 @@ modalViewFun model =
         ]
         [ row [ width fill ]
             [ el (montserratBold) (text model.modalTitle)
-            , closeButton [ alignRight, Events.onClick CloseModal ]
+            , closeButton 
+                [ alignRight, pointer, Events.onClick CloseModal  
+                , Events.onMouseEnter (HoverOn 99)
+                , Events.onMouseLeave (HoverOff 99)
+                , htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)
+                ]
             ]
         , model.modalView -- aquí va el contenido real del modal
         ]
@@ -300,12 +368,12 @@ aside model =
       ]
     , column
         [alignLeft, alignTop, spacing 5]
-        [ botonCompetencia "1" "Compromiso profesional" "1a entrega" naranja [100, 1, 2, 3] model.hovered
-        , botonCompetencia "2" "Contenidos digitales" "2a entrega" turquesa [101, 8, 10] model.hovered
-        , botonCompetencia "3" "Enseñanza y aprendizaje" "3a entrega" azul [102, 4, 5] model.hovered
-        , botonCompetencia "4" "Evaluación y retroalimentación" "4a entrega" limon [103, 6, 18, 19] model.hovered
-        , botonCompetencia "5" "Empoderamiento del alumnado" "5a entrega" chicle [104, 9, 11, 12] model.hovered
-        , botonCompetencia "6" "Desarrollo de la competencia digital del alumnado" "6a entrega" rojo [105, 13, 14, 15, 16, 17] model.hovered
+        [ botonCompetencia (getEntregable "1" model.entregables) "1a entrega" naranja [100, 1, 2, 3] model.hovered
+        , botonCompetencia (getEntregable "2" model.entregables) "2a entrega" turquesa [101, 8, 10] model.hovered
+        , botonCompetencia (getEntregable "3" model.entregables) "4a entrega" azul [102, 4, 5] model.hovered
+        , botonCompetencia (getEntregable "4" model.entregables) "6a entrega" limon [103, 6, 18, 19] model.hovered
+        , botonCompetencia (getEntregable "5" model.entregables) "3a entrega" chicle [104, 9, 11, 12] model.hovered
+        , botonCompetencia (getEntregable "6" model.entregables) "5a entrega" rojo [105, 13, 14, 15, 16, 17] model.hovered
         ]
     ]
 
@@ -339,7 +407,7 @@ mainSection model =
   row 
     ( borderStyle ++ 
     [centerX, centerY
-    , width (fill |> maximum 1100)
+    , width (fill |> maximum 1150)
     , height (shrink)
     -- , noneexplain Debug.todo
     ])
@@ -360,9 +428,9 @@ contextoColaborativo model =
         [alignLeft, alignTop, spacing 20
         -- , noneexplain Debug.todo 
         ]
-        [ botonEntregable "1.A" "Comunicación" (Just "captura")naranja 1 model.hovered
-        , botonEntregable "1.B" "Trabajo en equipo" (Just "captura") naranja 2 model.hovered
-        , botonEntregable "1.C" "Netiqueta" (Just "infografia") naranja 3 model.hovered
+        [ botonEntregable (getEntregable "1.A" model.entregables) naranja 1 model.hovered
+        , botonEntregable (getEntregable "1.B" model.entregables) naranja 2 model.hovered
+        , botonEntregable (getEntregable "1.C" model.entregables) naranja 3 model.hovered
         ]
     ]
 
@@ -388,7 +456,7 @@ evaluacionPrevia model =
       [ el montserratBold
         (text "Evaluación previa sobre un tema")
       ]
-    , botonEntregable "4.A" "Evaluación previa" Nothing limon 6 model.hovered
+    , botonEntregable (getEntregable "4.A" model.entregables) limon 6 model.hovered
     ]
 
 
@@ -431,8 +499,8 @@ contenidoBasico model =
         [ el montserratBold
             (text "Contenido de conocimiento basico")
         ]
-        , botonEntregable "2.A" "Básico" (Just "contenido") turquesa 8 model.hovered
-        , botonEntregable "5.A" "Accesibilidad" Nothing chicle 9 model.hovered
+        , botonEntregable (getEntregable "2.A" model.entregables) turquesa 8 model.hovered
+        , botonEntregable (getEntregable "5.A" model.entregables) chicle 9 model.hovered
         ]
     ]
 
@@ -445,9 +513,9 @@ contenidoProfundizacion model =
         (text "Contenido de profundización")
       ]
     , row [spacing 20]
-    [ botonEntregable "2.B" "Básico" (Just "contenido") turquesa 10 model.hovered
-    , botonEntregable "5.A" "Accesibilidad" Nothing chicle 11 model.hovered
-    , botonEntregable "5.B" "Personalización" Nothing chicle 12 model.hovered]
+    [ botonEntregable (getEntregable "2.B" model.entregables) turquesa 10 model.hovered
+    , botonEntregable (getEntregable "5.A" model.entregables) chicle 11 model.hovered
+    , botonEntregable (getEntregable "5.B" model.entregables) chicle 12 model.hovered]
     ]
 
 
@@ -460,13 +528,13 @@ contextoColaborativoAlumnado model =
         (text "Contexto colaborativo del alumnado")
       ]
     , row [spacing 20]
-        [ botonEntregable "6.A" "Búsquedas" (Just "doc") rojo 13 model.hovered
-        , botonEntregable "6.B" "Normas de conducta" (Just "doc") rojo 14 model.hovered
-        , botonEntregable "6.C" "Contenidos digitales" (Just "doc") rojo 15 model.hovered
+        [ botonEntregable (getEntregable "6.A" model.entregables) rojo 13 model.hovered
+        , botonEntregable (getEntregable "6.B" model.entregables) rojo 14 model.hovered
+        , botonEntregable (getEntregable "6.C" model.entregables) rojo 15 model.hovered
       ]
     , row [spacing 20]
-        [ botonEntregable "6.D" "Uso responsable" (Just "doc") rojo 16 model.hovered
-        , botonEntregable "6.E" "Resolución de problemas" (Just "doc") rojo 17 model.hovered
+        [ botonEntregable (getEntregable "6.D" model.entregables) rojo 16 model.hovered
+        , botonEntregable (getEntregable "6.E" model.entregables) rojo 17 model.hovered
         ]
     ]
 
@@ -479,8 +547,8 @@ evaluacionYRetroalimentacion model =
         (text "Evaluacion Y Retroalimentacion")
       ]
     , row [spacing 20, centerX]
-        [ botonEntregable "4.B" "Formativa" Nothing limon 18 model.hovered
-        , botonEntregable "4.C" "Retroalimentación" Nothing limon 19 model.hovered
+        [ botonEntregable (getEntregable "4.B" model.entregables) limon 18 model.hovered
+        , botonEntregable (getEntregable "4.C" model.entregables) limon 19 model.hovered
       ]
     ]
 
@@ -494,34 +562,29 @@ ensenanzaAprendizaje model =
       ]
     , column
         [alignRight, alignTop, spacing 20]
-        [ botonEntregable "3.A" "Contexto colaborativo del alumnado" Nothing azul 4 model.hovered
-        , botonEntregable "3.B" "Recursos" Nothing azul 5 model.hovered
+        [ botonEntregable (getEntregable "3.A" model.entregables) azul 4 model.hovered
+        , botonEntregable (getEntregable "3.B" model.entregables) azul 5 model.hovered
         ]
     ]
 
 
-type alias DescripcionEntregable = String
-type alias NumeroEntregable = String
-type alias Align = Attribute Msg
-type alias Evidencia = String
-
-botonEntregable : NumeroEntregable -> DescripcionEntregable -> Maybe Evidencia -> Color -> Int -> Set Int -> Element Msg
-botonEntregable num desc evidencia color id hovered= 
+botonEntregable : Entregable -> Color -> Int -> Set Int -> Element Msg
+botonEntregable entregable color id hovered= 
   let
-    shadowStyle =
+    (shadowStyle, dropShadowValue) =
         if (Set.member id hovered) then
-            [Border.shadow
+            ([Border.shadow
                 { offset = (4, 4)
                 , size = 2
                 , blur = 0
                 , color = negro
                 }
-            ]
+            ], "drop-shadow(3px 3px 0px black)")
         else
-            []
+            ([], "none")
     
-    iconoEvidencia = case evidencia of 
-        Just icono  -> image [height (px 40), alignRight, moveRight 20, moveDown 20] {src = "/assets/" ++ icono ++ ".webp", description = "icono de evidencia"}
+    iconoEvidencia = case entregable.tipoEvidencia of 
+        Just icono  -> image [height (px 40), alignRight, moveRight 20, moveDown 20, htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "/assets/" ++ icono ++ ".webp", description = "icono de evidencia"}
         Nothing -> none
   in
     row (borderStyle ++ shadowStyle ++
@@ -529,18 +592,18 @@ botonEntregable num desc evidencia color id hovered=
         , Events.onMouseEnter (HoverOn id)
         , Events.onMouseLeave (HoverOff id)
         , inFront iconoEvidencia
-        , Events.onClick <| OpenModal E1A.title E1A.view
+        , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
         ])
         <| 
-        [el (montserratBold ++ []) (text num), paragraph (montserratLight ++ [paddingEach {top = 0, right = 20, bottom = 0, left = 0}]) [text desc]]
+        [el (montserratBold ++ []) (text entregable.codigo), paragraph (montserratLight ++ [paddingEach {top = 0, right = 20, bottom = 0, left = 0}]) [text entregable.descripcionEntregable]]
 
 
-botonCompetencia : NumeroEntregable -> DescripcionEntregable -> String -> Color -> List Int -> Set Int -> Element Msg
-botonCompetencia num desc entrega color ids hovered= 
+botonCompetencia : Entregable -> String -> Color -> List Int -> Set Int -> Element Msg
+botonCompetencia entregable entrega color ids hovered= 
   let
-    (shadowStyle, factor) = 
+    (shadowStyle, factor, dropShadowValue) = 
         case (List.head ids) of
-            Nothing -> ([], 0.7)
+            Nothing -> ([], 0.7, "none")
             Just id -> 
                 if (Set.member id hovered) then
                     ([Border.shadow
@@ -549,22 +612,22 @@ botonCompetencia num desc entrega color ids hovered=
                         , blur = 0
                         , color = negro
                         }
-                    ], 0.0)
+                    ], 0.0, "drop-shadow(3px 3px 0px black)")
                 else
-                    ([], 0.7)
+                    ([], 0.7, "none")
   in
     row (
         [ width fill, height (px 70), padding 7, spacing 30, pointer
         , Events.onMouseEnter (HoverOnMany ids)
         , Events.onMouseLeave (HoverOffMany ids)
-        , Events.onClick <| OpenModal E1A.title E1A.view
+        , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
         ])
-        [el (shadowStyle ++ montserratBold ++ [Font.center, centerX, centerY, width <| px 50, height <| px 50, Background.color color, Border.width 1, Border.solid, Border.rounded 50, padding 15]) (text num)
+        [el (shadowStyle ++ montserratBold ++ [Font.center, centerX, centerY, width <| px 50, height <| px 50, Background.color color, Border.width 1, Border.solid, Border.rounded 50, padding 15]) (text entregable.codigo)
         , column [alignLeft, width (fill), spacing 10] 
-            [ paragraph (montserratSemiBold ++ [ Font.color color, Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer color factor}]) [text desc]
-            , paragraph (montserratLight ++ [ Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer grisclaro factor}]) [text entrega]
+            [ paragraph (montserratSemiBold ++ [ Font.color color, Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer color factor}]) [text entregable.descripcionEntregable]
+            , paragraph (montserratLight ++ [ Font.shadow { offset = ( 0.5, 0.5 ), blur = 0, color = oscurecer grisclaro factor}]) [text entrega]
             ]
-        , image [height (px 50)] {src = "/assets/" ++ "video" ++ ".webp", description = "icono de video"}
+        , image [height (px 50), htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "/assets/" ++ "video" ++ ".webp", description = "icono de video"}
         ]
 
 

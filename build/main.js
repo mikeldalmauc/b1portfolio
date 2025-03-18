@@ -5225,54 +5225,10 @@ var $elm$core$Set$Set_elm_builtin = function (a) {
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
 var $elm$core$Set$empty = $elm$core$Set$Set_elm_builtin($elm$core$Dict$empty);
-var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
-var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
-var $elm$core$Platform$Cmd$batch = _Platform_batch;
-var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
-var $author$project$Main$init = function (dimensions) {
-	return _Utils_Tuple2(
-		{
-			device: $mdgriffith$elm_ui$Element$classifyDevice(dimensions),
-			dimensions: dimensions,
-			hovered: $elm$core$Set$empty,
-			modalTitle: '',
-			modalView: $mdgriffith$elm_ui$Element$none,
-			modalVisibility: $author$project$Main$Hidden
-		},
-		$elm$core$Platform$Cmd$none);
-};
-var $elm$json$Json$Decode$int = _Json_decodeInt;
-var $author$project$Main$DeviceClassified = function (a) {
-	return {$: 'DeviceClassified', a: a};
-};
-var $elm$core$Platform$Sub$batch = _Platform_batch;
-var $elm$browser$Browser$Events$Window = {$: 'Window'};
-var $elm$browser$Browser$Events$MySub = F3(
-	function (a, b, c) {
-		return {$: 'MySub', a: a, b: b, c: c};
+var $author$project$Main$Entregable = F5(
+	function (codigo, descripcionEntregable, tipoEvidencia, tituloModal, vistaModal) {
+		return {codigo: codigo, descripcionEntregable: descripcionEntregable, tipoEvidencia: tipoEvidencia, tituloModal: tituloModal, vistaModal: vistaModal};
 	});
-var $elm$browser$Browser$Events$State = F2(
-	function (subs, pids) {
-		return {pids: pids, subs: subs};
-	});
-var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
-	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
-var $elm$browser$Browser$Events$nodeToKey = function (node) {
-	if (node.$ === 'Document') {
-		return 'd_';
-	} else {
-		return 'w_';
-	}
-};
-var $elm$browser$Browser$Events$addKey = function (sub) {
-	var node = sub.a;
-	var name = sub.b;
-	return _Utils_Tuple2(
-		_Utils_ap(
-			$elm$browser$Browser$Events$nodeToKey(node),
-			name),
-		sub);
-};
 var $elm$core$Dict$Black = {$: 'Black'};
 var $elm$core$Dict$RBNode_elm_builtin = F5(
 	function (a, b, c, d, e) {
@@ -5394,750 +5350,16 @@ var $elm$core$Dict$fromList = function (assocs) {
 		$elm$core$Dict$empty,
 		assocs);
 };
-var $elm$core$Process$kill = _Scheduler_kill;
-var $elm$core$Dict$foldl = F3(
-	function (func, acc, dict) {
-		foldl:
-		while (true) {
-			if (dict.$ === 'RBEmpty_elm_builtin') {
-				return acc;
-			} else {
-				var key = dict.b;
-				var value = dict.c;
-				var left = dict.d;
-				var right = dict.e;
-				var $temp$func = func,
-					$temp$acc = A3(
-					func,
-					key,
-					value,
-					A3($elm$core$Dict$foldl, func, acc, left)),
-					$temp$dict = right;
-				func = $temp$func;
-				acc = $temp$acc;
-				dict = $temp$dict;
-				continue foldl;
-			}
-		}
-	});
-var $elm$core$Dict$merge = F6(
-	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
-		var stepState = F3(
-			function (rKey, rValue, _v0) {
-				stepState:
-				while (true) {
-					var list = _v0.a;
-					var result = _v0.b;
-					if (!list.b) {
-						return _Utils_Tuple2(
-							list,
-							A3(rightStep, rKey, rValue, result));
-					} else {
-						var _v2 = list.a;
-						var lKey = _v2.a;
-						var lValue = _v2.b;
-						var rest = list.b;
-						if (_Utils_cmp(lKey, rKey) < 0) {
-							var $temp$rKey = rKey,
-								$temp$rValue = rValue,
-								$temp$_v0 = _Utils_Tuple2(
-								rest,
-								A3(leftStep, lKey, lValue, result));
-							rKey = $temp$rKey;
-							rValue = $temp$rValue;
-							_v0 = $temp$_v0;
-							continue stepState;
-						} else {
-							if (_Utils_cmp(lKey, rKey) > 0) {
-								return _Utils_Tuple2(
-									list,
-									A3(rightStep, rKey, rValue, result));
-							} else {
-								return _Utils_Tuple2(
-									rest,
-									A4(bothStep, lKey, lValue, rValue, result));
-							}
-						}
-					}
-				}
-			});
-		var _v3 = A3(
-			$elm$core$Dict$foldl,
-			stepState,
-			_Utils_Tuple2(
-				$elm$core$Dict$toList(leftDict),
-				initialResult),
-			rightDict);
-		var leftovers = _v3.a;
-		var intermediateResult = _v3.b;
-		return A3(
-			$elm$core$List$foldl,
-			F2(
-				function (_v4, result) {
-					var k = _v4.a;
-					var v = _v4.b;
-					return A3(leftStep, k, v, result);
-				}),
-			intermediateResult,
-			leftovers);
-	});
-var $elm$browser$Browser$Events$Event = F2(
-	function (key, event) {
-		return {event: event, key: key};
-	});
-var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
-var $elm$browser$Browser$Events$spawn = F3(
-	function (router, key, _v0) {
-		var node = _v0.a;
-		var name = _v0.b;
-		var actualNode = function () {
-			if (node.$ === 'Document') {
-				return _Browser_doc;
-			} else {
-				return _Browser_window;
-			}
-		}();
-		return A2(
-			$elm$core$Task$map,
-			function (value) {
-				return _Utils_Tuple2(key, value);
-			},
-			A3(
-				_Browser_on,
-				actualNode,
-				name,
-				function (event) {
-					return A2(
-						$elm$core$Platform$sendToSelf,
-						router,
-						A2($elm$browser$Browser$Events$Event, key, event));
-				}));
-	});
-var $elm$core$Dict$union = F2(
-	function (t1, t2) {
-		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
-	});
-var $elm$browser$Browser$Events$onEffects = F3(
-	function (router, subs, state) {
-		var stepRight = F3(
-			function (key, sub, _v6) {
-				var deads = _v6.a;
-				var lives = _v6.b;
-				var news = _v6.c;
-				return _Utils_Tuple3(
-					deads,
-					lives,
-					A2(
-						$elm$core$List$cons,
-						A3($elm$browser$Browser$Events$spawn, router, key, sub),
-						news));
-			});
-		var stepLeft = F3(
-			function (_v4, pid, _v5) {
-				var deads = _v5.a;
-				var lives = _v5.b;
-				var news = _v5.c;
-				return _Utils_Tuple3(
-					A2($elm$core$List$cons, pid, deads),
-					lives,
-					news);
-			});
-		var stepBoth = F4(
-			function (key, pid, _v2, _v3) {
-				var deads = _v3.a;
-				var lives = _v3.b;
-				var news = _v3.c;
-				return _Utils_Tuple3(
-					deads,
-					A3($elm$core$Dict$insert, key, pid, lives),
-					news);
-			});
-		var newSubs = A2($elm$core$List$map, $elm$browser$Browser$Events$addKey, subs);
-		var _v0 = A6(
-			$elm$core$Dict$merge,
-			stepLeft,
-			stepBoth,
-			stepRight,
-			state.pids,
-			$elm$core$Dict$fromList(newSubs),
-			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
-		var deadPids = _v0.a;
-		var livePids = _v0.b;
-		var makeNewPids = _v0.c;
-		return A2(
-			$elm$core$Task$andThen,
-			function (pids) {
-				return $elm$core$Task$succeed(
-					A2(
-						$elm$browser$Browser$Events$State,
-						newSubs,
-						A2(
-							$elm$core$Dict$union,
-							livePids,
-							$elm$core$Dict$fromList(pids))));
-			},
-			A2(
-				$elm$core$Task$andThen,
-				function (_v1) {
-					return $elm$core$Task$sequence(makeNewPids);
-				},
-				$elm$core$Task$sequence(
-					A2($elm$core$List$map, $elm$core$Process$kill, deadPids))));
-	});
-var $elm$core$List$maybeCons = F3(
-	function (f, mx, xs) {
-		var _v0 = f(mx);
-		if (_v0.$ === 'Just') {
-			var x = _v0.a;
-			return A2($elm$core$List$cons, x, xs);
-		} else {
-			return xs;
-		}
-	});
-var $elm$core$List$filterMap = F2(
-	function (f, xs) {
-		return A3(
-			$elm$core$List$foldr,
-			$elm$core$List$maybeCons(f),
-			_List_Nil,
-			xs);
-	});
-var $elm$browser$Browser$Events$onSelfMsg = F3(
-	function (router, _v0, state) {
-		var key = _v0.key;
-		var event = _v0.event;
-		var toMessage = function (_v2) {
-			var subKey = _v2.a;
-			var _v3 = _v2.b;
-			var node = _v3.a;
-			var name = _v3.b;
-			var decoder = _v3.c;
-			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
-		};
-		var messages = A2($elm$core$List$filterMap, toMessage, state.subs);
-		return A2(
-			$elm$core$Task$andThen,
-			function (_v1) {
-				return $elm$core$Task$succeed(state);
-			},
-			$elm$core$Task$sequence(
-				A2(
-					$elm$core$List$map,
-					$elm$core$Platform$sendToApp(router),
-					messages)));
-	});
-var $elm$browser$Browser$Events$subMap = F2(
-	function (func, _v0) {
-		var node = _v0.a;
-		var name = _v0.b;
-		var decoder = _v0.c;
-		return A3(
-			$elm$browser$Browser$Events$MySub,
-			node,
-			name,
-			A2($elm$json$Json$Decode$map, func, decoder));
-	});
-_Platform_effectManagers['Browser.Events'] = _Platform_createManager($elm$browser$Browser$Events$init, $elm$browser$Browser$Events$onEffects, $elm$browser$Browser$Events$onSelfMsg, 0, $elm$browser$Browser$Events$subMap);
-var $elm$browser$Browser$Events$subscription = _Platform_leaf('Browser.Events');
-var $elm$browser$Browser$Events$on = F3(
-	function (node, name, decoder) {
-		return $elm$browser$Browser$Events$subscription(
-			A3($elm$browser$Browser$Events$MySub, node, name, decoder));
-	});
-var $elm$browser$Browser$Events$onResize = function (func) {
-	return A3(
-		$elm$browser$Browser$Events$on,
-		$elm$browser$Browser$Events$Window,
-		'resize',
-		A2(
-			$elm$json$Json$Decode$field,
-			'target',
-			A3(
-				$elm$json$Json$Decode$map2,
-				func,
-				A2($elm$json$Json$Decode$field, 'innerWidth', $elm$json$Json$Decode$int),
-				A2($elm$json$Json$Decode$field, 'innerHeight', $elm$json$Json$Decode$int))));
-};
-var $author$project$Main$subscriptions = function (model) {
-	return $elm$core$Platform$Sub$batch(
-		_List_fromArray(
-			[
-				$elm$browser$Browser$Events$onResize(
-				F2(
-					function (width, height) {
-						return $author$project$Main$DeviceClassified(
-							{height: height, width: width});
-					}))
-			]));
-};
-var $author$project$Main$Visible = {$: 'Visible'};
-var $elm$core$Set$insert = F2(
-	function (key, _v0) {
-		var dict = _v0.a;
-		return $elm$core$Set$Set_elm_builtin(
-			A3($elm$core$Dict$insert, key, _Utils_Tuple0, dict));
-	});
-var $elm$core$Dict$getMin = function (dict) {
-	getMin:
-	while (true) {
-		if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
-			var left = dict.d;
-			var $temp$dict = left;
-			dict = $temp$dict;
-			continue getMin;
-		} else {
-			return dict;
-		}
-	}
-};
-var $elm$core$Dict$moveRedLeft = function (dict) {
-	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
-		if ((dict.e.d.$ === 'RBNode_elm_builtin') && (dict.e.d.a.$ === 'Red')) {
-			var clr = dict.a;
-			var k = dict.b;
-			var v = dict.c;
-			var _v1 = dict.d;
-			var lClr = _v1.a;
-			var lK = _v1.b;
-			var lV = _v1.c;
-			var lLeft = _v1.d;
-			var lRight = _v1.e;
-			var _v2 = dict.e;
-			var rClr = _v2.a;
-			var rK = _v2.b;
-			var rV = _v2.c;
-			var rLeft = _v2.d;
-			var _v3 = rLeft.a;
-			var rlK = rLeft.b;
-			var rlV = rLeft.c;
-			var rlL = rLeft.d;
-			var rlR = rLeft.e;
-			var rRight = _v2.e;
-			return A5(
-				$elm$core$Dict$RBNode_elm_builtin,
-				$elm$core$Dict$Red,
-				rlK,
-				rlV,
-				A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Black,
-					k,
-					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
-					rlL),
-				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rlR, rRight));
-		} else {
-			var clr = dict.a;
-			var k = dict.b;
-			var v = dict.c;
-			var _v4 = dict.d;
-			var lClr = _v4.a;
-			var lK = _v4.b;
-			var lV = _v4.c;
-			var lLeft = _v4.d;
-			var lRight = _v4.e;
-			var _v5 = dict.e;
-			var rClr = _v5.a;
-			var rK = _v5.b;
-			var rV = _v5.c;
-			var rLeft = _v5.d;
-			var rRight = _v5.e;
-			if (clr.$ === 'Black') {
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Black,
-					k,
-					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
-			} else {
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Black,
-					k,
-					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
-			}
-		}
-	} else {
-		return dict;
-	}
-};
-var $elm$core$Dict$moveRedRight = function (dict) {
-	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
-		if ((dict.d.d.$ === 'RBNode_elm_builtin') && (dict.d.d.a.$ === 'Red')) {
-			var clr = dict.a;
-			var k = dict.b;
-			var v = dict.c;
-			var _v1 = dict.d;
-			var lClr = _v1.a;
-			var lK = _v1.b;
-			var lV = _v1.c;
-			var _v2 = _v1.d;
-			var _v3 = _v2.a;
-			var llK = _v2.b;
-			var llV = _v2.c;
-			var llLeft = _v2.d;
-			var llRight = _v2.e;
-			var lRight = _v1.e;
-			var _v4 = dict.e;
-			var rClr = _v4.a;
-			var rK = _v4.b;
-			var rV = _v4.c;
-			var rLeft = _v4.d;
-			var rRight = _v4.e;
-			return A5(
-				$elm$core$Dict$RBNode_elm_builtin,
-				$elm$core$Dict$Red,
-				lK,
-				lV,
-				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
-				A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Black,
-					k,
-					v,
-					lRight,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight)));
-		} else {
-			var clr = dict.a;
-			var k = dict.b;
-			var v = dict.c;
-			var _v5 = dict.d;
-			var lClr = _v5.a;
-			var lK = _v5.b;
-			var lV = _v5.c;
-			var lLeft = _v5.d;
-			var lRight = _v5.e;
-			var _v6 = dict.e;
-			var rClr = _v6.a;
-			var rK = _v6.b;
-			var rV = _v6.c;
-			var rLeft = _v6.d;
-			var rRight = _v6.e;
-			if (clr.$ === 'Black') {
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Black,
-					k,
-					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
-			} else {
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					$elm$core$Dict$Black,
-					k,
-					v,
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
-					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
-			}
-		}
-	} else {
-		return dict;
-	}
-};
-var $elm$core$Dict$removeHelpPrepEQGT = F7(
-	function (targetKey, dict, color, key, value, left, right) {
-		if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
-			var _v1 = left.a;
-			var lK = left.b;
-			var lV = left.c;
-			var lLeft = left.d;
-			var lRight = left.e;
-			return A5(
-				$elm$core$Dict$RBNode_elm_builtin,
-				color,
-				lK,
-				lV,
-				lLeft,
-				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, lRight, right));
-		} else {
-			_v2$2:
-			while (true) {
-				if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Black')) {
-					if (right.d.$ === 'RBNode_elm_builtin') {
-						if (right.d.a.$ === 'Black') {
-							var _v3 = right.a;
-							var _v4 = right.d;
-							var _v5 = _v4.a;
-							return $elm$core$Dict$moveRedRight(dict);
-						} else {
-							break _v2$2;
-						}
-					} else {
-						var _v6 = right.a;
-						var _v7 = right.d;
-						return $elm$core$Dict$moveRedRight(dict);
-					}
-				} else {
-					break _v2$2;
-				}
-			}
-			return dict;
-		}
-	});
-var $elm$core$Dict$removeMin = function (dict) {
-	if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
-		var color = dict.a;
-		var key = dict.b;
-		var value = dict.c;
-		var left = dict.d;
-		var lColor = left.a;
-		var lLeft = left.d;
-		var right = dict.e;
-		if (lColor.$ === 'Black') {
-			if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
-				var _v3 = lLeft.a;
-				return A5(
-					$elm$core$Dict$RBNode_elm_builtin,
-					color,
-					key,
-					value,
-					$elm$core$Dict$removeMin(left),
-					right);
-			} else {
-				var _v4 = $elm$core$Dict$moveRedLeft(dict);
-				if (_v4.$ === 'RBNode_elm_builtin') {
-					var nColor = _v4.a;
-					var nKey = _v4.b;
-					var nValue = _v4.c;
-					var nLeft = _v4.d;
-					var nRight = _v4.e;
-					return A5(
-						$elm$core$Dict$balance,
-						nColor,
-						nKey,
-						nValue,
-						$elm$core$Dict$removeMin(nLeft),
-						nRight);
-				} else {
-					return $elm$core$Dict$RBEmpty_elm_builtin;
-				}
-			}
-		} else {
-			return A5(
-				$elm$core$Dict$RBNode_elm_builtin,
-				color,
-				key,
-				value,
-				$elm$core$Dict$removeMin(left),
-				right);
-		}
-	} else {
-		return $elm$core$Dict$RBEmpty_elm_builtin;
-	}
-};
-var $elm$core$Dict$removeHelp = F2(
-	function (targetKey, dict) {
-		if (dict.$ === 'RBEmpty_elm_builtin') {
-			return $elm$core$Dict$RBEmpty_elm_builtin;
-		} else {
-			var color = dict.a;
-			var key = dict.b;
-			var value = dict.c;
-			var left = dict.d;
-			var right = dict.e;
-			if (_Utils_cmp(targetKey, key) < 0) {
-				if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Black')) {
-					var _v4 = left.a;
-					var lLeft = left.d;
-					if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
-						var _v6 = lLeft.a;
-						return A5(
-							$elm$core$Dict$RBNode_elm_builtin,
-							color,
-							key,
-							value,
-							A2($elm$core$Dict$removeHelp, targetKey, left),
-							right);
-					} else {
-						var _v7 = $elm$core$Dict$moveRedLeft(dict);
-						if (_v7.$ === 'RBNode_elm_builtin') {
-							var nColor = _v7.a;
-							var nKey = _v7.b;
-							var nValue = _v7.c;
-							var nLeft = _v7.d;
-							var nRight = _v7.e;
-							return A5(
-								$elm$core$Dict$balance,
-								nColor,
-								nKey,
-								nValue,
-								A2($elm$core$Dict$removeHelp, targetKey, nLeft),
-								nRight);
-						} else {
-							return $elm$core$Dict$RBEmpty_elm_builtin;
-						}
-					}
-				} else {
-					return A5(
-						$elm$core$Dict$RBNode_elm_builtin,
-						color,
-						key,
-						value,
-						A2($elm$core$Dict$removeHelp, targetKey, left),
-						right);
-				}
-			} else {
-				return A2(
-					$elm$core$Dict$removeHelpEQGT,
-					targetKey,
-					A7($elm$core$Dict$removeHelpPrepEQGT, targetKey, dict, color, key, value, left, right));
-			}
-		}
-	});
-var $elm$core$Dict$removeHelpEQGT = F2(
-	function (targetKey, dict) {
-		if (dict.$ === 'RBNode_elm_builtin') {
-			var color = dict.a;
-			var key = dict.b;
-			var value = dict.c;
-			var left = dict.d;
-			var right = dict.e;
-			if (_Utils_eq(targetKey, key)) {
-				var _v1 = $elm$core$Dict$getMin(right);
-				if (_v1.$ === 'RBNode_elm_builtin') {
-					var minKey = _v1.b;
-					var minValue = _v1.c;
-					return A5(
-						$elm$core$Dict$balance,
-						color,
-						minKey,
-						minValue,
-						left,
-						$elm$core$Dict$removeMin(right));
-				} else {
-					return $elm$core$Dict$RBEmpty_elm_builtin;
-				}
-			} else {
-				return A5(
-					$elm$core$Dict$balance,
-					color,
-					key,
-					value,
-					left,
-					A2($elm$core$Dict$removeHelp, targetKey, right));
-			}
-		} else {
-			return $elm$core$Dict$RBEmpty_elm_builtin;
-		}
-	});
-var $elm$core$Dict$remove = F2(
-	function (key, dict) {
-		var _v0 = A2($elm$core$Dict$removeHelp, key, dict);
-		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
-			var _v1 = _v0.a;
-			var k = _v0.b;
-			var v = _v0.c;
-			var l = _v0.d;
-			var r = _v0.e;
-			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
-		} else {
-			var x = _v0;
-			return x;
-		}
-	});
-var $elm$core$Set$remove = F2(
-	function (key, _v0) {
-		var dict = _v0.a;
-		return $elm$core$Set$Set_elm_builtin(
-			A2($elm$core$Dict$remove, key, dict));
-	});
-var $author$project$Main$update = F2(
-	function (msg, model) {
-		switch (msg.$) {
-			case 'DeviceClassified':
-				var dimensions = msg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							device: $mdgriffith$elm_ui$Element$classifyDevice(dimensions),
-							dimensions: dimensions
-						}),
-					$elm$core$Platform$Cmd$none);
-			case 'HoverOn':
-				var id = msg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							hovered: A2($elm$core$Set$insert, id, model.hovered)
-						}),
-					$elm$core$Platform$Cmd$none);
-			case 'HoverOff':
-				var id = msg.a;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							hovered: A2($elm$core$Set$remove, id, model.hovered)
-						}),
-					$elm$core$Platform$Cmd$none);
-			case 'HoverOnMany':
-				var ids = msg.a;
-				var nuevos = A3($elm$core$List$foldl, $elm$core$Set$insert, model.hovered, ids);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{hovered: nuevos}),
-					$elm$core$Platform$Cmd$none);
-			case 'HoverOffMany':
-				var ids = msg.a;
-				var nuevos = A3($elm$core$List$foldl, $elm$core$Set$remove, model.hovered, ids);
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{hovered: nuevos}),
-					$elm$core$Platform$Cmd$none);
-			case 'OpenModal':
-				var modalTitle = msg.a;
-				var modalView = msg.b;
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{modalTitle: modalTitle, modalView: modalView, modalVisibility: $author$project$Main$Visible}),
-					$elm$core$Platform$Cmd$none);
-			case 'CloseModal':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{modalView: $mdgriffith$elm_ui$Element$none, modalVisibility: $author$project$Main$Hidden}),
-					$elm$core$Platform$Cmd$none);
-			default:
-				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
-		}
-	});
-var $mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
-	return {$: 'AlignX', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Model$CenterX = {$: 'CenterX'};
-var $mdgriffith$elm_ui$Element$centerX = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$CenterX);
-var $mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
-	return {$: 'AlignY', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
-var $mdgriffith$elm_ui$Element$centerY = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$CenterY);
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $author$project$Entregables$Entregable1AComunicacion$title = '1.A Comunicación - Contexto colaborativo del equipo docente';
 var $mdgriffith$elm_ui$Internal$Model$Unkeyed = function (a) {
 	return {$: 'Unkeyed', a: a};
 };
-var $mdgriffith$elm_ui$Internal$Model$AsColumn = {$: 'AsColumn'};
-var $mdgriffith$elm_ui$Internal$Model$asColumn = $mdgriffith$elm_ui$Internal$Model$AsColumn;
-var $mdgriffith$elm_ui$Internal$Style$classes = {above: 'a', active: 'atv', alignBottom: 'ab', alignCenterX: 'cx', alignCenterY: 'cy', alignContainerBottom: 'acb', alignContainerCenterX: 'accx', alignContainerCenterY: 'accy', alignContainerRight: 'acr', alignLeft: 'al', alignRight: 'ar', alignTop: 'at', alignedHorizontally: 'ah', alignedVertically: 'av', any: 's', behind: 'bh', below: 'b', bold: 'w7', borderDashed: 'bd', borderDotted: 'bdt', borderNone: 'bn', borderSolid: 'bs', capturePointerEvents: 'cpe', clip: 'cp', clipX: 'cpx', clipY: 'cpy', column: 'c', container: 'ctr', contentBottom: 'cb', contentCenterX: 'ccx', contentCenterY: 'ccy', contentLeft: 'cl', contentRight: 'cr', contentTop: 'ct', cursorPointer: 'cptr', cursorText: 'ctxt', focus: 'fcs', focusedWithin: 'focus-within', fullSize: 'fs', grid: 'g', hasBehind: 'hbh', heightContent: 'hc', heightExact: 'he', heightFill: 'hf', heightFillPortion: 'hfp', hover: 'hv', imageContainer: 'ic', inFront: 'fr', inputLabel: 'lbl', inputMultiline: 'iml', inputMultilineFiller: 'imlf', inputMultilineParent: 'imlp', inputMultilineWrapper: 'implw', inputText: 'it', italic: 'i', link: 'lnk', nearby: 'nb', noTextSelection: 'notxt', onLeft: 'ol', onRight: 'or', opaque: 'oq', overflowHidden: 'oh', page: 'pg', paragraph: 'p', passPointerEvents: 'ppe', root: 'ui', row: 'r', scrollbars: 'sb', scrollbarsX: 'sbx', scrollbarsY: 'sby', seButton: 'sbt', single: 'e', sizeByCapital: 'cap', spaceEvenly: 'sev', strike: 'sk', text: 't', textCenter: 'tc', textExtraBold: 'w8', textExtraLight: 'w2', textHeavy: 'w9', textJustify: 'tj', textJustifyAll: 'tja', textLeft: 'tl', textLight: 'w3', textMedium: 'w5', textNormalWeight: 'w4', textRight: 'tr', textSemiBold: 'w6', textThin: 'w1', textUnitalicized: 'tun', transition: 'ts', transparent: 'clr', underline: 'u', widthContent: 'wc', widthExact: 'we', widthFill: 'wf', widthFillPortion: 'wfp', wrapped: 'wrp'};
+var $mdgriffith$elm_ui$Internal$Model$AsEl = {$: 'AsEl'};
+var $mdgriffith$elm_ui$Internal$Model$asEl = $mdgriffith$elm_ui$Internal$Model$AsEl;
 var $mdgriffith$elm_ui$Internal$Model$Generic = {$: 'Generic'};
 var $mdgriffith$elm_ui$Internal$Model$div = $mdgriffith$elm_ui$Internal$Model$Generic;
 var $mdgriffith$elm_ui$Internal$Model$NoNearbyChildren = {$: 'NoNearbyChildren'};
+var $mdgriffith$elm_ui$Internal$Style$classes = {above: 'a', active: 'atv', alignBottom: 'ab', alignCenterX: 'cx', alignCenterY: 'cy', alignContainerBottom: 'acb', alignContainerCenterX: 'accx', alignContainerCenterY: 'accy', alignContainerRight: 'acr', alignLeft: 'al', alignRight: 'ar', alignTop: 'at', alignedHorizontally: 'ah', alignedVertically: 'av', any: 's', behind: 'bh', below: 'b', bold: 'w7', borderDashed: 'bd', borderDotted: 'bdt', borderNone: 'bn', borderSolid: 'bs', capturePointerEvents: 'cpe', clip: 'cp', clipX: 'cpx', clipY: 'cpy', column: 'c', container: 'ctr', contentBottom: 'cb', contentCenterX: 'ccx', contentCenterY: 'ccy', contentLeft: 'cl', contentRight: 'cr', contentTop: 'ct', cursorPointer: 'cptr', cursorText: 'ctxt', focus: 'fcs', focusedWithin: 'focus-within', fullSize: 'fs', grid: 'g', hasBehind: 'hbh', heightContent: 'hc', heightExact: 'he', heightFill: 'hf', heightFillPortion: 'hfp', hover: 'hv', imageContainer: 'ic', inFront: 'fr', inputLabel: 'lbl', inputMultiline: 'iml', inputMultilineFiller: 'imlf', inputMultilineParent: 'imlp', inputMultilineWrapper: 'implw', inputText: 'it', italic: 'i', link: 'lnk', nearby: 'nb', noTextSelection: 'notxt', onLeft: 'ol', onRight: 'or', opaque: 'oq', overflowHidden: 'oh', page: 'pg', paragraph: 'p', passPointerEvents: 'ppe', root: 'ui', row: 'r', scrollbars: 'sb', scrollbarsX: 'sbx', scrollbarsY: 'sby', seButton: 'sbt', single: 'e', sizeByCapital: 'cap', spaceEvenly: 'sev', strike: 'sk', text: 't', textCenter: 'tc', textExtraBold: 'w8', textExtraLight: 'w2', textHeavy: 'w9', textJustify: 'tj', textJustifyAll: 'tja', textLeft: 'tl', textLight: 'w3', textMedium: 'w5', textNormalWeight: 'w4', textRight: 'tr', textSemiBold: 'w6', textThin: 'w1', textUnitalicized: 'tun', transition: 'ts', transparent: 'clr', underline: 'u', widthContent: 'wc', widthExact: 'we', widthFill: 'wf', widthFillPortion: 'wfp', wrapped: 'wrp'};
 var $mdgriffith$elm_ui$Internal$Model$columnClass = $mdgriffith$elm_ui$Internal$Style$classes.any + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.column);
 var $mdgriffith$elm_ui$Internal$Model$gridClass = $mdgriffith$elm_ui$Internal$Style$classes.any + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.grid);
 var $mdgriffith$elm_ui$Internal$Model$pageClass = $mdgriffith$elm_ui$Internal$Style$classes.any + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.page);
@@ -6234,8 +5456,6 @@ var $mdgriffith$elm_ui$Internal$Model$addKeyedChildren = F3(
 							inFront)));
 		}
 	});
-var $mdgriffith$elm_ui$Internal$Model$AsEl = {$: 'AsEl'};
-var $mdgriffith$elm_ui$Internal$Model$asEl = $mdgriffith$elm_ui$Internal$Model$AsEl;
 var $mdgriffith$elm_ui$Internal$Model$AsParagraph = {$: 'AsParagraph'};
 var $mdgriffith$elm_ui$Internal$Model$asParagraph = $mdgriffith$elm_ui$Internal$Model$AsParagraph;
 var $mdgriffith$elm_ui$Internal$Flag$Flag = function (a) {
@@ -6252,6 +5472,15 @@ var $mdgriffith$elm_ui$Internal$Flag$alignBottom = $mdgriffith$elm_ui$Internal$F
 var $mdgriffith$elm_ui$Internal$Flag$alignRight = $mdgriffith$elm_ui$Internal$Flag$flag(40);
 var $mdgriffith$elm_ui$Internal$Flag$centerX = $mdgriffith$elm_ui$Internal$Flag$flag(42);
 var $mdgriffith$elm_ui$Internal$Flag$centerY = $mdgriffith$elm_ui$Internal$Flag$flag(43);
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $mdgriffith$elm_ui$Internal$Model$lengthClassName = function (x) {
 	switch (x.$) {
@@ -6411,6 +5640,12 @@ var $mdgriffith$elm_ui$Internal$Model$getStyleName = function (style) {
 				$mdgriffith$elm_ui$Internal$Model$transformClass(x));
 	}
 };
+var $elm$core$Set$insert = F2(
+	function (key, _v0) {
+		var dict = _v0.a;
+		return $elm$core$Set$Set_elm_builtin(
+			A3($elm$core$Dict$insert, key, _Utils_Tuple0, dict));
+	});
 var $elm$core$Dict$get = F2(
 	function (targetKey, dict) {
 		get:
@@ -6476,6 +5711,24 @@ var $mdgriffith$elm_ui$Internal$Model$Style = F2(
 var $mdgriffith$elm_ui$Internal$Style$dot = function (c) {
 	return '.' + c;
 };
+var $elm$core$List$maybeCons = F3(
+	function (f, mx, xs) {
+		var _v0 = f(mx);
+		if (_v0.$ === 'Just') {
+			var x = _v0.a;
+			return A2($elm$core$List$cons, x, xs);
+		} else {
+			return xs;
+		}
+	});
+var $elm$core$List$filterMap = F2(
+	function (f, xs) {
+		return A3(
+			$elm$core$List$foldr,
+			$elm$core$List$maybeCons(f),
+			_List_Nil,
+			xs);
+	});
 var $elm$core$String$fromFloat = _String_fromNumber;
 var $mdgriffith$elm_ui$Internal$Model$formatColor = function (_v0) {
 	var red = _v0.a;
@@ -11593,6 +10846,961 @@ var $mdgriffith$elm_ui$Internal$Model$Height = function (a) {
 	return {$: 'Height', a: a};
 };
 var $mdgriffith$elm_ui$Element$height = $mdgriffith$elm_ui$Internal$Model$Height;
+var $mdgriffith$elm_ui$Internal$Model$Content = {$: 'Content'};
+var $mdgriffith$elm_ui$Element$shrink = $mdgriffith$elm_ui$Internal$Model$Content;
+var $mdgriffith$elm_ui$Internal$Model$Width = function (a) {
+	return {$: 'Width', a: a};
+};
+var $mdgriffith$elm_ui$Element$width = $mdgriffith$elm_ui$Internal$Model$Width;
+var $mdgriffith$elm_ui$Element$el = F2(
+	function (attrs, child) {
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+					attrs)),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[child])));
+	});
+var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
+	return {$: 'Text', a: a};
+};
+var $mdgriffith$elm_ui$Element$text = function (content) {
+	return $mdgriffith$elm_ui$Internal$Model$Text(content);
+};
+var $author$project$Entregables$Entregable1AComunicacion$view = A2(
+	$mdgriffith$elm_ui$Element$el,
+	_List_Nil,
+	$mdgriffith$elm_ui$Element$text('SOME DATA'));
+var $author$project$Main$entregables = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2(
+			'1',
+			A5(
+				$author$project$Main$Entregable,
+				'1',
+				'Compromiso profesional',
+				$elm$core$Maybe$Just('video'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'2',
+			A5(
+				$author$project$Main$Entregable,
+				'2',
+				'Contenidos digitales',
+				$elm$core$Maybe$Just('video'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'3',
+			A5(
+				$author$project$Main$Entregable,
+				'3',
+				'Enseñanza y aprendizaje',
+				$elm$core$Maybe$Just('video'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'4',
+			A5(
+				$author$project$Main$Entregable,
+				'4',
+				'Evaluación y retroalimentación',
+				$elm$core$Maybe$Just('video'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'5',
+			A5(
+				$author$project$Main$Entregable,
+				'5',
+				'Empoderamiento del alumnado',
+				$elm$core$Maybe$Just('video'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'6',
+			A5(
+				$author$project$Main$Entregable,
+				'6',
+				'Desarrollo de la competencia digital del alumnado',
+				$elm$core$Maybe$Just('video'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'1.A',
+			A5(
+				$author$project$Main$Entregable,
+				'1.A',
+				'Comunicación',
+				$elm$core$Maybe$Just('captura'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'1.B',
+			A5(
+				$author$project$Main$Entregable,
+				'1.B',
+				'Trabajo en equipo',
+				$elm$core$Maybe$Just('captura'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'1.C',
+			A5(
+				$author$project$Main$Entregable,
+				'1.C',
+				'Netiqueta',
+				$elm$core$Maybe$Just('infografia'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'2.A',
+			A5(
+				$author$project$Main$Entregable,
+				'2.A',
+				'Básico',
+				$elm$core$Maybe$Just('contenido'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'2.B',
+			A5(
+				$author$project$Main$Entregable,
+				'2.B',
+				'Profundización',
+				$elm$core$Maybe$Just('contenido'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'3.A',
+			A5($author$project$Main$Entregable, '3.A', 'Contexto colaborativo del alumnado', $elm$core$Maybe$Nothing, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'3.B',
+			A5($author$project$Main$Entregable, '3.B', 'Recursos', $elm$core$Maybe$Nothing, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'4.A',
+			A5($author$project$Main$Entregable, '4.A', 'Evaluación previa', $elm$core$Maybe$Nothing, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'4.B',
+			A5($author$project$Main$Entregable, '4.B', 'Formativa', $elm$core$Maybe$Nothing, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'4.C',
+			A5($author$project$Main$Entregable, '4.C', 'Retroalimentación', $elm$core$Maybe$Nothing, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'5.A',
+			A5($author$project$Main$Entregable, '5.A', 'Accesibilidad', $elm$core$Maybe$Nothing, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'5.B',
+			A5($author$project$Main$Entregable, '5.B', 'Personalización', $elm$core$Maybe$Nothing, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'6.A',
+			A5(
+				$author$project$Main$Entregable,
+				'6.A',
+				'Búsquedas',
+				$elm$core$Maybe$Just('doc'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'6.B',
+			A5(
+				$author$project$Main$Entregable,
+				'6.B',
+				'Normas de conducta',
+				$elm$core$Maybe$Just('doc'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'6.C',
+			A5(
+				$author$project$Main$Entregable,
+				'6.C',
+				'Contenidos digitales',
+				$elm$core$Maybe$Just('doc'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'6.D',
+			A5(
+				$author$project$Main$Entregable,
+				'6.D',
+				'Uso responsable',
+				$elm$core$Maybe$Just('doc'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view)),
+			_Utils_Tuple2(
+			'6.E',
+			A5(
+				$author$project$Main$Entregable,
+				'6.E',
+				'Resolución de problemas',
+				$elm$core$Maybe$Just('doc'),
+				$author$project$Entregables$Entregable1AComunicacion$title,
+				$author$project$Entregables$Entregable1AComunicacion$view))
+		]));
+var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
+var $elm$core$Platform$Cmd$batch = _Platform_batch;
+var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
+var $author$project$Main$init = function (dimensions) {
+	return _Utils_Tuple2(
+		{
+			device: $mdgriffith$elm_ui$Element$classifyDevice(dimensions),
+			dimensions: dimensions,
+			entregables: $author$project$Main$entregables,
+			hovered: $elm$core$Set$empty,
+			modalTitle: '',
+			modalView: $mdgriffith$elm_ui$Element$none,
+			modalVisibility: $author$project$Main$Hidden
+		},
+		$elm$core$Platform$Cmd$none);
+};
+var $elm$json$Json$Decode$int = _Json_decodeInt;
+var $author$project$Main$DeviceClassified = function (a) {
+	return {$: 'DeviceClassified', a: a};
+};
+var $elm$core$Platform$Sub$batch = _Platform_batch;
+var $elm$browser$Browser$Events$Window = {$: 'Window'};
+var $elm$browser$Browser$Events$MySub = F3(
+	function (a, b, c) {
+		return {$: 'MySub', a: a, b: b, c: c};
+	});
+var $elm$browser$Browser$Events$State = F2(
+	function (subs, pids) {
+		return {pids: pids, subs: subs};
+	});
+var $elm$browser$Browser$Events$init = $elm$core$Task$succeed(
+	A2($elm$browser$Browser$Events$State, _List_Nil, $elm$core$Dict$empty));
+var $elm$browser$Browser$Events$nodeToKey = function (node) {
+	if (node.$ === 'Document') {
+		return 'd_';
+	} else {
+		return 'w_';
+	}
+};
+var $elm$browser$Browser$Events$addKey = function (sub) {
+	var node = sub.a;
+	var name = sub.b;
+	return _Utils_Tuple2(
+		_Utils_ap(
+			$elm$browser$Browser$Events$nodeToKey(node),
+			name),
+		sub);
+};
+var $elm$core$Process$kill = _Scheduler_kill;
+var $elm$core$Dict$foldl = F3(
+	function (func, acc, dict) {
+		foldl:
+		while (true) {
+			if (dict.$ === 'RBEmpty_elm_builtin') {
+				return acc;
+			} else {
+				var key = dict.b;
+				var value = dict.c;
+				var left = dict.d;
+				var right = dict.e;
+				var $temp$func = func,
+					$temp$acc = A3(
+					func,
+					key,
+					value,
+					A3($elm$core$Dict$foldl, func, acc, left)),
+					$temp$dict = right;
+				func = $temp$func;
+				acc = $temp$acc;
+				dict = $temp$dict;
+				continue foldl;
+			}
+		}
+	});
+var $elm$core$Dict$merge = F6(
+	function (leftStep, bothStep, rightStep, leftDict, rightDict, initialResult) {
+		var stepState = F3(
+			function (rKey, rValue, _v0) {
+				stepState:
+				while (true) {
+					var list = _v0.a;
+					var result = _v0.b;
+					if (!list.b) {
+						return _Utils_Tuple2(
+							list,
+							A3(rightStep, rKey, rValue, result));
+					} else {
+						var _v2 = list.a;
+						var lKey = _v2.a;
+						var lValue = _v2.b;
+						var rest = list.b;
+						if (_Utils_cmp(lKey, rKey) < 0) {
+							var $temp$rKey = rKey,
+								$temp$rValue = rValue,
+								$temp$_v0 = _Utils_Tuple2(
+								rest,
+								A3(leftStep, lKey, lValue, result));
+							rKey = $temp$rKey;
+							rValue = $temp$rValue;
+							_v0 = $temp$_v0;
+							continue stepState;
+						} else {
+							if (_Utils_cmp(lKey, rKey) > 0) {
+								return _Utils_Tuple2(
+									list,
+									A3(rightStep, rKey, rValue, result));
+							} else {
+								return _Utils_Tuple2(
+									rest,
+									A4(bothStep, lKey, lValue, rValue, result));
+							}
+						}
+					}
+				}
+			});
+		var _v3 = A3(
+			$elm$core$Dict$foldl,
+			stepState,
+			_Utils_Tuple2(
+				$elm$core$Dict$toList(leftDict),
+				initialResult),
+			rightDict);
+		var leftovers = _v3.a;
+		var intermediateResult = _v3.b;
+		return A3(
+			$elm$core$List$foldl,
+			F2(
+				function (_v4, result) {
+					var k = _v4.a;
+					var v = _v4.b;
+					return A3(leftStep, k, v, result);
+				}),
+			intermediateResult,
+			leftovers);
+	});
+var $elm$browser$Browser$Events$Event = F2(
+	function (key, event) {
+		return {event: event, key: key};
+	});
+var $elm$core$Platform$sendToSelf = _Platform_sendToSelf;
+var $elm$browser$Browser$Events$spawn = F3(
+	function (router, key, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var actualNode = function () {
+			if (node.$ === 'Document') {
+				return _Browser_doc;
+			} else {
+				return _Browser_window;
+			}
+		}();
+		return A2(
+			$elm$core$Task$map,
+			function (value) {
+				return _Utils_Tuple2(key, value);
+			},
+			A3(
+				_Browser_on,
+				actualNode,
+				name,
+				function (event) {
+					return A2(
+						$elm$core$Platform$sendToSelf,
+						router,
+						A2($elm$browser$Browser$Events$Event, key, event));
+				}));
+	});
+var $elm$core$Dict$union = F2(
+	function (t1, t2) {
+		return A3($elm$core$Dict$foldl, $elm$core$Dict$insert, t2, t1);
+	});
+var $elm$browser$Browser$Events$onEffects = F3(
+	function (router, subs, state) {
+		var stepRight = F3(
+			function (key, sub, _v6) {
+				var deads = _v6.a;
+				var lives = _v6.b;
+				var news = _v6.c;
+				return _Utils_Tuple3(
+					deads,
+					lives,
+					A2(
+						$elm$core$List$cons,
+						A3($elm$browser$Browser$Events$spawn, router, key, sub),
+						news));
+			});
+		var stepLeft = F3(
+			function (_v4, pid, _v5) {
+				var deads = _v5.a;
+				var lives = _v5.b;
+				var news = _v5.c;
+				return _Utils_Tuple3(
+					A2($elm$core$List$cons, pid, deads),
+					lives,
+					news);
+			});
+		var stepBoth = F4(
+			function (key, pid, _v2, _v3) {
+				var deads = _v3.a;
+				var lives = _v3.b;
+				var news = _v3.c;
+				return _Utils_Tuple3(
+					deads,
+					A3($elm$core$Dict$insert, key, pid, lives),
+					news);
+			});
+		var newSubs = A2($elm$core$List$map, $elm$browser$Browser$Events$addKey, subs);
+		var _v0 = A6(
+			$elm$core$Dict$merge,
+			stepLeft,
+			stepBoth,
+			stepRight,
+			state.pids,
+			$elm$core$Dict$fromList(newSubs),
+			_Utils_Tuple3(_List_Nil, $elm$core$Dict$empty, _List_Nil));
+		var deadPids = _v0.a;
+		var livePids = _v0.b;
+		var makeNewPids = _v0.c;
+		return A2(
+			$elm$core$Task$andThen,
+			function (pids) {
+				return $elm$core$Task$succeed(
+					A2(
+						$elm$browser$Browser$Events$State,
+						newSubs,
+						A2(
+							$elm$core$Dict$union,
+							livePids,
+							$elm$core$Dict$fromList(pids))));
+			},
+			A2(
+				$elm$core$Task$andThen,
+				function (_v1) {
+					return $elm$core$Task$sequence(makeNewPids);
+				},
+				$elm$core$Task$sequence(
+					A2($elm$core$List$map, $elm$core$Process$kill, deadPids))));
+	});
+var $elm$browser$Browser$Events$onSelfMsg = F3(
+	function (router, _v0, state) {
+		var key = _v0.key;
+		var event = _v0.event;
+		var toMessage = function (_v2) {
+			var subKey = _v2.a;
+			var _v3 = _v2.b;
+			var node = _v3.a;
+			var name = _v3.b;
+			var decoder = _v3.c;
+			return _Utils_eq(subKey, key) ? A2(_Browser_decodeEvent, decoder, event) : $elm$core$Maybe$Nothing;
+		};
+		var messages = A2($elm$core$List$filterMap, toMessage, state.subs);
+		return A2(
+			$elm$core$Task$andThen,
+			function (_v1) {
+				return $elm$core$Task$succeed(state);
+			},
+			$elm$core$Task$sequence(
+				A2(
+					$elm$core$List$map,
+					$elm$core$Platform$sendToApp(router),
+					messages)));
+	});
+var $elm$browser$Browser$Events$subMap = F2(
+	function (func, _v0) {
+		var node = _v0.a;
+		var name = _v0.b;
+		var decoder = _v0.c;
+		return A3(
+			$elm$browser$Browser$Events$MySub,
+			node,
+			name,
+			A2($elm$json$Json$Decode$map, func, decoder));
+	});
+_Platform_effectManagers['Browser.Events'] = _Platform_createManager($elm$browser$Browser$Events$init, $elm$browser$Browser$Events$onEffects, $elm$browser$Browser$Events$onSelfMsg, 0, $elm$browser$Browser$Events$subMap);
+var $elm$browser$Browser$Events$subscription = _Platform_leaf('Browser.Events');
+var $elm$browser$Browser$Events$on = F3(
+	function (node, name, decoder) {
+		return $elm$browser$Browser$Events$subscription(
+			A3($elm$browser$Browser$Events$MySub, node, name, decoder));
+	});
+var $elm$browser$Browser$Events$onResize = function (func) {
+	return A3(
+		$elm$browser$Browser$Events$on,
+		$elm$browser$Browser$Events$Window,
+		'resize',
+		A2(
+			$elm$json$Json$Decode$field,
+			'target',
+			A3(
+				$elm$json$Json$Decode$map2,
+				func,
+				A2($elm$json$Json$Decode$field, 'innerWidth', $elm$json$Json$Decode$int),
+				A2($elm$json$Json$Decode$field, 'innerHeight', $elm$json$Json$Decode$int))));
+};
+var $author$project$Main$subscriptions = function (model) {
+	return $elm$core$Platform$Sub$batch(
+		_List_fromArray(
+			[
+				$elm$browser$Browser$Events$onResize(
+				F2(
+					function (width, height) {
+						return $author$project$Main$DeviceClassified(
+							{height: height, width: width});
+					}))
+			]));
+};
+var $author$project$Main$Visible = {$: 'Visible'};
+var $elm$core$Dict$getMin = function (dict) {
+	getMin:
+	while (true) {
+		if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
+			var left = dict.d;
+			var $temp$dict = left;
+			dict = $temp$dict;
+			continue getMin;
+		} else {
+			return dict;
+		}
+	}
+};
+var $elm$core$Dict$moveRedLeft = function (dict) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.e.d.$ === 'RBNode_elm_builtin') && (dict.e.d.a.$ === 'Red')) {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v1 = dict.d;
+			var lClr = _v1.a;
+			var lK = _v1.b;
+			var lV = _v1.c;
+			var lLeft = _v1.d;
+			var lRight = _v1.e;
+			var _v2 = dict.e;
+			var rClr = _v2.a;
+			var rK = _v2.b;
+			var rV = _v2.c;
+			var rLeft = _v2.d;
+			var _v3 = rLeft.a;
+			var rlK = rLeft.b;
+			var rlV = rLeft.c;
+			var rlL = rLeft.d;
+			var rlR = rLeft.e;
+			var rRight = _v2.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				$elm$core$Dict$Red,
+				rlK,
+				rlV,
+				A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					rlL),
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, rK, rV, rlR, rRight));
+		} else {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v4 = dict.d;
+			var lClr = _v4.a;
+			var lK = _v4.b;
+			var lV = _v4.c;
+			var lLeft = _v4.d;
+			var lRight = _v4.e;
+			var _v5 = dict.e;
+			var rClr = _v5.a;
+			var rK = _v5.b;
+			var rV = _v5.c;
+			var rLeft = _v5.d;
+			var rRight = _v5.e;
+			if (clr.$ === 'Black') {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			}
+		}
+	} else {
+		return dict;
+	}
+};
+var $elm$core$Dict$moveRedRight = function (dict) {
+	if (((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) && (dict.e.$ === 'RBNode_elm_builtin')) {
+		if ((dict.d.d.$ === 'RBNode_elm_builtin') && (dict.d.d.a.$ === 'Red')) {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v1 = dict.d;
+			var lClr = _v1.a;
+			var lK = _v1.b;
+			var lV = _v1.c;
+			var _v2 = _v1.d;
+			var _v3 = _v2.a;
+			var llK = _v2.b;
+			var llV = _v2.c;
+			var llLeft = _v2.d;
+			var llRight = _v2.e;
+			var lRight = _v1.e;
+			var _v4 = dict.e;
+			var rClr = _v4.a;
+			var rK = _v4.b;
+			var rV = _v4.c;
+			var rLeft = _v4.d;
+			var rRight = _v4.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				$elm$core$Dict$Red,
+				lK,
+				lV,
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, llK, llV, llLeft, llRight),
+				A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					lRight,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight)));
+		} else {
+			var clr = dict.a;
+			var k = dict.b;
+			var v = dict.c;
+			var _v5 = dict.d;
+			var lClr = _v5.a;
+			var lK = _v5.b;
+			var lV = _v5.c;
+			var lLeft = _v5.d;
+			var lRight = _v5.e;
+			var _v6 = dict.e;
+			var rClr = _v6.a;
+			var rK = _v6.b;
+			var rV = _v6.c;
+			var rLeft = _v6.d;
+			var rRight = _v6.e;
+			if (clr.$ === 'Black') {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			} else {
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					$elm$core$Dict$Black,
+					k,
+					v,
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, lK, lV, lLeft, lRight),
+					A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, rK, rV, rLeft, rRight));
+			}
+		}
+	} else {
+		return dict;
+	}
+};
+var $elm$core$Dict$removeHelpPrepEQGT = F7(
+	function (targetKey, dict, color, key, value, left, right) {
+		if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Red')) {
+			var _v1 = left.a;
+			var lK = left.b;
+			var lV = left.c;
+			var lLeft = left.d;
+			var lRight = left.e;
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				color,
+				lK,
+				lV,
+				lLeft,
+				A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Red, key, value, lRight, right));
+		} else {
+			_v2$2:
+			while (true) {
+				if ((right.$ === 'RBNode_elm_builtin') && (right.a.$ === 'Black')) {
+					if (right.d.$ === 'RBNode_elm_builtin') {
+						if (right.d.a.$ === 'Black') {
+							var _v3 = right.a;
+							var _v4 = right.d;
+							var _v5 = _v4.a;
+							return $elm$core$Dict$moveRedRight(dict);
+						} else {
+							break _v2$2;
+						}
+					} else {
+						var _v6 = right.a;
+						var _v7 = right.d;
+						return $elm$core$Dict$moveRedRight(dict);
+					}
+				} else {
+					break _v2$2;
+				}
+			}
+			return dict;
+		}
+	});
+var $elm$core$Dict$removeMin = function (dict) {
+	if ((dict.$ === 'RBNode_elm_builtin') && (dict.d.$ === 'RBNode_elm_builtin')) {
+		var color = dict.a;
+		var key = dict.b;
+		var value = dict.c;
+		var left = dict.d;
+		var lColor = left.a;
+		var lLeft = left.d;
+		var right = dict.e;
+		if (lColor.$ === 'Black') {
+			if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
+				var _v3 = lLeft.a;
+				return A5(
+					$elm$core$Dict$RBNode_elm_builtin,
+					color,
+					key,
+					value,
+					$elm$core$Dict$removeMin(left),
+					right);
+			} else {
+				var _v4 = $elm$core$Dict$moveRedLeft(dict);
+				if (_v4.$ === 'RBNode_elm_builtin') {
+					var nColor = _v4.a;
+					var nKey = _v4.b;
+					var nValue = _v4.c;
+					var nLeft = _v4.d;
+					var nRight = _v4.e;
+					return A5(
+						$elm$core$Dict$balance,
+						nColor,
+						nKey,
+						nValue,
+						$elm$core$Dict$removeMin(nLeft),
+						nRight);
+				} else {
+					return $elm$core$Dict$RBEmpty_elm_builtin;
+				}
+			}
+		} else {
+			return A5(
+				$elm$core$Dict$RBNode_elm_builtin,
+				color,
+				key,
+				value,
+				$elm$core$Dict$removeMin(left),
+				right);
+		}
+	} else {
+		return $elm$core$Dict$RBEmpty_elm_builtin;
+	}
+};
+var $elm$core$Dict$removeHelp = F2(
+	function (targetKey, dict) {
+		if (dict.$ === 'RBEmpty_elm_builtin') {
+			return $elm$core$Dict$RBEmpty_elm_builtin;
+		} else {
+			var color = dict.a;
+			var key = dict.b;
+			var value = dict.c;
+			var left = dict.d;
+			var right = dict.e;
+			if (_Utils_cmp(targetKey, key) < 0) {
+				if ((left.$ === 'RBNode_elm_builtin') && (left.a.$ === 'Black')) {
+					var _v4 = left.a;
+					var lLeft = left.d;
+					if ((lLeft.$ === 'RBNode_elm_builtin') && (lLeft.a.$ === 'Red')) {
+						var _v6 = lLeft.a;
+						return A5(
+							$elm$core$Dict$RBNode_elm_builtin,
+							color,
+							key,
+							value,
+							A2($elm$core$Dict$removeHelp, targetKey, left),
+							right);
+					} else {
+						var _v7 = $elm$core$Dict$moveRedLeft(dict);
+						if (_v7.$ === 'RBNode_elm_builtin') {
+							var nColor = _v7.a;
+							var nKey = _v7.b;
+							var nValue = _v7.c;
+							var nLeft = _v7.d;
+							var nRight = _v7.e;
+							return A5(
+								$elm$core$Dict$balance,
+								nColor,
+								nKey,
+								nValue,
+								A2($elm$core$Dict$removeHelp, targetKey, nLeft),
+								nRight);
+						} else {
+							return $elm$core$Dict$RBEmpty_elm_builtin;
+						}
+					}
+				} else {
+					return A5(
+						$elm$core$Dict$RBNode_elm_builtin,
+						color,
+						key,
+						value,
+						A2($elm$core$Dict$removeHelp, targetKey, left),
+						right);
+				}
+			} else {
+				return A2(
+					$elm$core$Dict$removeHelpEQGT,
+					targetKey,
+					A7($elm$core$Dict$removeHelpPrepEQGT, targetKey, dict, color, key, value, left, right));
+			}
+		}
+	});
+var $elm$core$Dict$removeHelpEQGT = F2(
+	function (targetKey, dict) {
+		if (dict.$ === 'RBNode_elm_builtin') {
+			var color = dict.a;
+			var key = dict.b;
+			var value = dict.c;
+			var left = dict.d;
+			var right = dict.e;
+			if (_Utils_eq(targetKey, key)) {
+				var _v1 = $elm$core$Dict$getMin(right);
+				if (_v1.$ === 'RBNode_elm_builtin') {
+					var minKey = _v1.b;
+					var minValue = _v1.c;
+					return A5(
+						$elm$core$Dict$balance,
+						color,
+						minKey,
+						minValue,
+						left,
+						$elm$core$Dict$removeMin(right));
+				} else {
+					return $elm$core$Dict$RBEmpty_elm_builtin;
+				}
+			} else {
+				return A5(
+					$elm$core$Dict$balance,
+					color,
+					key,
+					value,
+					left,
+					A2($elm$core$Dict$removeHelp, targetKey, right));
+			}
+		} else {
+			return $elm$core$Dict$RBEmpty_elm_builtin;
+		}
+	});
+var $elm$core$Dict$remove = F2(
+	function (key, dict) {
+		var _v0 = A2($elm$core$Dict$removeHelp, key, dict);
+		if ((_v0.$ === 'RBNode_elm_builtin') && (_v0.a.$ === 'Red')) {
+			var _v1 = _v0.a;
+			var k = _v0.b;
+			var v = _v0.c;
+			var l = _v0.d;
+			var r = _v0.e;
+			return A5($elm$core$Dict$RBNode_elm_builtin, $elm$core$Dict$Black, k, v, l, r);
+		} else {
+			var x = _v0;
+			return x;
+		}
+	});
+var $elm$core$Set$remove = F2(
+	function (key, _v0) {
+		var dict = _v0.a;
+		return $elm$core$Set$Set_elm_builtin(
+			A2($elm$core$Dict$remove, key, dict));
+	});
+var $author$project$Main$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'DeviceClassified':
+				var dimensions = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							device: $mdgriffith$elm_ui$Element$classifyDevice(dimensions),
+							dimensions: dimensions
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 'HoverOn':
+				var id = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							hovered: A2($elm$core$Set$insert, id, model.hovered)
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 'HoverOff':
+				var id = msg.a;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							hovered: A2($elm$core$Set$remove, id, model.hovered)
+						}),
+					$elm$core$Platform$Cmd$none);
+			case 'HoverOnMany':
+				var ids = msg.a;
+				var nuevos = A3($elm$core$List$foldl, $elm$core$Set$insert, model.hovered, ids);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{hovered: nuevos}),
+					$elm$core$Platform$Cmd$none);
+			case 'HoverOffMany':
+				var ids = msg.a;
+				var nuevos = A3($elm$core$List$foldl, $elm$core$Set$remove, model.hovered, ids);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{hovered: nuevos}),
+					$elm$core$Platform$Cmd$none);
+			case 'OpenModal':
+				var modalTitle = msg.a;
+				var modalView = msg.b;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{modalTitle: modalTitle, modalView: modalView, modalVisibility: $author$project$Main$Visible}),
+					$elm$core$Platform$Cmd$none);
+			case 'CloseModal':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{modalView: $mdgriffith$elm_ui$Element$none, modalVisibility: $author$project$Main$Hidden}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+		}
+	});
+var $mdgriffith$elm_ui$Internal$Model$AlignX = function (a) {
+	return {$: 'AlignX', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Model$CenterX = {$: 'CenterX'};
+var $mdgriffith$elm_ui$Element$centerX = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$CenterX);
+var $mdgriffith$elm_ui$Internal$Model$AlignY = function (a) {
+	return {$: 'AlignY', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Model$CenterY = {$: 'CenterY'};
+var $mdgriffith$elm_ui$Element$centerY = $mdgriffith$elm_ui$Internal$Model$AlignY($mdgriffith$elm_ui$Internal$Model$CenterY);
+var $mdgriffith$elm_ui$Internal$Model$AsColumn = {$: 'AsColumn'};
+var $mdgriffith$elm_ui$Internal$Model$asColumn = $mdgriffith$elm_ui$Internal$Model$AsColumn;
 var $mdgriffith$elm_ui$Internal$Model$Attr = function (a) {
 	return {$: 'Attr', a: a};
 };
@@ -11600,12 +11808,6 @@ var $mdgriffith$elm_ui$Internal$Model$htmlClass = function (cls) {
 	return $mdgriffith$elm_ui$Internal$Model$Attr(
 		$elm$html$Html$Attributes$class(cls));
 };
-var $mdgriffith$elm_ui$Internal$Model$Content = {$: 'Content'};
-var $mdgriffith$elm_ui$Element$shrink = $mdgriffith$elm_ui$Internal$Model$Content;
-var $mdgriffith$elm_ui$Internal$Model$Width = function (a) {
-	return {$: 'Width', a: a};
-};
-var $mdgriffith$elm_ui$Element$width = $mdgriffith$elm_ui$Internal$Model$Width;
 var $mdgriffith$elm_ui$Element$column = F2(
 	function (attrs, children) {
 		return A4(
@@ -11690,23 +11892,6 @@ var $mdgriffith$elm_ui$Element$Font$color = function (fontColor) {
 			'color',
 			fontColor));
 };
-var $mdgriffith$elm_ui$Element$el = F2(
-	function (attrs, child) {
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asEl,
-			$mdgriffith$elm_ui$Internal$Model$div,
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
-				A2(
-					$elm$core$List$cons,
-					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
-					attrs)),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
-				_List_fromArray(
-					[child])));
-	});
 var $mdgriffith$elm_ui$Internal$Model$Fill = function (a) {
 	return {$: 'Fill', a: a};
 };
@@ -11721,6 +11906,7 @@ var $elm$core$List$head = function (list) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
+var $mdgriffith$elm_ui$Element$htmlAttribute = $mdgriffith$elm_ui$Internal$Model$Attr;
 var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
@@ -12086,17 +12272,8 @@ var $mdgriffith$elm_ui$Element$Font$shadow = function (shade) {
 };
 var $mdgriffith$elm_ui$Internal$Flag$borderStyle = $mdgriffith$elm_ui$Internal$Flag$flag(11);
 var $mdgriffith$elm_ui$Element$Border$solid = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$borderStyle, $mdgriffith$elm_ui$Internal$Style$classes.borderSolid);
-var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
-	return {$: 'Text', a: a};
-};
-var $mdgriffith$elm_ui$Element$text = function (content) {
-	return $mdgriffith$elm_ui$Internal$Model$Text(content);
-};
-var $author$project$Entregables$Entregable1AComunicacion$title = '1.A Comunicación - Contexto colaborativo del equipo docente';
-var $author$project$Entregables$Entregable1AComunicacion$view = A2(
-	$mdgriffith$elm_ui$Element$el,
-	_List_Nil,
-	$mdgriffith$elm_ui$Element$text('SOME DATA'));
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $mdgriffith$elm_ui$Internal$Model$BorderWidth = F5(
 	function (a, b, c, d, e) {
 		return {$: 'BorderWidth', a: a, b: b, c: c, d: d, e: e};
@@ -12113,15 +12290,15 @@ var $mdgriffith$elm_ui$Element$Border$width = function (v) {
 			v,
 			v));
 };
-var $author$project$Main$botonCompetencia = F6(
-	function (num, desc, entrega, color, ids, hovered) {
+var $author$project$Main$botonCompetencia = F5(
+	function (entregable, entrega, color, ids, hovered) {
 		var _v0 = function () {
 			var _v1 = $elm$core$List$head(ids);
 			if (_v1.$ === 'Nothing') {
-				return _Utils_Tuple2(_List_Nil, 0.7);
+				return _Utils_Tuple3(_List_Nil, 0.7, 'none');
 			} else {
 				var id = _v1.a;
-				return A2($elm$core$Set$member, id, hovered) ? _Utils_Tuple2(
+				return A2($elm$core$Set$member, id, hovered) ? _Utils_Tuple3(
 					_List_fromArray(
 						[
 							$mdgriffith$elm_ui$Element$Border$shadow(
@@ -12132,11 +12309,13 @@ var $author$project$Main$botonCompetencia = F6(
 								size: 2
 							})
 						]),
-					0.0) : _Utils_Tuple2(_List_Nil, 0.7);
+					0.0,
+					'drop-shadow(3px 3px 0px black)') : _Utils_Tuple3(_List_Nil, 0.7, 'none');
 			}
 		}();
 		var shadowStyle = _v0.a;
 		var factor = _v0.b;
+		var dropShadowValue = _v0.c;
 		return A2(
 			$mdgriffith$elm_ui$Element$row,
 			_List_fromArray(
@@ -12152,7 +12331,7 @@ var $author$project$Main$botonCompetencia = F6(
 					$mdgriffith$elm_ui$Element$Events$onMouseLeave(
 					$author$project$Main$HoverOffMany(ids)),
 					$mdgriffith$elm_ui$Element$Events$onClick(
-					A2($author$project$Main$OpenModal, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view))
+					A2($author$project$Main$OpenModal, entregable.tituloModal, entregable.vistaModal))
 				]),
 			_List_fromArray(
 				[
@@ -12177,7 +12356,7 @@ var $author$project$Main$botonCompetencia = F6(
 									$mdgriffith$elm_ui$Element$Border$rounded(50),
 									$mdgriffith$elm_ui$Element$padding(15)
 								]))),
-					$mdgriffith$elm_ui$Element$text(num)),
+					$mdgriffith$elm_ui$Element$text(entregable.codigo)),
 					A2(
 					$mdgriffith$elm_ui$Element$column,
 					_List_fromArray(
@@ -12204,7 +12383,7 @@ var $author$project$Main$botonCompetencia = F6(
 									])),
 							_List_fromArray(
 								[
-									$mdgriffith$elm_ui$Element$text(desc)
+									$mdgriffith$elm_ui$Element$text(entregable.descripcionEntregable)
 								])),
 							A2(
 							$mdgriffith$elm_ui$Element$paragraph,
@@ -12216,7 +12395,7 @@ var $author$project$Main$botonCompetencia = F6(
 										{
 											blur: 0,
 											color: A2($author$project$Styles$oscurecer, $author$project$Styles$grisclaro, factor),
-											offset: _Utils_Tuple2(1, 1)
+											offset: _Utils_Tuple2(0.5, 0.5)
 										})
 									])),
 							_List_fromArray(
@@ -12229,12 +12408,24 @@ var $author$project$Main$botonCompetencia = F6(
 					_List_fromArray(
 						[
 							$mdgriffith$elm_ui$Element$height(
-							$mdgriffith$elm_ui$Element$px(50))
+							$mdgriffith$elm_ui$Element$px(50)),
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							A2($elm$html$Html$Attributes$style, 'filter', dropShadowValue))
 						]),
 					{description: 'icono de video', src: '/assets/' + ('video' + '.webp')})
 				]));
 	});
 var $author$project$Styles$chicle = A3($mdgriffith$elm_ui$Element$rgb255, 255, 144, 232);
+var $author$project$Main$getEntregable = F2(
+	function (key, dict) {
+		var _v0 = A2($elm$core$Dict$get, key, dict);
+		if (_v0.$ === 'Just') {
+			var entregable = _v0.a;
+			return entregable;
+		} else {
+			return A5($author$project$Main$Entregable, '0', 'Esto no es un entregable', $elm$core$Maybe$Nothing, 'Esta pagina no debería verse', $mdgriffith$elm_ui$Element$none);
+		}
+	});
 var $author$project$Styles$limon = A3($mdgriffith$elm_ui$Element$rgb255, 241, 243, 51);
 var $mdgriffith$elm_ui$Internal$Model$Max = F2(
 	function (a, b) {
@@ -12283,56 +12474,50 @@ var $author$project$Main$aside = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A6(
+						A5(
 						$author$project$Main$botonCompetencia,
-						'1',
-						'Compromiso profesional',
+						A2($author$project$Main$getEntregable, '1', model.entregables),
 						'1a entrega',
 						$author$project$Styles$naranja,
 						_List_fromArray(
 							[100, 1, 2, 3]),
 						model.hovered),
-						A6(
+						A5(
 						$author$project$Main$botonCompetencia,
-						'2',
-						'Contenidos digitales',
+						A2($author$project$Main$getEntregable, '2', model.entregables),
 						'2a entrega',
 						$author$project$Styles$turquesa,
 						_List_fromArray(
 							[101, 8, 10]),
 						model.hovered),
-						A6(
+						A5(
 						$author$project$Main$botonCompetencia,
-						'3',
-						'Enseñanza y aprendizaje',
-						'3a entrega',
+						A2($author$project$Main$getEntregable, '3', model.entregables),
+						'4a entrega',
 						$author$project$Styles$azul,
 						_List_fromArray(
 							[102, 4, 5]),
 						model.hovered),
-						A6(
+						A5(
 						$author$project$Main$botonCompetencia,
-						'4',
-						'Evaluación y retroalimentación',
-						'4a entrega',
+						A2($author$project$Main$getEntregable, '4', model.entregables),
+						'6a entrega',
 						$author$project$Styles$limon,
 						_List_fromArray(
 							[103, 6, 18, 19]),
 						model.hovered),
-						A6(
+						A5(
 						$author$project$Main$botonCompetencia,
-						'5',
-						'Empoderamiento del alumnado',
-						'5a entrega',
+						A2($author$project$Main$getEntregable, '5', model.entregables),
+						'3a entrega',
 						$author$project$Styles$chicle,
 						_List_fromArray(
 							[104, 9, 11, 12]),
 						model.hovered),
-						A6(
+						A5(
 						$author$project$Main$botonCompetencia,
-						'6',
-						'Desarrollo de la competencia digital del alumnado',
-						'6a entrega',
+						A2($author$project$Main$getEntregable, '6', model.entregables),
+						'5a entrega',
 						$author$project$Styles$rojo,
 						_List_fromArray(
 							[105, 13, 14, 15, 16, 17]),
@@ -12511,21 +12696,26 @@ var $mdgriffith$elm_ui$Element$paddingEach = function (_v0) {
 				left));
 	}
 };
-var $author$project$Main$botonEntregable = F6(
-	function (num, desc, evidencia, color, id, hovered) {
-		var shadowStyle = A2($elm$core$Set$member, id, hovered) ? _List_fromArray(
-			[
-				$mdgriffith$elm_ui$Element$Border$shadow(
-				{
-					blur: 0,
-					color: $author$project$Styles$negro,
-					offset: _Utils_Tuple2(4, 4),
-					size: 2
-				})
-			]) : _List_Nil;
+var $author$project$Main$botonEntregable = F4(
+	function (entregable, color, id, hovered) {
+		var _v0 = A2($elm$core$Set$member, id, hovered) ? _Utils_Tuple2(
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$Border$shadow(
+					{
+						blur: 0,
+						color: $author$project$Styles$negro,
+						offset: _Utils_Tuple2(4, 4),
+						size: 2
+					})
+				]),
+			'drop-shadow(3px 3px 0px black)') : _Utils_Tuple2(_List_Nil, 'none');
+		var shadowStyle = _v0.a;
+		var dropShadowValue = _v0.b;
 		var iconoEvidencia = function () {
-			if (evidencia.$ === 'Just') {
-				var icono = evidencia.a;
+			var _v1 = entregable.tipoEvidencia;
+			if (_v1.$ === 'Just') {
+				var icono = _v1.a;
 				return A2(
 					$mdgriffith$elm_ui$Element$image,
 					_List_fromArray(
@@ -12534,7 +12724,9 @@ var $author$project$Main$botonEntregable = F6(
 							$mdgriffith$elm_ui$Element$px(40)),
 							$mdgriffith$elm_ui$Element$alignRight,
 							$mdgriffith$elm_ui$Element$moveRight(20),
-							$mdgriffith$elm_ui$Element$moveDown(20)
+							$mdgriffith$elm_ui$Element$moveDown(20),
+							$mdgriffith$elm_ui$Element$htmlAttribute(
+							A2($elm$html$Html$Attributes$style, 'filter', dropShadowValue))
 						]),
 					{description: 'icono de evidencia', src: '/assets/' + (icono + '.webp')});
 			} else {
@@ -12562,14 +12754,14 @@ var $author$project$Main$botonEntregable = F6(
 							$author$project$Main$HoverOff(id)),
 							$mdgriffith$elm_ui$Element$inFront(iconoEvidencia),
 							$mdgriffith$elm_ui$Element$Events$onClick(
-							A2($author$project$Main$OpenModal, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view))
+							A2($author$project$Main$OpenModal, entregable.tituloModal, entregable.vistaModal))
 						]))),
 			_List_fromArray(
 				[
 					A2(
 					$mdgriffith$elm_ui$Element$el,
 					_Utils_ap($author$project$Styles$montserratBold, _List_Nil),
-					$mdgriffith$elm_ui$Element$text(num)),
+					$mdgriffith$elm_ui$Element$text(entregable.codigo)),
 					A2(
 					$mdgriffith$elm_ui$Element$paragraph,
 					_Utils_ap(
@@ -12581,7 +12773,7 @@ var $author$project$Main$botonEntregable = F6(
 							])),
 					_List_fromArray(
 						[
-							$mdgriffith$elm_ui$Element$text(desc)
+							$mdgriffith$elm_ui$Element$text(entregable.descripcionEntregable)
 						]))
 				]));
 	});
@@ -12617,16 +12809,24 @@ var $author$project$Main$contenidoProfundizacion = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'2.B',
-						'Básico',
-						$elm$core$Maybe$Just('contenido'),
+						A2($author$project$Main$getEntregable, '2.B', model.entregables),
 						$author$project$Styles$turquesa,
 						10,
 						model.hovered),
-						A6($author$project$Main$botonEntregable, '5.A', 'Accesibilidad', $elm$core$Maybe$Nothing, $author$project$Styles$chicle, 11, model.hovered),
-						A6($author$project$Main$botonEntregable, '5.B', 'Personalización', $elm$core$Maybe$Nothing, $author$project$Styles$chicle, 12, model.hovered)
+						A4(
+						$author$project$Main$botonEntregable,
+						A2($author$project$Main$getEntregable, '5.A', model.entregables),
+						$author$project$Styles$chicle,
+						11,
+						model.hovered),
+						A4(
+						$author$project$Main$botonEntregable,
+						A2($author$project$Main$getEntregable, '5.B', model.entregables),
+						$author$project$Styles$chicle,
+						12,
+						model.hovered)
 					]))
 			]));
 };
@@ -12721,15 +12921,18 @@ var $author$project$Main$contenidoBasico = function (model) {
 								$author$project$Styles$montserratBold,
 								$mdgriffith$elm_ui$Element$text('Contenido de conocimiento basico'))
 							])),
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'2.A',
-						'Básico',
-						$elm$core$Maybe$Just('contenido'),
+						A2($author$project$Main$getEntregable, '2.A', model.entregables),
 						$author$project$Styles$turquesa,
 						8,
 						model.hovered),
-						A6($author$project$Main$botonEntregable, '5.A', 'Accesibilidad', $elm$core$Maybe$Nothing, $author$project$Styles$chicle, 9, model.hovered)
+						A4(
+						$author$project$Main$botonEntregable,
+						A2($author$project$Main$getEntregable, '5.A', model.entregables),
+						$author$project$Styles$chicle,
+						9,
+						model.hovered)
 					]))
 			]));
 };
@@ -12904,27 +13107,21 @@ var $author$project$Main$contextoColaborativoAlumnado = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'6.A',
-						'Búsquedas',
-						$elm$core$Maybe$Just('doc'),
+						A2($author$project$Main$getEntregable, '6.A', model.entregables),
 						$author$project$Styles$rojo,
 						13,
 						model.hovered),
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'6.B',
-						'Normas de conducta',
-						$elm$core$Maybe$Just('doc'),
+						A2($author$project$Main$getEntregable, '6.B', model.entregables),
 						$author$project$Styles$rojo,
 						14,
 						model.hovered),
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'6.C',
-						'Contenidos digitales',
-						$elm$core$Maybe$Just('doc'),
+						A2($author$project$Main$getEntregable, '6.C', model.entregables),
 						$author$project$Styles$rojo,
 						15,
 						model.hovered)
@@ -12937,19 +13134,15 @@ var $author$project$Main$contextoColaborativoAlumnado = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'6.D',
-						'Uso responsable',
-						$elm$core$Maybe$Just('doc'),
+						A2($author$project$Main$getEntregable, '6.D', model.entregables),
 						$author$project$Styles$rojo,
 						16,
 						model.hovered),
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'6.E',
-						'Resolución de problemas',
-						$elm$core$Maybe$Just('doc'),
+						A2($author$project$Main$getEntregable, '6.E', model.entregables),
 						$author$project$Styles$rojo,
 						17,
 						model.hovered)
@@ -12981,7 +13174,12 @@ var $author$project$Main$evaluacionPrevia = function (model) {
 						$author$project$Styles$montserratBold,
 						$mdgriffith$elm_ui$Element$text('Evaluación previa sobre un tema'))
 					])),
-				A6($author$project$Main$botonEntregable, '4.A', 'Evaluación previa', $elm$core$Maybe$Nothing, $author$project$Styles$limon, 6, model.hovered)
+				A4(
+				$author$project$Main$botonEntregable,
+				A2($author$project$Main$getEntregable, '4.A', model.entregables),
+				$author$project$Styles$limon,
+				6,
+				model.hovered)
 			]));
 };
 var $author$project$Main$evaluacionYRetroalimentacion = function (model) {
@@ -13018,8 +13216,18 @@ var $author$project$Main$evaluacionYRetroalimentacion = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A6($author$project$Main$botonEntregable, '4.B', 'Formativa', $elm$core$Maybe$Nothing, $author$project$Styles$limon, 18, model.hovered),
-						A6($author$project$Main$botonEntregable, '4.C', 'Retroalimentación', $elm$core$Maybe$Nothing, $author$project$Styles$limon, 19, model.hovered)
+						A4(
+						$author$project$Main$botonEntregable,
+						A2($author$project$Main$getEntregable, '4.B', model.entregables),
+						$author$project$Styles$limon,
+						18,
+						model.hovered),
+						A4(
+						$author$project$Main$botonEntregable,
+						A2($author$project$Main$getEntregable, '4.C', model.entregables),
+						$author$project$Styles$limon,
+						19,
+						model.hovered)
 					]))
 			]));
 };
@@ -13119,27 +13327,21 @@ var $author$project$Main$contextoColaborativo = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'1.A',
-						'Comunicación',
-						$elm$core$Maybe$Just('captura'),
+						A2($author$project$Main$getEntregable, '1.A', model.entregables),
 						$author$project$Styles$naranja,
 						1,
 						model.hovered),
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'1.B',
-						'Trabajo en equipo',
-						$elm$core$Maybe$Just('captura'),
+						A2($author$project$Main$getEntregable, '1.B', model.entregables),
 						$author$project$Styles$naranja,
 						2,
 						model.hovered),
-						A6(
+						A4(
 						$author$project$Main$botonEntregable,
-						'1.C',
-						'Netiqueta',
-						$elm$core$Maybe$Just('infografia'),
+						A2($author$project$Main$getEntregable, '1.C', model.entregables),
 						$author$project$Styles$naranja,
 						3,
 						model.hovered)
@@ -13184,8 +13386,18 @@ var $author$project$Main$ensenanzaAprendizaje = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A6($author$project$Main$botonEntregable, '3.A', 'Contexto colaborativo del alumnado', $elm$core$Maybe$Nothing, $author$project$Styles$azul, 4, model.hovered),
-						A6($author$project$Main$botonEntregable, '3.B', 'Recursos', $elm$core$Maybe$Nothing, $author$project$Styles$azul, 5, model.hovered)
+						A4(
+						$author$project$Main$botonEntregable,
+						A2($author$project$Main$getEntregable, '3.A', model.entregables),
+						$author$project$Styles$azul,
+						4,
+						model.hovered),
+						A4(
+						$author$project$Main$botonEntregable,
+						A2($author$project$Main$getEntregable, '3.B', model.entregables),
+						$author$project$Styles$azul,
+						5,
+						model.hovered)
 					]))
 			]));
 };
@@ -13199,7 +13411,7 @@ var $author$project$Main$mainSection = function (model) {
 					$mdgriffith$elm_ui$Element$centerX,
 					$mdgriffith$elm_ui$Element$centerY,
 					$mdgriffith$elm_ui$Element$width(
-					A2($mdgriffith$elm_ui$Element$maximum, 1100, $mdgriffith$elm_ui$Element$fill)),
+					A2($mdgriffith$elm_ui$Element$maximum, 1150, $mdgriffith$elm_ui$Element$fill)),
 					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink)
 				])),
 		_List_fromArray(
@@ -13637,6 +13849,7 @@ var $author$project$Styles$closeButton = function (attrs) {
 var $mdgriffith$elm_ui$Internal$Flag$overflow = $mdgriffith$elm_ui$Internal$Flag$flag(20);
 var $mdgriffith$elm_ui$Element$scrollbars = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.scrollbars);
 var $author$project$Main$modalViewFun = function (model) {
+	var dropShadowValue = A2($elm$core$Set$member, 99, model.hovered) ? 'drop-shadow(3px 3px 1px darkgray)' : 'none';
 	return A2(
 		$mdgriffith$elm_ui$Element$column,
 		_List_fromArray(
@@ -13666,7 +13879,14 @@ var $author$project$Main$modalViewFun = function (model) {
 						_List_fromArray(
 							[
 								$mdgriffith$elm_ui$Element$alignRight,
-								$mdgriffith$elm_ui$Element$Events$onClick($author$project$Main$CloseModal)
+								$mdgriffith$elm_ui$Element$pointer,
+								$mdgriffith$elm_ui$Element$Events$onClick($author$project$Main$CloseModal),
+								$mdgriffith$elm_ui$Element$Events$onMouseEnter(
+								$author$project$Main$HoverOn(99)),
+								$mdgriffith$elm_ui$Element$Events$onMouseLeave(
+								$author$project$Main$HoverOff(99)),
+								$mdgriffith$elm_ui$Element$htmlAttribute(
+								A2($elm$html$Html$Attributes$style, 'filter', dropShadowValue))
 							]))
 					])),
 				model.modalView
@@ -13682,8 +13902,6 @@ var $elm$html$Html$Events$stopPropagationOn = F2(
 			event,
 			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
 	});
-var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
-var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
 var $author$project$Main$viewOverlay = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -13713,6 +13931,7 @@ var $author$project$Main$viewOverlay = function (model) {
 						A2($elm$html$Html$Attributes$style, 'box-shadow', '0 4px 6px rgba(0,0,0,0.3)'),
 						A2($elm$html$Html$Attributes$style, 'width', '70%'),
 						A2($elm$html$Html$Attributes$style, 'max-width', '80%'),
+						A2($elm$html$Html$Attributes$style, 'max-height', '80%'),
 						A2($elm$html$Html$Attributes$style, 'padding', '20px'),
 						A2(
 						$elm$html$Html$Events$stopPropagationOn,
