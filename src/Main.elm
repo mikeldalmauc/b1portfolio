@@ -187,13 +187,13 @@ contenido model =
     row [ centerX, centerY, spacing 30, width fill]
     [ aside model
     , mainSection model
-    , asideEvidencias model
+    , asideEvidencias
     ]
 
 aside : Model -> Element Msg
 aside model = 
   column 
-    ([centerX, centerY, height fill, width (fill |> maximum 400), padding 25, spacing 40])
+    ([centerX, centerY, height fill, width (fill |> maximum 500), padding 25, spacing 40])
     [Element.paragraph [Font.center]
       [ Element.el montserratBold
         (text "Ámbitos de competencia")
@@ -209,26 +209,37 @@ aside model =
         ]
     ]
 
-asideEvidencias : Model -> Element Msg
-asideEvidencias model = 
-  column 
-    ([centerX, centerY, height fill, width (fill |> maximum 300), padding 25, spacing 40])
-    [Element.paragraph [Font.center]
-      [ Element.el montserratBold
-        (text "Formatos de Evidencia")
-      ]
-    , column
-        [alignLeft, alignTop, spacing 20]
-        [
-        ]
-    ]
+asideEvidencias : Element Msg
+asideEvidencias = 
+    let 
+        iconos = [ "captura", "doc", "infografia", "audio", "contenido", "video"]
+
+        textos = [ "Captura de pantalla y texto", "Documento", "Infografía", "Audio", "Contenido", "Video"]
+    in
+        column 
+            ([centerX, centerY, height fill, width (fill |> maximum 300), padding 25, spacing 40])
+            [Element.paragraph [Font.center]
+            [ Element.el montserratBold
+                (text "Formatos de Evidencia")
+            ]
+            , column
+                [alignRight, alignTop, spacing 20]
+                <| List.map2 (\icono texto -> 
+                    row [spacing 10, alignRight]
+                    [ Element.paragraph [Font.center]
+                        [ Element.el montserratSemi
+                            (text texto)
+                        ]
+                    , Element.image [height (px 60)] {src = "/assets/" ++ icono ++ ".webp", description = texto}
+                    ]) iconos textos
+            ]
 
 mainSection : Model -> Element Msg 
 mainSection model = 
   row 
     ( borderStyle ++ 
     [centerX, centerY
-    , width (fill |> maximum 1100)
+    , width (fill |> maximum 1200)
     , height (shrink)
     -- , Element.explain Debug.todo
     ])
@@ -249,9 +260,9 @@ contextoColaborativo model =
         [alignLeft, alignTop, spacing 20
         -- , Element.explain Debug.todo 
         ]
-        [ botonEntregable "1.A" "Comunicación" naranja 1 model.hovered
-        , botonEntregable "1.B" "Trabajo en equipo" naranja 2 model.hovered
-        , botonEntregable "1.C" "Netiqueta" naranja 3 model.hovered
+        [ botonEntregable "1.A" "Comunicación" (Just "captura")naranja 1 model.hovered
+        , botonEntregable "1.B" "Trabajo en equipo" (Just "captura") naranja 2 model.hovered
+        , botonEntregable "1.C" "Netiqueta" (Just "infografia") naranja 3 model.hovered
         ]
     ]
 
@@ -277,7 +288,7 @@ evaluacionPrevia model =
       [ Element.el montserratBold
         (text "Evaluación previa sobre un tema")
       ]
-    , botonEntregable "4.A" "Evaluación previa" limon 6 model.hovered
+    , botonEntregable "4.A" "Evaluación previa" Nothing limon 6 model.hovered
     ]
 
 
@@ -320,8 +331,8 @@ contenidoBasico model =
         [ Element.el montserratBold
             (text "Contenido de conocimiento basico")
         ]
-        , botonEntregable "2.A" "Básico" turquesa 8 model.hovered
-        , botonEntregable "5.A" "Accesibilidad" chicle 9 model.hovered
+        , botonEntregable "2.A" "Básico" (Just "contenido") turquesa 8 model.hovered
+        , botonEntregable "5.A" "Accesibilidad" Nothing chicle 9 model.hovered
         ]
     ]
 
@@ -334,9 +345,9 @@ contenidoProfundizacion model =
         (text "Contenido de profundización")
       ]
     , row [spacing 20]
-    [ botonEntregable "2.B" "Básico" turquesa 10 model.hovered
-    , botonEntregable "5.A" "Accesibilidad" chicle 11 model.hovered
-    , botonEntregable "5.B" "Personalización" chicle 12 model.hovered]
+    [ botonEntregable "2.B" "Básico" (Just "contenido") turquesa 10 model.hovered
+    , botonEntregable "5.A" "Accesibilidad" Nothing chicle 11 model.hovered
+    , botonEntregable "5.B" "Personalización" Nothing chicle 12 model.hovered]
     ]
 
 
@@ -349,13 +360,13 @@ contextoColaborativoAlumnado model =
         (text "Contexto colaborativo del alumnado")
       ]
     , row [spacing 20]
-        [ botonEntregable "6.A" "Búsquedas" rojo 13 model.hovered
-        , botonEntregable "6.B" "Normas de conducta" rojo 14 model.hovered
-        , botonEntregable "6.C" "Contenidos digitales" rojo 15 model.hovered
+        [ botonEntregable "6.A" "Búsquedas" (Just "doc") rojo 13 model.hovered
+        , botonEntregable "6.B" "Normas de conducta" (Just "doc") rojo 14 model.hovered
+        , botonEntregable "6.C" "Contenidos digitales" (Just "doc") rojo 15 model.hovered
       ]
     , row [spacing 20]
-        [ botonEntregable "6.D" "Uso responsable" rojo 16 model.hovered
-        , botonEntregable "6.E" "Resolución de problemas" rojo 17 model.hovered
+        [ botonEntregable "6.D" "Uso responsable" (Just "doc") rojo 16 model.hovered
+        , botonEntregable "6.E" "Resolución de problemas" (Just "doc") rojo 17 model.hovered
         ]
     ]
 
@@ -368,8 +379,8 @@ evaluacionYRetroalimentacion model =
         (text "Evaluacion Y Retroalimentacion")
       ]
     , row [spacing 20, centerX]
-        [ botonEntregable "4.B" "Formativa" limon 18 model.hovered
-        , botonEntregable "4.C" "Retroalimentación" limon 19 model.hovered
+        [ botonEntregable "4.B" "Formativa" Nothing limon 18 model.hovered
+        , botonEntregable "4.C" "Retroalimentación" Nothing limon 19 model.hovered
       ]
     ]
 
@@ -383,8 +394,8 @@ ensenanzaAprendizaje model =
       ]
     , column
         [alignRight, alignTop, spacing 20]
-        [ botonEntregable "3.A" "Contexto colaborativo del alumnado" azul 4 model.hovered
-        , botonEntregable "3.B" "Recursos" azul 5 model.hovered
+        [ botonEntregable "3.A" "Contexto colaborativo del alumnado" Nothing azul 4 model.hovered
+        , botonEntregable "3.B" "Recursos" Nothing azul 5 model.hovered
         ]
     ]
 
@@ -392,9 +403,10 @@ ensenanzaAprendizaje model =
 type alias DescripcionEntregable = String
 type alias NumeroEntregable = String
 type alias Align = Attribute Msg
+type alias Evidencia = String
 
-botonEntregable : NumeroEntregable -> DescripcionEntregable -> Color -> Int -> Set Int -> Element Msg
-botonEntregable num desc color id hovered= 
+botonEntregable : NumeroEntregable -> DescripcionEntregable -> Maybe Evidencia -> Color -> Int -> Set Int -> Element Msg
+botonEntregable num desc evidencia color id hovered= 
   let
     shadowStyle =
         if (Set.member id hovered) then
@@ -407,14 +419,19 @@ botonEntregable num desc color id hovered=
             ]
         else
             []
+    
+    iconoEvidencia = case evidencia of 
+        Just icono  -> Element.image [height (px 40), alignRight, moveRight 20, moveDown 20] {src = "/assets/" ++ icono ++ ".webp", description = "icono de evidencia"}
+        Nothing -> Element.none
   in
     row (borderStyle ++ shadowStyle ++
-        [ Background.color color, width fill, height (px 60), padding 7, spacing 5, pointer
+        [ Background.color color, width fill, height (px 60), padding 10, spacing 5, pointer
         , Events.onMouseEnter (HoverOn id)
         , Events.onMouseLeave (HoverOff id)
+        , inFront iconoEvidencia
         ])
-        [Element.el (montserratBold ++ []) (text num)
-        ,Element.paragraph (montserratLight ++ []) [text desc]]
+        <| 
+        [Element.el (montserratBold ++ []) (text num), Element.paragraph (montserratLight ++ [paddingEach {top = 0, right = 20, bottom = 0, left = 0}]) [text desc]]
 
 
 botonCompetencia : NumeroEntregable -> DescripcionEntregable -> String -> Color -> List Int -> Set Int -> Element Msg
@@ -436,16 +453,16 @@ botonCompetencia num desc entrega color ids hovered=
                     ([], 0.7)
   in
     row (
-      [ width fill, height (px 70), padding 7, spacing 30, pointer
-      , Events.onMouseEnter (HoverOnMany ids)
-      , Events.onMouseLeave (HoverOffMany ids)
-      ])
-      [Element.el (shadowStyle ++ montserratBold ++ [Font.center, centerX, centerY, width <| px 50, height <| px 50, Background.color color, Border.width 1, Border.solid, Border.rounded 50, padding 15]) (text num)
-      , column [alignLeft, width (fill), spacing 10] 
+        [ width fill, height (px 70), padding 7, spacing 30, pointer
+        , Events.onMouseEnter (HoverOnMany ids)
+        , Events.onMouseLeave (HoverOffMany ids)
+        ])
+        [Element.el (shadowStyle ++ montserratBold ++ [Font.center, centerX, centerY, width <| px 50, height <| px 50, Background.color color, Border.width 1, Border.solid, Border.rounded 50, padding 15]) (text num)
+        , column [alignLeft, width (fill), spacing 10] 
             [ Element.paragraph (montserratSemiBold ++ [ Font.color color, Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer color factor}]) [text desc]
             , Element.paragraph (montserratLight ++ [ Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer grisclaro factor}]) [text entrega]
             ]
-        
+        , Element.image [height (px 50)] {src = "/assets/" ++ "video" ++ ".webp", description = "icono de video"}
         ]
 
 

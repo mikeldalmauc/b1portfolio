@@ -11696,6 +11696,57 @@ var $elm$core$List$head = function (list) {
 		return $elm$core$Maybe$Nothing;
 	}
 };
+var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var $mdgriffith$elm_ui$Element$image = F2(
+	function (attrs, _v0) {
+		var src = _v0.src;
+		var description = _v0.description;
+		var imageAttributes = A2(
+			$elm$core$List$filter,
+			function (a) {
+				switch (a.$) {
+					case 'Width':
+						return true;
+					case 'Height':
+						return true;
+					default:
+						return false;
+				}
+			},
+			attrs);
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$div,
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.imageContainer),
+				attrs),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[
+						A4(
+						$mdgriffith$elm_ui$Internal$Model$element,
+						$mdgriffith$elm_ui$Internal$Model$asEl,
+						$mdgriffith$elm_ui$Internal$Model$NodeName('img'),
+						_Utils_ap(
+							_List_fromArray(
+								[
+									$mdgriffith$elm_ui$Internal$Model$Attr(
+									$elm$html$Html$Attributes$src(src)),
+									$mdgriffith$elm_ui$Internal$Model$Attr(
+									$elm$html$Html$Attributes$alt(description))
+								]),
+							imageAttributes),
+						$mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_Nil))
+					])));
+	});
 var $mdgriffith$elm_ui$Internal$Flag$fontWeight = $mdgriffith$elm_ui$Internal$Flag$flag(13);
 var $mdgriffith$elm_ui$Element$Font$bold = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.bold);
 var $mdgriffith$elm_ui$Internal$Model$ImportFont = F2(
@@ -12133,7 +12184,15 @@ var $author$project$Main$botonCompetencia = F6(
 								[
 									$mdgriffith$elm_ui$Element$text(entrega)
 								]))
-						]))
+						])),
+					A2(
+					$mdgriffith$elm_ui$Element$image,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$px(50))
+						]),
+					{description: 'icono de video', src: '/assets/' + ('video' + '.webp')})
 				]));
 	});
 var $author$project$Styles$chicle = A3($mdgriffith$elm_ui$Element$rgb255, 255, 144, 232);
@@ -12158,7 +12217,7 @@ var $author$project$Main$aside = function (model) {
 				$mdgriffith$elm_ui$Element$centerY,
 				$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
 				$mdgriffith$elm_ui$Element$width(
-				A2($mdgriffith$elm_ui$Element$maximum, 400, $mdgriffith$elm_ui$Element$fill)),
+				A2($mdgriffith$elm_ui$Element$maximum, 500, $mdgriffith$elm_ui$Element$fill)),
 				$mdgriffith$elm_ui$Element$padding(25),
 				$mdgriffith$elm_ui$Element$spacing(40)
 			]),
@@ -12242,7 +12301,19 @@ var $author$project$Main$aside = function (model) {
 					]))
 			]));
 };
-var $author$project$Main$asideEvidencias = function (model) {
+var $mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
+var $mdgriffith$elm_ui$Element$alignRight = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$Right);
+var $author$project$Styles$montserratSemi = _List_fromArray(
+	[
+		$author$project$Styles$montserrat,
+		$mdgriffith$elm_ui$Element$Font$size(16),
+		$mdgriffith$elm_ui$Element$Font$semiBold
+	]);
+var $author$project$Main$asideEvidencias = function () {
+	var textos = _List_fromArray(
+		['Captura de pantalla y texto', 'Documento', 'Infografía', 'Audio', 'Contenido', 'Video']);
+	var iconos = _List_fromArray(
+		['captura', 'doc', 'infografia', 'audio', 'contenido', 'video']);
 	return A2(
 		$mdgriffith$elm_ui$Element$column,
 		_List_fromArray(
@@ -12272,13 +12343,48 @@ var $author$project$Main$asideEvidencias = function (model) {
 				$mdgriffith$elm_ui$Element$column,
 				_List_fromArray(
 					[
-						$mdgriffith$elm_ui$Element$alignLeft,
+						$mdgriffith$elm_ui$Element$alignRight,
 						$mdgriffith$elm_ui$Element$alignTop,
 						$mdgriffith$elm_ui$Element$spacing(20)
 					]),
-				_List_Nil)
+				A3(
+					$elm$core$List$map2,
+					F2(
+						function (icono, texto) {
+							return A2(
+								$mdgriffith$elm_ui$Element$row,
+								_List_fromArray(
+									[
+										$mdgriffith$elm_ui$Element$spacing(10),
+										$mdgriffith$elm_ui$Element$alignRight
+									]),
+								_List_fromArray(
+									[
+										A2(
+										$mdgriffith$elm_ui$Element$paragraph,
+										_List_fromArray(
+											[$mdgriffith$elm_ui$Element$Font$center]),
+										_List_fromArray(
+											[
+												A2(
+												$mdgriffith$elm_ui$Element$el,
+												$author$project$Styles$montserratSemi,
+												$mdgriffith$elm_ui$Element$text(texto))
+											])),
+										A2(
+										$mdgriffith$elm_ui$Element$image,
+										_List_fromArray(
+											[
+												$mdgriffith$elm_ui$Element$height(
+												$mdgriffith$elm_ui$Element$px(60))
+											]),
+										{description: texto, src: '/assets/' + (icono + '.webp')})
+									]));
+						}),
+					iconos,
+					textos))
 			]));
-};
+}();
 var $author$project$Styles$borderStyle = _List_fromArray(
 	[
 		$mdgriffith$elm_ui$Element$Border$rounded(5),
@@ -12291,8 +12397,85 @@ var $author$project$Main$HoverOff = function (a) {
 var $author$project$Main$HoverOn = function (a) {
 	return {$: 'HoverOn', a: a};
 };
-var $author$project$Main$botonEntregable = F5(
-	function (num, desc, color, id, hovered) {
+var $mdgriffith$elm_ui$Internal$Model$InFront = {$: 'InFront'};
+var $mdgriffith$elm_ui$Internal$Model$Nearby = F2(
+	function (a, b) {
+		return {$: 'Nearby', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Model$NoAttribute = {$: 'NoAttribute'};
+var $mdgriffith$elm_ui$Element$createNearby = F2(
+	function (loc, element) {
+		if (element.$ === 'Empty') {
+			return $mdgriffith$elm_ui$Internal$Model$NoAttribute;
+		} else {
+			return A2($mdgriffith$elm_ui$Internal$Model$Nearby, loc, element);
+		}
+	});
+var $mdgriffith$elm_ui$Element$inFront = function (element) {
+	return A2($mdgriffith$elm_ui$Element$createNearby, $mdgriffith$elm_ui$Internal$Model$InFront, element);
+};
+var $mdgriffith$elm_ui$Internal$Model$MoveY = function (a) {
+	return {$: 'MoveY', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Model$TransformComponent = F2(
+	function (a, b) {
+		return {$: 'TransformComponent', a: a, b: b};
+	});
+var $mdgriffith$elm_ui$Internal$Flag$moveY = $mdgriffith$elm_ui$Internal$Flag$flag(26);
+var $mdgriffith$elm_ui$Element$moveDown = function (y) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
+		$mdgriffith$elm_ui$Internal$Flag$moveY,
+		$mdgriffith$elm_ui$Internal$Model$MoveY(y));
+};
+var $mdgriffith$elm_ui$Internal$Model$MoveX = function (a) {
+	return {$: 'MoveX', a: a};
+};
+var $mdgriffith$elm_ui$Internal$Flag$moveX = $mdgriffith$elm_ui$Internal$Flag$flag(25);
+var $mdgriffith$elm_ui$Element$moveRight = function (x) {
+	return A2(
+		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
+		$mdgriffith$elm_ui$Internal$Flag$moveX,
+		$mdgriffith$elm_ui$Internal$Model$MoveX(x));
+};
+var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
+var $mdgriffith$elm_ui$Internal$Model$paddingName = F4(
+	function (top, right, bottom, left) {
+		return 'pad-' + ($elm$core$String$fromInt(top) + ('-' + ($elm$core$String$fromInt(right) + ('-' + ($elm$core$String$fromInt(bottom) + ('-' + $elm$core$String$fromInt(left)))))));
+	});
+var $mdgriffith$elm_ui$Element$paddingEach = function (_v0) {
+	var top = _v0.top;
+	var right = _v0.right;
+	var bottom = _v0.bottom;
+	var left = _v0.left;
+	if (_Utils_eq(top, right) && (_Utils_eq(top, bottom) && _Utils_eq(top, left))) {
+		var topFloat = top;
+		return A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$padding,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+				'p-' + $elm$core$String$fromInt(top),
+				topFloat,
+				topFloat,
+				topFloat,
+				topFloat));
+	} else {
+		return A2(
+			$mdgriffith$elm_ui$Internal$Model$StyleClass,
+			$mdgriffith$elm_ui$Internal$Flag$padding,
+			A5(
+				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
+				A4($mdgriffith$elm_ui$Internal$Model$paddingName, top, right, bottom, left),
+				top,
+				right,
+				bottom,
+				left));
+	}
+};
+var $author$project$Main$botonEntregable = F6(
+	function (num, desc, evidencia, color, id, hovered) {
 		var shadowStyle = A2($elm$core$Set$member, id, hovered) ? _List_fromArray(
 			[
 				$mdgriffith$elm_ui$Element$Border$shadow(
@@ -12303,6 +12486,24 @@ var $author$project$Main$botonEntregable = F5(
 					size: 2
 				})
 			]) : _List_Nil;
+		var iconoEvidencia = function () {
+			if (evidencia.$ === 'Just') {
+				var icono = evidencia.a;
+				return A2(
+					$mdgriffith$elm_ui$Element$image,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$px(40)),
+							$mdgriffith$elm_ui$Element$alignRight,
+							$mdgriffith$elm_ui$Element$moveRight(20),
+							$mdgriffith$elm_ui$Element$moveDown(20)
+						]),
+					{description: 'icono de evidencia', src: '/assets/' + (icono + '.webp')});
+			} else {
+				return $mdgriffith$elm_ui$Element$none;
+			}
+		}();
 		return A2(
 			$mdgriffith$elm_ui$Element$row,
 			_Utils_ap(
@@ -12315,13 +12516,14 @@ var $author$project$Main$botonEntregable = F5(
 							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
 							$mdgriffith$elm_ui$Element$height(
 							$mdgriffith$elm_ui$Element$px(60)),
-							$mdgriffith$elm_ui$Element$padding(7),
+							$mdgriffith$elm_ui$Element$padding(10),
 							$mdgriffith$elm_ui$Element$spacing(5),
 							$mdgriffith$elm_ui$Element$pointer,
 							$mdgriffith$elm_ui$Element$Events$onMouseEnter(
 							$author$project$Main$HoverOn(id)),
 							$mdgriffith$elm_ui$Element$Events$onMouseLeave(
-							$author$project$Main$HoverOff(id))
+							$author$project$Main$HoverOff(id)),
+							$mdgriffith$elm_ui$Element$inFront(iconoEvidencia)
 						]))),
 			_List_fromArray(
 				[
@@ -12331,7 +12533,13 @@ var $author$project$Main$botonEntregable = F5(
 					$mdgriffith$elm_ui$Element$text(num)),
 					A2(
 					$mdgriffith$elm_ui$Element$paragraph,
-					_Utils_ap($author$project$Styles$montserratLight, _List_Nil),
+					_Utils_ap(
+						$author$project$Styles$montserratLight,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$paddingEach(
+								{bottom: 0, left: 0, right: 20, top: 0})
+							])),
 					_List_fromArray(
 						[
 							$mdgriffith$elm_ui$Element$text(desc)
@@ -12370,27 +12578,20 @@ var $author$project$Main$contenidoProfundizacion = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A5($author$project$Main$botonEntregable, '2.B', 'Básico', $author$project$Styles$turquesa, 10, model.hovered),
-						A5($author$project$Main$botonEntregable, '5.A', 'Accesibilidad', $author$project$Styles$chicle, 11, model.hovered),
-						A5($author$project$Main$botonEntregable, '5.B', 'Personalización', $author$project$Styles$chicle, 12, model.hovered)
+						A6(
+						$author$project$Main$botonEntregable,
+						'2.B',
+						'Básico',
+						$elm$core$Maybe$Just('contenido'),
+						$author$project$Styles$turquesa,
+						10,
+						model.hovered),
+						A6($author$project$Main$botonEntregable, '5.A', 'Accesibilidad', $elm$core$Maybe$Nothing, $author$project$Styles$chicle, 11, model.hovered),
+						A6($author$project$Main$botonEntregable, '5.B', 'Personalización', $elm$core$Maybe$Nothing, $author$project$Styles$chicle, 12, model.hovered)
 					]))
 			]));
 };
 var $author$project$Styles$chicleHex = '#ff90e8';
-var $mdgriffith$elm_ui$Internal$Model$MoveX = function (a) {
-	return {$: 'MoveX', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Model$TransformComponent = F2(
-	function (a, b) {
-		return {$: 'TransformComponent', a: a, b: b};
-	});
-var $mdgriffith$elm_ui$Internal$Flag$moveX = $mdgriffith$elm_ui$Internal$Flag$flag(25);
-var $mdgriffith$elm_ui$Element$moveRight = function (x) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
-		$mdgriffith$elm_ui$Internal$Flag$moveX,
-		$mdgriffith$elm_ui$Internal$Model$MoveX(x));
-};
 var $elm$svg$Svg$Attributes$clipRule = _VirtualDom_attribute('clip-rule');
 var $elm$svg$Svg$Attributes$fill = _VirtualDom_attribute('fill');
 var $elm$svg$Svg$Attributes$fillRule = _VirtualDom_attribute('fill-rule');
@@ -12481,8 +12682,15 @@ var $author$project$Main$contenidoBasico = function (model) {
 								$author$project$Styles$montserratBold,
 								$mdgriffith$elm_ui$Element$text('Contenido de conocimiento basico'))
 							])),
-						A5($author$project$Main$botonEntregable, '2.A', 'Básico', $author$project$Styles$turquesa, 8, model.hovered),
-						A5($author$project$Main$botonEntregable, '5.A', 'Accesibilidad', $author$project$Styles$chicle, 9, model.hovered)
+						A6(
+						$author$project$Main$botonEntregable,
+						'2.A',
+						'Básico',
+						$elm$core$Maybe$Just('contenido'),
+						$author$project$Styles$turquesa,
+						8,
+						model.hovered),
+						A6($author$project$Main$botonEntregable, '5.A', 'Accesibilidad', $elm$core$Maybe$Nothing, $author$project$Styles$chicle, 9, model.hovered)
 					]))
 			]));
 };
@@ -12494,12 +12702,6 @@ var $author$project$Styles$downArrowSvg = F2(
 			$mdgriffith$elm_ui$Element$html(
 				A2($author$project$Styles$arrowSvg, color, '90')));
 	});
-var $author$project$Styles$montserratSemi = _List_fromArray(
-	[
-		$author$project$Styles$montserrat,
-		$mdgriffith$elm_ui$Element$Font$size(16),
-		$mdgriffith$elm_ui$Element$Font$semiBold
-	]);
 var $mdgriffith$elm_ui$Element$paddingXY = F2(
 	function (x, y) {
 		if (_Utils_eq(x, y)) {
@@ -12663,9 +12865,30 @@ var $author$project$Main$contextoColaborativoAlumnado = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A5($author$project$Main$botonEntregable, '6.A', 'Búsquedas', $author$project$Styles$rojo, 13, model.hovered),
-						A5($author$project$Main$botonEntregable, '6.B', 'Normas de conducta', $author$project$Styles$rojo, 14, model.hovered),
-						A5($author$project$Main$botonEntregable, '6.C', 'Contenidos digitales', $author$project$Styles$rojo, 15, model.hovered)
+						A6(
+						$author$project$Main$botonEntregable,
+						'6.A',
+						'Búsquedas',
+						$elm$core$Maybe$Just('doc'),
+						$author$project$Styles$rojo,
+						13,
+						model.hovered),
+						A6(
+						$author$project$Main$botonEntregable,
+						'6.B',
+						'Normas de conducta',
+						$elm$core$Maybe$Just('doc'),
+						$author$project$Styles$rojo,
+						14,
+						model.hovered),
+						A6(
+						$author$project$Main$botonEntregable,
+						'6.C',
+						'Contenidos digitales',
+						$elm$core$Maybe$Just('doc'),
+						$author$project$Styles$rojo,
+						15,
+						model.hovered)
 					])),
 				A2(
 				$mdgriffith$elm_ui$Element$row,
@@ -12675,8 +12898,22 @@ var $author$project$Main$contextoColaborativoAlumnado = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A5($author$project$Main$botonEntregable, '6.D', 'Uso responsable', $author$project$Styles$rojo, 16, model.hovered),
-						A5($author$project$Main$botonEntregable, '6.E', 'Resolución de problemas', $author$project$Styles$rojo, 17, model.hovered)
+						A6(
+						$author$project$Main$botonEntregable,
+						'6.D',
+						'Uso responsable',
+						$elm$core$Maybe$Just('doc'),
+						$author$project$Styles$rojo,
+						16,
+						model.hovered),
+						A6(
+						$author$project$Main$botonEntregable,
+						'6.E',
+						'Resolución de problemas',
+						$elm$core$Maybe$Just('doc'),
+						$author$project$Styles$rojo,
+						17,
+						model.hovered)
 					]))
 			]));
 };
@@ -12705,7 +12942,7 @@ var $author$project$Main$evaluacionPrevia = function (model) {
 						$author$project$Styles$montserratBold,
 						$mdgriffith$elm_ui$Element$text('Evaluación previa sobre un tema'))
 					])),
-				A5($author$project$Main$botonEntregable, '4.A', 'Evaluación previa', $author$project$Styles$limon, 6, model.hovered)
+				A6($author$project$Main$botonEntregable, '4.A', 'Evaluación previa', $elm$core$Maybe$Nothing, $author$project$Styles$limon, 6, model.hovered)
 			]));
 };
 var $author$project$Main$evaluacionYRetroalimentacion = function (model) {
@@ -12742,8 +12979,8 @@ var $author$project$Main$evaluacionYRetroalimentacion = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A5($author$project$Main$botonEntregable, '4.B', 'Formativa', $author$project$Styles$limon, 18, model.hovered),
-						A5($author$project$Main$botonEntregable, '4.C', 'Retroalimentación', $author$project$Styles$limon, 19, model.hovered)
+						A6($author$project$Main$botonEntregable, '4.B', 'Formativa', $elm$core$Maybe$Nothing, $author$project$Styles$limon, 18, model.hovered),
+						A6($author$project$Main$botonEntregable, '4.C', 'Retroalimentación', $elm$core$Maybe$Nothing, $author$project$Styles$limon, 19, model.hovered)
 					]))
 			]));
 };
@@ -12843,14 +13080,33 @@ var $author$project$Main$contextoColaborativo = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A5($author$project$Main$botonEntregable, '1.A', 'Comunicación', $author$project$Styles$naranja, 1, model.hovered),
-						A5($author$project$Main$botonEntregable, '1.B', 'Trabajo en equipo', $author$project$Styles$naranja, 2, model.hovered),
-						A5($author$project$Main$botonEntregable, '1.C', 'Netiqueta', $author$project$Styles$naranja, 3, model.hovered)
+						A6(
+						$author$project$Main$botonEntregable,
+						'1.A',
+						'Comunicación',
+						$elm$core$Maybe$Just('captura'),
+						$author$project$Styles$naranja,
+						1,
+						model.hovered),
+						A6(
+						$author$project$Main$botonEntregable,
+						'1.B',
+						'Trabajo en equipo',
+						$elm$core$Maybe$Just('captura'),
+						$author$project$Styles$naranja,
+						2,
+						model.hovered),
+						A6(
+						$author$project$Main$botonEntregable,
+						'1.C',
+						'Netiqueta',
+						$elm$core$Maybe$Just('infografia'),
+						$author$project$Styles$naranja,
+						3,
+						model.hovered)
 					]))
 			]));
 };
-var $mdgriffith$elm_ui$Internal$Model$Right = {$: 'Right'};
-var $mdgriffith$elm_ui$Element$alignRight = $mdgriffith$elm_ui$Internal$Model$AlignX($mdgriffith$elm_ui$Internal$Model$Right);
 var $mdgriffith$elm_ui$Element$Font$alignRight = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontAlignment, $mdgriffith$elm_ui$Internal$Style$classes.textRight);
 var $author$project$Main$ensenanzaAprendizaje = function (model) {
 	return A2(
@@ -12889,8 +13145,8 @@ var $author$project$Main$ensenanzaAprendizaje = function (model) {
 					]),
 				_List_fromArray(
 					[
-						A5($author$project$Main$botonEntregable, '3.A', 'Contexto colaborativo del alumnado', $author$project$Styles$azul, 4, model.hovered),
-						A5($author$project$Main$botonEntregable, '3.B', 'Recursos', $author$project$Styles$azul, 5, model.hovered)
+						A6($author$project$Main$botonEntregable, '3.A', 'Contexto colaborativo del alumnado', $elm$core$Maybe$Nothing, $author$project$Styles$azul, 4, model.hovered),
+						A6($author$project$Main$botonEntregable, '3.B', 'Recursos', $elm$core$Maybe$Nothing, $author$project$Styles$azul, 5, model.hovered)
 					]))
 			]));
 };
@@ -12904,7 +13160,7 @@ var $author$project$Main$mainSection = function (model) {
 					$mdgriffith$elm_ui$Element$centerX,
 					$mdgriffith$elm_ui$Element$centerY,
 					$mdgriffith$elm_ui$Element$width(
-					A2($mdgriffith$elm_ui$Element$maximum, 1100, $mdgriffith$elm_ui$Element$fill)),
+					A2($mdgriffith$elm_ui$Element$maximum, 1200, $mdgriffith$elm_ui$Element$fill)),
 					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink)
 				])),
 		_List_fromArray(
@@ -12928,61 +13184,10 @@ var $author$project$Main$contenido = function (model) {
 			[
 				$author$project$Main$aside(model),
 				$author$project$Main$mainSection(model),
-				$author$project$Main$asideEvidencias(model)
+				$author$project$Main$asideEvidencias
 			]));
 };
 var $author$project$Styles$blanco = A3($mdgriffith$elm_ui$Element$rgb255, 256, 256, 256);
-var $elm$html$Html$Attributes$alt = $elm$html$Html$Attributes$stringProperty('alt');
-var $elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
-};
-var $mdgriffith$elm_ui$Element$image = F2(
-	function (attrs, _v0) {
-		var src = _v0.src;
-		var description = _v0.description;
-		var imageAttributes = A2(
-			$elm$core$List$filter,
-			function (a) {
-				switch (a.$) {
-					case 'Width':
-						return true;
-					case 'Height':
-						return true;
-					default:
-						return false;
-				}
-			},
-			attrs);
-		return A4(
-			$mdgriffith$elm_ui$Internal$Model$element,
-			$mdgriffith$elm_ui$Internal$Model$asEl,
-			$mdgriffith$elm_ui$Internal$Model$div,
-			A2(
-				$elm$core$List$cons,
-				$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.imageContainer),
-				attrs),
-			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
-				_List_fromArray(
-					[
-						A4(
-						$mdgriffith$elm_ui$Internal$Model$element,
-						$mdgriffith$elm_ui$Internal$Model$asEl,
-						$mdgriffith$elm_ui$Internal$Model$NodeName('img'),
-						_Utils_ap(
-							_List_fromArray(
-								[
-									$mdgriffith$elm_ui$Internal$Model$Attr(
-									$elm$html$Html$Attributes$src(src)),
-									$mdgriffith$elm_ui$Internal$Model$Attr(
-									$elm$html$Html$Attributes$alt(description))
-								]),
-							imageAttributes),
-						$mdgriffith$elm_ui$Internal$Model$Unkeyed(_List_Nil))
-					])));
-	});
 var $mdgriffith$elm_ui$Element$spaceEvenly = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$spacing, $mdgriffith$elm_ui$Internal$Style$classes.spaceEvenly);
 var $author$project$Main$footer = A2(
 	$mdgriffith$elm_ui$Element$column,
@@ -13279,50 +13484,6 @@ var $author$project$Main$headerHtml = A2(
 		]),
 	_List_fromArray(
 		[$author$project$Main$encabezadoFijado]));
-var $mdgriffith$elm_ui$Internal$Model$MoveY = function (a) {
-	return {$: 'MoveY', a: a};
-};
-var $mdgriffith$elm_ui$Internal$Flag$moveY = $mdgriffith$elm_ui$Internal$Flag$flag(26);
-var $mdgriffith$elm_ui$Element$moveDown = function (y) {
-	return A2(
-		$mdgriffith$elm_ui$Internal$Model$TransformComponent,
-		$mdgriffith$elm_ui$Internal$Flag$moveY,
-		$mdgriffith$elm_ui$Internal$Model$MoveY(y));
-};
-var $mdgriffith$elm_ui$Internal$Model$paddingName = F4(
-	function (top, right, bottom, left) {
-		return 'pad-' + ($elm$core$String$fromInt(top) + ('-' + ($elm$core$String$fromInt(right) + ('-' + ($elm$core$String$fromInt(bottom) + ('-' + $elm$core$String$fromInt(left)))))));
-	});
-var $mdgriffith$elm_ui$Element$paddingEach = function (_v0) {
-	var top = _v0.top;
-	var right = _v0.right;
-	var bottom = _v0.bottom;
-	var left = _v0.left;
-	if (_Utils_eq(top, right) && (_Utils_eq(top, bottom) && _Utils_eq(top, left))) {
-		var topFloat = top;
-		return A2(
-			$mdgriffith$elm_ui$Internal$Model$StyleClass,
-			$mdgriffith$elm_ui$Internal$Flag$padding,
-			A5(
-				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-				'p-' + $elm$core$String$fromInt(top),
-				topFloat,
-				topFloat,
-				topFloat,
-				topFloat));
-	} else {
-		return A2(
-			$mdgriffith$elm_ui$Internal$Model$StyleClass,
-			$mdgriffith$elm_ui$Internal$Flag$padding,
-			A5(
-				$mdgriffith$elm_ui$Internal$Model$PaddingStyle,
-				A4($mdgriffith$elm_ui$Internal$Model$paddingName, top, right, bottom, left),
-				top,
-				right,
-				bottom,
-				left));
-	}
-};
 var $author$project$Main$view = function (model) {
 	var _v0 = function () {
 		var _v1 = model.device;
