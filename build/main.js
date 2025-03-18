@@ -5198,6 +5198,7 @@ var $elm$core$Task$perform = F2(
 	});
 var $elm$browser$Browser$element = _Browser_element;
 var $elm$json$Json$Decode$field = _Json_decodeField;
+var $author$project$Main$Hidden = {$: 'Hidden'};
 var $mdgriffith$elm_ui$Element$BigDesktop = {$: 'BigDesktop'};
 var $mdgriffith$elm_ui$Element$Desktop = {$: 'Desktop'};
 var $mdgriffith$elm_ui$Element$Landscape = {$: 'Landscape'};
@@ -5224,6 +5225,8 @@ var $elm$core$Set$Set_elm_builtin = function (a) {
 var $elm$core$Dict$RBEmpty_elm_builtin = {$: 'RBEmpty_elm_builtin'};
 var $elm$core$Dict$empty = $elm$core$Dict$RBEmpty_elm_builtin;
 var $elm$core$Set$empty = $elm$core$Set$Set_elm_builtin($elm$core$Dict$empty);
+var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
+var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $elm$core$Platform$Cmd$batch = _Platform_batch;
 var $elm$core$Platform$Cmd$none = $elm$core$Platform$Cmd$batch(_List_Nil);
 var $author$project$Main$init = function (dimensions) {
@@ -5231,7 +5234,10 @@ var $author$project$Main$init = function (dimensions) {
 		{
 			device: $mdgriffith$elm_ui$Element$classifyDevice(dimensions),
 			dimensions: dimensions,
-			hovered: $elm$core$Set$empty
+			hovered: $elm$core$Set$empty,
+			modalTitle: '',
+			modalView: $mdgriffith$elm_ui$Element$none,
+			modalVisibility: $author$project$Main$Hidden
 		},
 		$elm$core$Platform$Cmd$none);
 };
@@ -5664,6 +5670,7 @@ var $author$project$Main$subscriptions = function (model) {
 					}))
 			]));
 };
+var $author$project$Main$Visible = {$: 'Visible'};
 var $elm$core$Set$insert = F2(
 	function (key, _v0) {
 		var dict = _v0.a;
@@ -6084,6 +6091,20 @@ var $author$project$Main$update = F2(
 					_Utils_update(
 						model,
 						{hovered: nuevos}),
+					$elm$core$Platform$Cmd$none);
+			case 'OpenModal':
+				var modalTitle = msg.a;
+				var modalView = msg.b;
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{modalTitle: modalTitle, modalView: modalView, modalVisibility: $author$project$Main$Visible}),
+					$elm$core$Platform$Cmd$none);
+			case 'CloseModal':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{modalView: $mdgriffith$elm_ui$Element$none, modalVisibility: $author$project$Main$Hidden}),
 					$elm$core$Platform$Cmd$none);
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
@@ -11622,6 +11643,10 @@ var $author$project$Main$HoverOffMany = function (a) {
 var $author$project$Main$HoverOnMany = function (a) {
 	return {$: 'HoverOnMany', a: a};
 };
+var $author$project$Main$OpenModal = F2(
+	function (a, b) {
+		return {$: 'OpenModal', a: a, b: b};
+	});
 var $mdgriffith$elm_ui$Internal$Model$Class = F2(
 	function (a, b) {
 		return {$: 'Class', a: a, b: b};
@@ -11833,21 +11858,21 @@ var $mdgriffith$elm_ui$Element$Font$size = function (i) {
 var $author$project$Styles$montserratBold = _List_fromArray(
 	[
 		$author$project$Styles$montserrat,
-		$mdgriffith$elm_ui$Element$Font$size(20),
+		$mdgriffith$elm_ui$Element$Font$size(18),
 		$mdgriffith$elm_ui$Element$Font$bold
 	]);
 var $mdgriffith$elm_ui$Element$Font$regular = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.textNormalWeight);
 var $author$project$Styles$montserratLight = _List_fromArray(
 	[
 		$author$project$Styles$montserrat,
-		$mdgriffith$elm_ui$Element$Font$size(16),
+		$mdgriffith$elm_ui$Element$Font$size(14),
 		$mdgriffith$elm_ui$Element$Font$regular
 	]);
 var $mdgriffith$elm_ui$Element$Font$semiBold = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$fontWeight, $mdgriffith$elm_ui$Internal$Style$classes.textSemiBold);
 var $author$project$Styles$montserratSemiBold = _List_fromArray(
 	[
 		$author$project$Styles$montserrat,
-		$mdgriffith$elm_ui$Element$Font$size(18),
+		$mdgriffith$elm_ui$Element$Font$size(16),
 		$mdgriffith$elm_ui$Element$Font$semiBold
 	]);
 var $author$project$Styles$negro = A3($mdgriffith$elm_ui$Element$rgb255, 0, 0, 0);
@@ -11867,6 +11892,13 @@ var $elm$html$Html$Events$on = F2(
 			event,
 			$elm$virtual_dom$VirtualDom$Normal(decoder));
 	});
+var $elm$html$Html$Events$onClick = function (msg) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'click',
+		$elm$json$Json$Decode$succeed(msg));
+};
+var $mdgriffith$elm_ui$Element$Events$onClick = A2($elm$core$Basics$composeL, $mdgriffith$elm_ui$Internal$Model$Attr, $elm$html$Html$Events$onClick);
 var $elm$html$Html$Events$onMouseEnter = function (msg) {
 	return A2(
 		$elm$html$Html$Events$on,
@@ -12060,6 +12092,11 @@ var $mdgriffith$elm_ui$Internal$Model$Text = function (a) {
 var $mdgriffith$elm_ui$Element$text = function (content) {
 	return $mdgriffith$elm_ui$Internal$Model$Text(content);
 };
+var $author$project$Entregables$Entregable1AComunicacion$title = '1.A Comunicación - Contexto colaborativo del equipo docente';
+var $author$project$Entregables$Entregable1AComunicacion$view = A2(
+	$mdgriffith$elm_ui$Element$el,
+	_List_Nil,
+	$mdgriffith$elm_ui$Element$text('SOME DATA'));
 var $mdgriffith$elm_ui$Internal$Model$BorderWidth = F5(
 	function (a, b, c, d, e) {
 		return {$: 'BorderWidth', a: a, b: b, c: c, d: d, e: e};
@@ -12113,7 +12150,9 @@ var $author$project$Main$botonCompetencia = F6(
 					$mdgriffith$elm_ui$Element$Events$onMouseEnter(
 					$author$project$Main$HoverOnMany(ids)),
 					$mdgriffith$elm_ui$Element$Events$onMouseLeave(
-					$author$project$Main$HoverOffMany(ids))
+					$author$project$Main$HoverOffMany(ids)),
+					$mdgriffith$elm_ui$Element$Events$onClick(
+					A2($author$project$Main$OpenModal, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view))
 				]),
 			_List_fromArray(
 				[
@@ -12217,7 +12256,7 @@ var $author$project$Main$aside = function (model) {
 				$mdgriffith$elm_ui$Element$centerY,
 				$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
 				$mdgriffith$elm_ui$Element$width(
-				A2($mdgriffith$elm_ui$Element$maximum, 500, $mdgriffith$elm_ui$Element$fill)),
+				A2($mdgriffith$elm_ui$Element$maximum, 340, $mdgriffith$elm_ui$Element$fill)),
 				$mdgriffith$elm_ui$Element$padding(25),
 				$mdgriffith$elm_ui$Element$spacing(40)
 			]),
@@ -12306,7 +12345,7 @@ var $mdgriffith$elm_ui$Element$alignRight = $mdgriffith$elm_ui$Internal$Model$Al
 var $author$project$Styles$montserratSemi = _List_fromArray(
 	[
 		$author$project$Styles$montserrat,
-		$mdgriffith$elm_ui$Element$Font$size(16),
+		$mdgriffith$elm_ui$Element$Font$size(14),
 		$mdgriffith$elm_ui$Element$Font$semiBold
 	]);
 var $author$project$Main$asideEvidencias = function () {
@@ -12322,7 +12361,7 @@ var $author$project$Main$asideEvidencias = function () {
 				$mdgriffith$elm_ui$Element$centerY,
 				$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
 				$mdgriffith$elm_ui$Element$width(
-				A2($mdgriffith$elm_ui$Element$maximum, 300, $mdgriffith$elm_ui$Element$fill)),
+				A2($mdgriffith$elm_ui$Element$maximum, 270, $mdgriffith$elm_ui$Element$fill)),
 				$mdgriffith$elm_ui$Element$padding(25),
 				$mdgriffith$elm_ui$Element$spacing(40)
 			]),
@@ -12438,8 +12477,6 @@ var $mdgriffith$elm_ui$Element$moveRight = function (x) {
 		$mdgriffith$elm_ui$Internal$Flag$moveX,
 		$mdgriffith$elm_ui$Internal$Model$MoveX(x));
 };
-var $mdgriffith$elm_ui$Internal$Model$Empty = {$: 'Empty'};
-var $mdgriffith$elm_ui$Element$none = $mdgriffith$elm_ui$Internal$Model$Empty;
 var $mdgriffith$elm_ui$Internal$Model$paddingName = F4(
 	function (top, right, bottom, left) {
 		return 'pad-' + ($elm$core$String$fromInt(top) + ('-' + ($elm$core$String$fromInt(right) + ('-' + ($elm$core$String$fromInt(bottom) + ('-' + $elm$core$String$fromInt(left)))))));
@@ -12523,7 +12560,9 @@ var $author$project$Main$botonEntregable = F6(
 							$author$project$Main$HoverOn(id)),
 							$mdgriffith$elm_ui$Element$Events$onMouseLeave(
 							$author$project$Main$HoverOff(id)),
-							$mdgriffith$elm_ui$Element$inFront(iconoEvidencia)
+							$mdgriffith$elm_ui$Element$inFront(iconoEvidencia),
+							$mdgriffith$elm_ui$Element$Events$onClick(
+							A2($author$project$Main$OpenModal, $author$project$Entregables$Entregable1AComunicacion$title, $author$project$Entregables$Entregable1AComunicacion$view))
 						]))),
 			_List_fromArray(
 				[
@@ -13160,7 +13199,7 @@ var $author$project$Main$mainSection = function (model) {
 					$mdgriffith$elm_ui$Element$centerX,
 					$mdgriffith$elm_ui$Element$centerY,
 					$mdgriffith$elm_ui$Element$width(
-					A2($mdgriffith$elm_ui$Element$maximum, 1200, $mdgriffith$elm_ui$Element$fill)),
+					A2($mdgriffith$elm_ui$Element$maximum, 1100, $mdgriffith$elm_ui$Element$fill)),
 					$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink)
 				])),
 		_List_fromArray(
@@ -13177,7 +13216,7 @@ var $author$project$Main$contenido = function (model) {
 			[
 				$mdgriffith$elm_ui$Element$centerX,
 				$mdgriffith$elm_ui$Element$centerY,
-				$mdgriffith$elm_ui$Element$spacing(30),
+				$mdgriffith$elm_ui$Element$spacing(40),
 				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
 			]),
 		_List_fromArray(
@@ -13188,7 +13227,45 @@ var $author$project$Main$contenido = function (model) {
 			]));
 };
 var $author$project$Styles$blanco = A3($mdgriffith$elm_ui$Element$rgb255, 256, 256, 256);
+var $elm$html$Html$Attributes$href = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'href',
+		_VirtualDom_noJavaScriptUri(url));
+};
+var $elm$html$Html$Attributes$rel = _VirtualDom_attribute('rel');
+var $mdgriffith$elm_ui$Element$link = F2(
+	function (attrs, _v0) {
+		var url = _v0.url;
+		var label = _v0.label;
+		return A4(
+			$mdgriffith$elm_ui$Internal$Model$element,
+			$mdgriffith$elm_ui$Internal$Model$asEl,
+			$mdgriffith$elm_ui$Internal$Model$NodeName('a'),
+			A2(
+				$elm$core$List$cons,
+				$mdgriffith$elm_ui$Internal$Model$Attr(
+					$elm$html$Html$Attributes$href(url)),
+				A2(
+					$elm$core$List$cons,
+					$mdgriffith$elm_ui$Internal$Model$Attr(
+						$elm$html$Html$Attributes$rel('noopener noreferrer')),
+					A2(
+						$elm$core$List$cons,
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$shrink),
+						A2(
+							$elm$core$List$cons,
+							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$shrink),
+							A2(
+								$elm$core$List$cons,
+								$mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.contentCenterX + (' ' + ($mdgriffith$elm_ui$Internal$Style$classes.contentCenterY + (' ' + $mdgriffith$elm_ui$Internal$Style$classes.link)))),
+								attrs))))),
+			$mdgriffith$elm_ui$Internal$Model$Unkeyed(
+				_List_fromArray(
+					[label])));
+	});
 var $mdgriffith$elm_ui$Element$spaceEvenly = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$spacing, $mdgriffith$elm_ui$Internal$Style$classes.spaceEvenly);
+var $mdgriffith$elm_ui$Element$Font$underline = $mdgriffith$elm_ui$Internal$Model$htmlClass($mdgriffith$elm_ui$Internal$Style$classes.underline);
 var $author$project$Main$footer = A2(
 	$mdgriffith$elm_ui$Element$column,
 	_List_fromArray(
@@ -13213,7 +13290,7 @@ var $author$project$Main$footer = A2(
 					])),
 			$mdgriffith$elm_ui$Element$text('B1 Competencia digital del profesorado')),
 			A2(
-			$mdgriffith$elm_ui$Element$el,
+			$mdgriffith$elm_ui$Element$row,
 			_Utils_ap(
 				$author$project$Styles$montserratLight,
 				_List_fromArray(
@@ -13221,17 +13298,54 @@ var $author$project$Main$footer = A2(
 						$mdgriffith$elm_ui$Element$Font$color($author$project$Styles$blanco),
 						$mdgriffith$elm_ui$Element$centerX
 					])),
-			$mdgriffith$elm_ui$Element$text('Mikel Dalmau')),
-			A2(
-			$mdgriffith$elm_ui$Element$image,
 			_List_fromArray(
 				[
+					$mdgriffith$elm_ui$Element$text('Mikel Dalmau '),
+					$mdgriffith$elm_ui$Element$text(' - '),
+					A2(
+					$mdgriffith$elm_ui$Element$link,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$Font$underline,
+							$mdgriffith$elm_ui$Element$padding(5)
+						]),
+					{
+						label: $mdgriffith$elm_ui$Element$text('Código fuente de esta web'),
+						url: 'https://github.com/mikeldalmauc/b1portfolio'
+					}),
+					$mdgriffith$elm_ui$Element$text(' - '),
+					A2(
+					$mdgriffith$elm_ui$Element$link,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$Font$underline,
+							$mdgriffith$elm_ui$Element$padding(5)
+						]),
+					{
+						label: $mdgriffith$elm_ui$Element$text('mikeldalmau.com'),
+						url: 'https://mikeldalmau.com'
+					})
+				])),
+			A2(
+			$mdgriffith$elm_ui$Element$link,
+			_List_fromArray(
+				[
+					$mdgriffith$elm_ui$Element$Font$underline,
+					$mdgriffith$elm_ui$Element$padding(5),
 					$mdgriffith$elm_ui$Element$centerX,
-					A2($mdgriffith$elm_ui$Element$paddingXY, 20, 0),
-					$mdgriffith$elm_ui$Element$height(
-					$mdgriffith$elm_ui$Element$px(50))
+					A2($mdgriffith$elm_ui$Element$paddingXY, 20, 0)
 				]),
-			{description: 'Creative Commons, Non comercial, Share Alike', src: '/assets/CC.webp'})
+			{
+				label: A2(
+					$mdgriffith$elm_ui$Element$image,
+					_List_fromArray(
+						[
+							$mdgriffith$elm_ui$Element$height(
+							$mdgriffith$elm_ui$Element$px(50))
+						]),
+					{description: 'Creative Commons, Non comercial, Share Alike', src: '/assets/CC.webp'}),
+				url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1'
+			})
 		]));
 var $mdgriffith$elm_ui$Internal$Model$OnlyDynamic = F2(
 	function (a, b) {
@@ -13445,7 +13559,7 @@ var $mdgriffith$elm_ui$Element$Font$extraBold = A2($mdgriffith$elm_ui$Internal$M
 var $author$project$Styles$montserratTitulo = _List_fromArray(
 	[
 		$author$project$Styles$montserrat,
-		$mdgriffith$elm_ui$Element$Font$size(32),
+		$mdgriffith$elm_ui$Element$Font$size(30),
 		$mdgriffith$elm_ui$Element$Font$extraBold
 	]);
 var $author$project$Main$encabezadoFijado = A2(
@@ -13484,7 +13598,149 @@ var $author$project$Main$headerHtml = A2(
 		]),
 	_List_fromArray(
 		[$author$project$Main$encabezadoFijado]));
+var $author$project$Main$CloseModal = {$: 'CloseModal'};
+var $author$project$Main$NoOp = {$: 'NoOp'};
+var $elm$svg$Svg$Attributes$d = _VirtualDom_attribute('d');
+var $elm$svg$Svg$path = $elm$svg$Svg$trustedNode('path');
+var $author$project$Styles$closeButtonSvg = function (color) {
+	return A2(
+		$elm$svg$Svg$svg,
+		_List_fromArray(
+			[
+				$elm$svg$Svg$Attributes$width('50'),
+				$elm$svg$Svg$Attributes$height('50'),
+				$elm$svg$Svg$Attributes$viewBox('0 0 24 24'),
+				$elm$svg$Svg$Attributes$fill(color)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$svg$Svg$path,
+				_List_fromArray(
+					[
+						$elm$svg$Svg$Attributes$d('M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z'),
+						$elm$svg$Svg$Attributes$fill(color),
+						$elm$svg$Svg$Attributes$fillRule('evenodd'),
+						$elm$svg$Svg$Attributes$clipRule('evenodd')
+					]),
+				_List_Nil)
+			]));
+};
+var $author$project$Styles$negroHex = '#000000';
+var $author$project$Styles$closeButton = function (attrs) {
+	return A2(
+		$mdgriffith$elm_ui$Element$el,
+		attrs,
+		$mdgriffith$elm_ui$Element$html(
+			$author$project$Styles$closeButtonSvg($author$project$Styles$negroHex)));
+};
+var $mdgriffith$elm_ui$Internal$Flag$overflow = $mdgriffith$elm_ui$Internal$Flag$flag(20);
+var $mdgriffith$elm_ui$Element$scrollbars = A2($mdgriffith$elm_ui$Internal$Model$Class, $mdgriffith$elm_ui$Internal$Flag$overflow, $mdgriffith$elm_ui$Internal$Style$classes.scrollbars);
+var $author$project$Main$modalViewFun = function (model) {
+	return A2(
+		$mdgriffith$elm_ui$Element$column,
+		_List_fromArray(
+			[
+				$mdgriffith$elm_ui$Element$scrollbars,
+				$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+				$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+				$mdgriffith$elm_ui$Element$Border$rounded(8),
+				$mdgriffith$elm_ui$Element$Background$color($author$project$Styles$blanco),
+				$mdgriffith$elm_ui$Element$padding(20)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$mdgriffith$elm_ui$Element$row,
+				_List_fromArray(
+					[
+						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill)
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$el,
+						$author$project$Styles$montserratBold,
+						$mdgriffith$elm_ui$Element$text(model.modalTitle)),
+						$author$project$Styles$closeButton(
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$alignRight,
+								$mdgriffith$elm_ui$Element$Events$onClick($author$project$Main$CloseModal)
+							]))
+					])),
+				model.modalView
+			]));
+};
+var $elm$virtual_dom$VirtualDom$MayStopPropagation = function (a) {
+	return {$: 'MayStopPropagation', a: a};
+};
+var $elm$html$Html$Events$stopPropagationOn = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$MayStopPropagation(decoder));
+	});
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Main$viewOverlay = function (model) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$style, 'position', 'fixed'),
+				A2($elm$html$Html$Attributes$style, 'top', '0'),
+				A2($elm$html$Html$Attributes$style, 'left', '0'),
+				A2($elm$html$Html$Attributes$style, 'width', '100%'),
+				A2($elm$html$Html$Attributes$style, 'height', '100%'),
+				A2($elm$html$Html$Attributes$style, 'background-color', 'rgba(0,0,0,0.4)'),
+				A2($elm$html$Html$Attributes$style, 'z-index', '9999'),
+				$elm$html$Html$Events$onClick($author$project$Main$CloseModal)
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						A2($elm$html$Html$Attributes$style, 'position', 'absolute'),
+						A2($elm$html$Html$Attributes$style, 'top', '50%'),
+						A2($elm$html$Html$Attributes$style, 'left', '50%'),
+						A2($elm$html$Html$Attributes$style, 'transform', 'translate(-50%, -50%)'),
+						A2($elm$html$Html$Attributes$style, 'background-color', 'white'),
+						A2($elm$html$Html$Attributes$style, 'border-radius', '8px'),
+						A2($elm$html$Html$Attributes$style, 'box-shadow', '0 4px 6px rgba(0,0,0,0.3)'),
+						A2($elm$html$Html$Attributes$style, 'width', '70%'),
+						A2($elm$html$Html$Attributes$style, 'max-width', '80%'),
+						A2($elm$html$Html$Attributes$style, 'padding', '20px'),
+						A2(
+						$elm$html$Html$Events$stopPropagationOn,
+						'click',
+						$elm$json$Json$Decode$succeed(
+							_Utils_Tuple2($author$project$Main$NoOp, true)))
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$mdgriffith$elm_ui$Element$layout,
+						_List_Nil,
+						$author$project$Main$modalViewFun(model))
+					]))
+			]));
+};
 var $author$project$Main$view = function (model) {
+	var modal = function () {
+		var _v2 = model.modalVisibility;
+		if (_v2.$ === 'Hidden') {
+			return _List_Nil;
+		} else {
+			return _List_fromArray(
+				[
+					$author$project$Main$viewOverlay(model)
+				]);
+		}
+	}();
 	var _v0 = function () {
 		var _v1 = model.device;
 		var _class = _v1._class;
@@ -13499,43 +13755,47 @@ var $author$project$Main$view = function (model) {
 			[
 				$elm$html$Html$Attributes$class('main-container')
 			]),
-		_List_fromArray(
-			[
-				$author$project$Main$headerHtml,
-				A2(
-				$mdgriffith$elm_ui$Element$layout,
+		_Utils_ap(
+			_List_fromArray(
+				[$author$project$Main$headerHtml]),
+			_Utils_ap(
+				modal,
 				_List_fromArray(
 					[
-						$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-						$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
-						$mdgriffith$elm_ui$Element$centerX,
-						$mdgriffith$elm_ui$Element$centerY,
-						$mdgriffith$elm_ui$Element$moveDown(150)
-					]),
-				A2(
-					$mdgriffith$elm_ui$Element$column,
-					_List_fromArray(
-						[
-							$mdgriffith$elm_ui$Element$centerX,
-							$mdgriffith$elm_ui$Element$centerY,
-							$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-							$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$mdgriffith$elm_ui$Element$el,
+						A2(
+						$mdgriffith$elm_ui$Element$layout,
+						_List_fromArray(
+							[
+								$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+								$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+								$mdgriffith$elm_ui$Element$centerX,
+								$mdgriffith$elm_ui$Element$centerY,
+								$mdgriffith$elm_ui$Element$moveDown(150)
+							]),
+						A2(
+							$mdgriffith$elm_ui$Element$column,
 							_List_fromArray(
 								[
+									$mdgriffith$elm_ui$Element$centerX,
+									$mdgriffith$elm_ui$Element$centerY,
 									$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
-									$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
-									$mdgriffith$elm_ui$Element$paddingEach(
-									{bottom: 80, left: 20, right: 20, top: 20})
+									$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill)
 								]),
-							$author$project$Main$contenido(model)),
-							$author$project$Main$footer
-						])))
-			]));
+							_List_fromArray(
+								[
+									A2(
+									$mdgriffith$elm_ui$Element$el,
+									_List_fromArray(
+										[
+											$mdgriffith$elm_ui$Element$width($mdgriffith$elm_ui$Element$fill),
+											$mdgriffith$elm_ui$Element$height($mdgriffith$elm_ui$Element$fill),
+											$mdgriffith$elm_ui$Element$paddingEach(
+											{bottom: 80, left: 20, right: 20, top: 20})
+										]),
+									$author$project$Main$contenido(model)),
+									$author$project$Main$footer
+								])))
+					]))));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
 	{init: $author$project$Main$init, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
