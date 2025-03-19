@@ -26,7 +26,7 @@ import Element.Events as Events
 import Styles exposing (..)
 
 import Dict exposing (Dict)
-
+import Task
 import Entregables.Entregable1AComunicacion as E1A
 
 -- MAIN
@@ -156,6 +156,7 @@ type Msg
   | HoverOff Int
   | HoverOnMany (List Int)
   | HoverOffMany (List Int)
+  | HoverOffAll
   | OpenModal String (Element Msg)
   | CloseModal
 
@@ -175,6 +176,11 @@ update msg model =
 
     HoverOff id ->
         ( { model | hovered = Set.remove id model.hovered }
+        , Cmd.none
+        )
+
+    HoverOffAll ->
+        ( { model | hovered = Set.empty}
         , Cmd.none
         )
 
@@ -200,7 +206,7 @@ update msg model =
 
 
     CloseModal ->
-       ( { model | modalVisibility = Hidden, modalView = none }, Cmd.none)
+       ( { model | modalVisibility = Hidden, modalView = none}, Task.succeed HoverOffAll |> Task.perform identity)
 
 
     _ ->
