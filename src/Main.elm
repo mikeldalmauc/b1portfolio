@@ -329,7 +329,7 @@ encabezadoFijado =
             ( montserratTitulo
             ) 
             (text "B1 Competencia digital del profesorado")
-        , image [alignRight, paddingXY 20 0, height (px 50)] {src = "/assets/favicon.svg", description = "Logo de Mikel"}
+        , image [alignRight, paddingXY 20 0, height (px 50)] {src = "assets/favicon.svg", description = "Logo de Mikel"}
         ]
 
 
@@ -352,7 +352,7 @@ footer =
 
     , link [Font.underline, padding 5, centerX, paddingXY 20 0] 
         { url = "https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1"
-        , label = image [height (px 50)] {src = "/assets/CC.webp", description = "Creative Commons, Non comercial, Share Alike"
+        , label = image [height (px 50)] {src = "assets/CC.webp", description = "Creative Commons, Non comercial, Share Alike"
         }}
     ]
 
@@ -404,7 +404,7 @@ asideEvidencias =
                         [ el montserratSemi
                             (text texto)
                         ]
-                    , image [height (px 60)] {src = "/assets/" ++ icono ++ ".webp", description = texto}
+                    , image [height (px 60)] {src = "assets/" ++ icono ++ ".webp", description = texto}
                     ]) iconos textos
             ]
 
@@ -590,7 +590,7 @@ botonEntregable entregable color id hovered=
             ([], "none")
     
     iconoEvidencia = case entregable.tipoEvidencia of 
-        Just icono  -> image [height (px 40), alignRight, moveRight 20, moveDown 20, htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "/assets/" ++ icono ++ ".webp", description = "icono de evidencia"}
+        Just icono  -> image [height (px 40), alignRight, moveRight 20, moveDown 20, htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "assets/" ++ icono ++ ".webp", description = "icono de evidencia"}
         Nothing -> none
   in
     row (borderStyle ++ shadowStyle ++
@@ -633,7 +633,7 @@ botonCompetencia entregable entrega color ids hovered=
             [ paragraph (montserratSemiBold ++ [ Font.color color, Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer color factor}]) [text entregable.descripcionEntregable]
             , paragraph (montserratLight ++ [ Font.shadow { offset = ( 0.5, 0.5 ), blur = 0, color = oscurecer grisclaro factor}]) [text entrega]
             ]
-        , image [height (px 50), htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "/assets/" ++ "video" ++ ".webp", description = "icono de video"}
+        , image [height (px 50), htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "assets/" ++ "video" ++ ".webp", description = "icono de video"}
         ]
 
 

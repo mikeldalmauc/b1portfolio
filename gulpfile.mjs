@@ -4,11 +4,13 @@ import { deleteAsync } from 'del';
 import gulpElm from 'gulp-elm';
 import uglify from 'gulp-uglify';
 import rename from 'gulp-rename';
+import debug from 'gulp-debug';
+import { copy } from 'fs-extra';
 
 // Rutas de archivos
 const paths = {
   elm: 'src/Main.elm',
-  assets: 'assets/**',
+  assets: 'assets/**/*.{png,jpg,jpeg,svg,webp}',
   html: 'index.html',
   robots: 'robots.txt',
   sitemap: 'sitemap.xml',
@@ -42,9 +44,16 @@ function elmTask() {
 
 
 // Copia los assets a la carpeta de build
-function assetsTask() {
-  return src(paths.assets)
-    .pipe(dest(`${paths.output}/assets`));
+// function assetsTask() {
+//   return src(paths.assets, { allowEmpty: true })
+//     //.pipe(debug({ title: 'Procesando:' }))
+//     .pipe(dest(`${paths.output}/assets`));
+// }
+
+function assetsTask(cb) {
+  copy('assets', 'build/assets')
+    .then(() => cb())
+    .catch(err => cb(err));
 }
 
 // Copia el HTML
@@ -68,7 +77,7 @@ function sitemapTask() {
 // Construye todo en paralelo (tras limpiar la carpeta)
 const build = series(
   clean,
-  parallel( elmTask, assetsTask, htmlTask, robotsTask, sitemapTask)
+  parallel(elmTask, assetsTask, htmlTask, robotsTask, sitemapTask)
 );
 
 // (Opcional) Tarea para vigilar archivos y recompilar al vuelo
