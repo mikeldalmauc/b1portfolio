@@ -3,7 +3,7 @@ name: Deploy to S3
 on:
   push:
     branches:
-      - master  # O 'main' si esa es tu rama principal
+      - main  # O 'master' si esa es tu rama principal
 
 jobs:
   build-and-deploy:
