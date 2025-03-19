@@ -322,7 +322,7 @@ headerHtml =
 
 encabezadoFijado : Html Msg
 encabezadoFijado =
-    layout [Background.color blanco]
+    layout [Background.color blanco] 
         <| 
         row [centerY, paddingXY 20 0, width fill]
         [el 
@@ -343,11 +343,13 @@ footer =
     , row 
         ( montserratLight ++ [Font.color blanco, centerX]
         ) 
-        [ text "Mikel Dalmau "
-        , text " - "
-        , link [Font.underline, padding 5] { url = "https://github.com/mikeldalmauc/b1portfolio", label = text "Código fuente de esta web"}
-        , text " - "
-        , link [Font.underline, padding 5] { url = "https://mikeldalmau.com", label = text "mikeldalmau.com"}
+        [ paragraph [Font.center]
+          [text "Mikel Dalmau "
+          , text " - "
+          , link [Font.underline, padding 5] { url = "https://github.com/mikeldalmauc/b1portfolio", label = text "Código fuente de esta web"}
+          , text " - "
+          , link [Font.underline, padding 5] { url = "https://mikeldalmau.com", label = text "mikeldalmau.com"}
+          ]
         ]
 
     , link [Font.underline, padding 5, centerX, paddingXY 20 0] 
@@ -367,7 +369,9 @@ contenido model =
 aside : Model -> Element Msg
 aside model = 
   column 
-    ([centerX, centerY, height fill, width (fill |> maximum 340), padding 25, spacing 40])
+    ([centerX, centerY, height fill
+    , width (fill |> maximum 340)
+    , padding 25, spacing 40])
     [paragraph [Font.center]
       [ el montserratBold
         (text "Ámbitos de competencia")
@@ -391,7 +395,9 @@ asideEvidencias =
         textos = [ "Captura de pantalla y texto", "Documento", "Infografía", "Audio", "Contenido", "Video"]
     in
         column 
-            ([centerX, centerY, height fill, width (fill |> maximum 270), padding 25, spacing 40])
+            ([centerX, centerY, height fill
+            , width (fill |> maximum 270)
+            , padding 25, spacing 40])
             [paragraph [Font.center]
             [ el montserratBold
                 (text "Formatos de Evidencia")
