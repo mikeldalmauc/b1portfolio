@@ -223,29 +223,56 @@ view model =
         case model.device of
             { class, orientation} -> (class, orientation)
 
+
+  in
+    case deviceClass of
+        Phone -> phoneView model
+        Tablet -> desktopView model
+        Desktop -> desktopView model
+        BigDesktop -> desktopView model
+
+phoneView : Model -> Html Msg
+phoneView model =  
+  let  
+    sideFiller = [ el [width (fillPortion 1), height fill] none]
+  in
+    layout 
+    [ width fill, height fill, centerX, centerY]
+    <| row [centerX, centerY, width fill, height fill]
+    <|  sideFiller
+        ++ [ column [centerX, centerY, width (fillPortion 10), height fill, spacing 10]
+        <| List.indexedMap (\i (k, e) -> botonEntregable e naranja i model.hovered) 
+        <| Dict.toList entregables
+        ]
+        ++ sideFiller
+
+desktopView : Model -> Html Msg
+desktopView model = 
+  let 
     modal = 
         case model.modalVisibility of
             Hidden ->
                 []   
             Visible ->
                 [ viewOverlay model]
+
   in
     Html.div [HtmlAttributes.class "main-container"]
-    <| 
-    [ headerHtml ]
-    ++ modal
-    ++ [ layout 
-        [ width fill, height fill, centerX, centerY, moveDown 150
-    --,  behindContent <| infoDebug model -- TODO hide maybeÇ
-        --, Background.color white
-        ]
-        <| column 
-            [centerX, centerY, width fill, height fill]
-            [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20}]
-                (contenido model)
-            , footer 
-            ]  
-    ]
+      <| 
+      [ headerHtml ]
+      ++ modal
+      ++ [ layout 
+          [ width fill, height fill, centerX, centerY, moveDown 150
+      --,  behindContent <| infoDebug model -- TODO hide maybeÇ
+          --, Background.color white
+          ]
+          <| column 
+              [centerX, centerY, width fill, height fill]
+              [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20}]
+                  (contenido model)
+              , footer 
+              ]  
+      ]
 
 viewOverlay : Model -> Html Msg
 viewOverlay model =
