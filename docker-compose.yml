@@ -7,7 +7,8 @@ services:
       - CHOKIDAR_INTERVAL=100
     volumes:
       - .:/app
+      - /app/node_modules  # Evita sobrescribir node_modules del contenedor
     ports:
       - "8000:8000"
-    command: ["elm-live", "src/Main.elm", "--open", "--start-page=build/index.html", "--host=0.0.0.0", "--", "--output=build/main.js" ]
+    command: ["elm-live", "src/Main.elm", "--open", "--start-page=index.html", "--host=0.0.0.0", "--", "--output=main.min.js" ]
     

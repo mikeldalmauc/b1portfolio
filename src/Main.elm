@@ -631,17 +631,17 @@ botonCompetencia entregable entrega color ids hovered=
         ]
 
 
-infoDebug : Model -> Element msg
-infoDebug model =
-    column 
-        [ width fill, height fill, Font.size 11, padding 10]
-        [ 
-        --  text <| "wheel Delta Y: " ++ fromFloat model.wheelModel.deltaY
-      --  , text <| "wheel Delta X: " ++ fromFloat model.wheelModel.deltaX
-       -- , text <| "tab: " ++ fromInt model.tab
-        --,
-         text <| "device: " ++ Debug.toString model.device
-         , text <| "dimensions: " ++ Debug.toString model.dimensions
-        -- , text <| "galleryTab1: " ++ Debug.toString model.galleryTab1
-        -- , text <| "gesture: " ++ Debug.toString model.gesture
-        ]
+-- infoDebug : Model -> Element msg
+-- infoDebug model =
+--     column 
+--         [ width fill, height fill, Font.size 11, padding 10]
+--         [ 
+--         --  text <| "wheel Delta Y: " ++ fromFloat model.wheelModel.deltaY
+--       --  , text <| "wheel Delta X: " ++ fromFloat model.wheelModel.deltaX
+--        -- , text <| "tab: " ++ fromInt model.tab
+--         --,
+--          text <| "device: " ++ Debug.toString model.device
+--          , text <| "dimensions: " ++ Debug.toString model.dimensions
+--         -- , text <| "galleryTab1: " ++ Debug.toString model.galleryTab1
+--         -- , text <| "gesture: " ++ Debug.toString model.gesture
+--         ]
