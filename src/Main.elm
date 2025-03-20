@@ -269,7 +269,7 @@ update msg model =
         )
 
     HoverOff id ->
-        ( { model | hovered = Set.remove id model.hovered }
+        ( { model | hovered = Set.remove id model.hovered  }
         , Cmd.none
         )
 
