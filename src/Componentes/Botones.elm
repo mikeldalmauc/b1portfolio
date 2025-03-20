@@ -14,6 +14,7 @@ import Element.Font as Font
 
 import Styles exposing (..)
 import Types exposing (..)
+import Route exposing (Route(..))
 
 
 botonEntregable : Entregable -> Int -> Set Int -> Element Msg
