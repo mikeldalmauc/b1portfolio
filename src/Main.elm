@@ -63,6 +63,7 @@ type alias Model =
   , modalView : Element Msg
   , modalTitle : String
   , entregables : Dict String Entregable
+  , sortOrder : SortOrder
   }
 
 
@@ -70,6 +71,7 @@ type ModalVisibilty
     = Visible
     | Hidden
 
+type SortOrder = Desc | Categories
 
 type alias Dimensions =
     { width : Int
@@ -124,6 +126,21 @@ entregables =
     ]
 
 
+colorFromCode : String -> Color
+colorFromCode code =
+    case (List.head <| String.toList code) of
+      Just c -> 
+        case c of 
+          '1' -> naranja
+          '2' -> turquesa
+          '3' -> azul
+          '4' -> limon
+          '5' -> chicle
+          '6' -> rojo
+          _ -> negro
+      Nothing -> negro
+
+
 getEntregable : String -> Dict String Entregable -> Entregable
 getEntregable key dict = 
     case Dict.get key dict of
@@ -141,6 +158,7 @@ init dimensions =
       , modalView = none
       , modalTitle = ""
       , entregables = entregables
+      , sortOrder = Categories
     }
     , Cmd.none
     )
@@ -159,6 +177,7 @@ type Msg
   | HoverOffAll
   | OpenModal String (Element Msg)
   | CloseModal
+  | SortEntregables SortOrder
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -208,7 +227,11 @@ update msg model =
     CloseModal ->
        ( { model | modalVisibility = Hidden, modalView = none}, Task.succeed HoverOffAll |> Task.perform identity)
 
-
+    SortEntregables sortOrder ->
+        ( { model | sortOrder = sortOrder }
+        , Cmd.none
+        )
+        
     _ ->
       (model, Cmd.none)
 
@@ -231,20 +254,49 @@ view model =
         Desktop -> desktopView model
         BigDesktop -> desktopView model
 
+-- PHONE VIEW
+
+
 phoneView : Model -> Html Msg
 phoneView model =  
   let  
-    sideFiller = [ el [width (fillPortion 1), height fill] none]
+    sideFiller =  el [width (fillPortion 1), height fill] none
   in
     layout 
-    [ width fill, height fill, centerX, centerY]
+    [ width fill, height fill, centerX, centerY, inFront <| phoneHeader model]
     <| row [centerX, centerY, width fill, height fill]
-    <|  sideFiller
-        ++ [ column [centerX, centerY, width (fillPortion 10), height fill, spacing 10]
-        <| List.indexedMap (\i (k, e) -> botonEntregable e naranja i model.hovered) 
-        <| Dict.toList entregables
+      <|  
+        [ sideFiller
+        , column [centerX, centerY, width (fillPortion 10), height fill, spacing 10, paddingEach {top = 80, bottom = 20, left = 0, right = 10}]
+          <| List.indexedMap (\i (k, e) -> botonEntregable e i model.hovered) 
+          <| Dict.toList entregables
+        , sideFiller
         ]
-        ++ sideFiller
+
+
+phoneHeader : Model -> Element Msg
+phoneHeader model = 
+  row [alignTop, width fill, spacing 10, height (fill |> maximum 70), Background.color blanco, paddingXY 20 0, Border.widthEach {top=0, left=0, bottom=1, right=0}, Border.solid]
+  [ image [paddingXY 0 0, height (px 40)] {src = "assets/favicon.svg", description = "Logo de Mikel"}
+    , el 
+      ( montserratBold
+      ) 
+      (text "   B1 Digitalizazioa")
+  , sortOrderButton model
+  ]
+
+sortOrderButton : Model -> Element Msg
+sortOrderButton model = 
+  case model.sortOrder of
+    Categories -> 
+      image [paddingXY 0 0, height (px 40), alignRight, Events.onClick <| SortEntregables Desc] 
+        {src = "assets/sort-categories.svg", description = "Logo de Categorias"}
+    Desc ->
+      image [paddingXY 0 0, height (px 40), alignRight, Events.onClick <| SortEntregables Categories] 
+        {src = "assets/sort-desc.svg", description = "Logo de Ordenar"}
+
+
+-- DESKTOP VIEW
 
 desktopView : Model -> Html Msg
 desktopView model = 
@@ -405,12 +457,12 @@ aside model =
       ]
     , column
         [alignLeft, alignTop, spacing 5]
-        [ botonCompetencia (getEntregable "1" model.entregables) "1a entrega" naranja [100, 1, 2, 3] model.hovered
-        , botonCompetencia (getEntregable "2" model.entregables) "2a entrega" turquesa [101, 8, 10] model.hovered
-        , botonCompetencia (getEntregable "3" model.entregables) "4a entrega" azul [102, 4, 5] model.hovered
-        , botonCompetencia (getEntregable "4" model.entregables) "6a entrega" limon [103, 6, 18, 19] model.hovered
-        , botonCompetencia (getEntregable "5" model.entregables) "3a entrega" chicle [104, 9, 11, 12] model.hovered
-        , botonCompetencia (getEntregable "6" model.entregables) "5a entrega" rojo [105, 13, 14, 15, 16, 17] model.hovered
+        [ botonCompetencia (getEntregable "1" model.entregables) "1a entrega" [100, 1, 2, 3] model.hovered
+        , botonCompetencia (getEntregable "2" model.entregables) "2a entrega" [101, 8, 10] model.hovered
+        , botonCompetencia (getEntregable "3" model.entregables) "4a entrega" [102, 4, 5] model.hovered
+        , botonCompetencia (getEntregable "4" model.entregables) "6a entrega" [103, 6, 18, 19] model.hovered
+        , botonCompetencia (getEntregable "5" model.entregables) "3a entrega" [104, 9, 11, 12] model.hovered
+        , botonCompetencia (getEntregable "6" model.entregables) "5a entrega" [105, 13, 14, 15, 16, 17] model.hovered
         ]
     ]
 
@@ -467,9 +519,9 @@ contextoColaborativo model =
         [alignLeft, alignTop, spacing 20
         -- , noneexplain Debug.todo 
         ]
-        [ botonEntregable (getEntregable "1.A" model.entregables) naranja 1 model.hovered
-        , botonEntregable (getEntregable "1.B" model.entregables) naranja 2 model.hovered
-        , botonEntregable (getEntregable "1.C" model.entregables) naranja 3 model.hovered
+        [ botonEntregable (getEntregable "1.A" model.entregables) 1 model.hovered
+        , botonEntregable (getEntregable "1.B" model.entregables) 2 model.hovered
+        , botonEntregable (getEntregable "1.C" model.entregables) 3 model.hovered
         ]
     ]
 
@@ -495,7 +547,7 @@ evaluacionPrevia model =
       [ el montserratBold
         (text "Evaluación previa sobre un tema")
       ]
-    , botonEntregable (getEntregable "4.A" model.entregables) limon 6 model.hovered
+    , botonEntregable (getEntregable "4.A" model.entregables) 6 model.hovered
     ]
 
 
@@ -538,8 +590,8 @@ contenidoBasico model =
         [ el montserratBold
             (text "Contenido de conocimiento basico")
         ]
-        , botonEntregable (getEntregable "2.A" model.entregables) turquesa 8 model.hovered
-        , botonEntregable (getEntregable "5.A" model.entregables) chicle 9 model.hovered
+        , botonEntregable (getEntregable "2.A" model.entregables) 8 model.hovered
+        , botonEntregable (getEntregable "5.A" model.entregables) 9 model.hovered
         ]
     ]
 
@@ -552,9 +604,9 @@ contenidoProfundizacion model =
         (text "Contenido de profundización")
       ]
     , row [spacing 20]
-    [ botonEntregable (getEntregable "2.B" model.entregables) turquesa 10 model.hovered
-    , botonEntregable (getEntregable "5.A" model.entregables) chicle 11 model.hovered
-    , botonEntregable (getEntregable "5.B" model.entregables) chicle 12 model.hovered]
+    [ botonEntregable (getEntregable "2.B" model.entregables) 10 model.hovered
+    , botonEntregable (getEntregable "5.A" model.entregables) 11 model.hovered
+    , botonEntregable (getEntregable "5.B" model.entregables) 12 model.hovered]
     ]
 
 
@@ -567,13 +619,13 @@ contextoColaborativoAlumnado model =
         (text "Contexto colaborativo del alumnado")
       ]
     , row [spacing 20]
-        [ botonEntregable (getEntregable "6.A" model.entregables) rojo 13 model.hovered
-        , botonEntregable (getEntregable "6.B" model.entregables) rojo 14 model.hovered
-        , botonEntregable (getEntregable "6.C" model.entregables) rojo 15 model.hovered
+        [ botonEntregable (getEntregable "6.A" model.entregables) 13 model.hovered
+        , botonEntregable (getEntregable "6.B" model.entregables) 14 model.hovered
+        , botonEntregable (getEntregable "6.C" model.entregables) 15 model.hovered
       ]
     , row [spacing 20]
-        [ botonEntregable (getEntregable "6.D" model.entregables) rojo 16 model.hovered
-        , botonEntregable (getEntregable "6.E" model.entregables) rojo 17 model.hovered
+        [ botonEntregable (getEntregable "6.D" model.entregables) 16 model.hovered
+        , botonEntregable (getEntregable "6.E" model.entregables) 17 model.hovered
         ]
     ]
 
@@ -586,8 +638,8 @@ evaluacionYRetroalimentacion model =
         (text "Evaluacion Y Retroalimentacion")
       ]
     , row [spacing 20, centerX]
-        [ botonEntregable (getEntregable "4.B" model.entregables) limon 18 model.hovered
-        , botonEntregable (getEntregable "4.C" model.entregables) limon 19 model.hovered
+        [ botonEntregable (getEntregable "4.B" model.entregables) 18 model.hovered
+        , botonEntregable (getEntregable "4.C" model.entregables) 19 model.hovered
       ]
     ]
 
@@ -601,14 +653,14 @@ ensenanzaAprendizaje model =
       ]
     , column
         [alignRight, alignTop, spacing 20]
-        [ botonEntregable (getEntregable "3.A" model.entregables) azul 4 model.hovered
-        , botonEntregable (getEntregable "3.B" model.entregables) azul 5 model.hovered
+        [ botonEntregable (getEntregable "3.A" model.entregables) 4 model.hovered
+        , botonEntregable (getEntregable "3.B" model.entregables) 5 model.hovered
         ]
     ]
 
 
-botonEntregable : Entregable -> Color -> Int -> Set Int -> Element Msg
-botonEntregable entregable color id hovered= 
+botonEntregable : Entregable -> Int -> Set Int -> Element Msg
+botonEntregable entregable id hovered= 
   let
     (shadowStyle, dropShadowValue) =
         if (Set.member id hovered) then
@@ -627,7 +679,7 @@ botonEntregable entregable color id hovered=
         Nothing -> none
   in
     row (borderStyle ++ shadowStyle ++
-        [ Background.color color, width fill, height (px 60), padding 10, spacing 5, pointer
+        [ Background.color <| colorFromCode entregable.codigo, width fill, height (px 60), padding 10, spacing 5, pointer
         , Events.onMouseEnter (HoverOn id)
         , Events.onMouseLeave (HoverOff id)
         , inFront iconoEvidencia
@@ -637,8 +689,8 @@ botonEntregable entregable color id hovered=
         [el (montserratBold ++ []) (text entregable.codigo), paragraph (montserratLight ++ [paddingEach {top = 0, right = 20, bottom = 0, left = 0}]) [text entregable.descripcionEntregable]]
 
 
-botonCompetencia : Entregable -> String -> Color -> List Int -> Set Int -> Element Msg
-botonCompetencia entregable entrega color ids hovered= 
+botonCompetencia : Entregable -> String -> List Int -> Set Int -> Element Msg
+botonCompetencia entregable entrega ids hovered= 
   let
     (shadowStyle, factor, dropShadowValue) = 
         case (List.head ids) of
@@ -654,6 +706,7 @@ botonCompetencia entregable entrega color ids hovered=
                     ], 0.0, "drop-shadow(3px 3px 0px black)")
                 else
                     ([], 0.7, "none")
+    color = colorFromCode entregable.codigo
   in
     row (
         [ width fill, height (px 70), padding 7, spacing 30, pointer
