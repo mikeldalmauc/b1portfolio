@@ -7,15 +7,19 @@ module Main exposing (..)
 --
 
 
-import Browser
-import Html exposing (Html, div)
 import Set exposing (Set)
-import Html.Attributes as HtmlAttributes exposing (style)
-import Html.Events exposing (onClick, stopPropagationOn)
+import Dict exposing (Dict)
+import Task
 
+import Browser exposing (UrlRequest(..))
 import Browser.Events exposing (onResize)
+import Browser.Dom
 
-import Json.Decode as Decode
+import Browser.Navigation as Navigation
+import Url exposing (Url)
+
+import Html exposing (Html, div)
+import Html.Attributes as HtmlAttributes exposing (style)
 
 import Element exposing (..)
 import Element.Font as Font
@@ -24,20 +28,24 @@ import Element.Border as Border
 import Element.Events as Events
 
 import Styles exposing (..)
-
-import Dict exposing (Dict)
-import Task
-import Entregables.Entregable1AComunicacion as E1A
+import Types exposing (..)
+import Componentes.Header as Header
+import Componentes.Footer as Footer
+import Componentes.Modal as Modal
+import Componentes.Botones as Botones exposing (..)
+import Route
 
 -- MAIN
 
 main : Program Flags Model Msg
 main =
-    Browser.element
+    Browser.application
         { init = init
         , view = view
         , update = update
         , subscriptions = subscriptions
+        , onUrlRequest = UrlClicked
+        , onUrlChange = UrlChanged
         }
 
 
@@ -53,180 +61,11 @@ subscriptions model =
         ]
 
 
--- MODEL
-
-type alias Model = 
-  { device : Device
-  , dimensions : Dimensions
-  , hovered : Set Int
-  , modalVisibility : ModalVisibilty
-  , modalView : Element Msg
-  , modalTitle : String
-  , entregables : Dict String Entregable
-  , sortOrder : SortOrder
-  }
-
-
-type ModalVisibilty
-    = Visible
-    | Hidden
-
-type SortOrder = Desc | Categories
-
-type alias Dimensions =
-    { width : Int
-    , height : Int
-    }
-
-
-type alias Flags = Dimensions
-
-
-type alias Entregable = 
-    { codigo : String
-    , descripcionEntregable : String
-    , tipoEvidencia : Maybe String
-    , tituloModal : String
-    , vistaModal : Element Msg
-    }
-
-type alias Seccion = 
-    { titulo : String
-    , entregables : List Entregable
-    , color : Color
-    }
-
-entregables : Dict String Entregable
-entregables =
-  Dict.fromList
-    [ ("1", Entregable "1" "Compromiso profesional" (Just "video") E1A.title E1A.view)
-    , ("2", Entregable "2" "Contenidos digitales" (Just "video") E1A.title E1A.view)
-    , ("3", Entregable "3" "Enseñanza y aprendizaje" (Just "video") E1A.title E1A.view)
-    , ("4", Entregable "4" "Evaluación y retroalimentación" (Just "video") E1A.title E1A.view)
-    , ("5", Entregable "5" "Empoderamiento del alumnado" (Just "video") E1A.title E1A.view)
-    , ("6", Entregable "6" "Desarrollo de la competencia digital del alumnado" (Just "video") E1A.title E1A.view)
-        
-    , ("1.A", Entregable "1.A" "Comunicación" (Just "captura") E1A.title E1A.view)
-    , ("1.B", Entregable "1.B" "Trabajo en equipo" (Just "captura") E1A.title E1A.view)
-    , ("1.C", Entregable "1.C" "Netiqueta" (Just "infografia") E1A.title E1A.view)
-
-    , ("2.A", Entregable "2.A" "Básico" (Just "contenido") E1A.title E1A.view)
-    , ("2.B", Entregable "2.B" "Profundización" (Just "contenido") E1A.title E1A.view)
-
-    , ("3.A", Entregable "3.A" "Contexto colaborativo del alumnado" Nothing E1A.title E1A.view)
-    , ("3.B", Entregable "3.B" "Recursos" Nothing E1A.title E1A.view)
-
-    , ("4.A", Entregable "4.A" "Evaluación previa" Nothing E1A.title E1A.view)
-    , ("4.B", Entregable "4.B" "Formativa" Nothing E1A.title E1A.view)
-    , ("4.C", Entregable "4.C" "Retroalimentación" Nothing E1A.title E1A.view)
-
-    , ("5.A", Entregable "5.A" "Accesibilidad" Nothing E1A.title E1A.view)
-    , ("5.B", Entregable "5.B" "Personalización" Nothing E1A.title E1A.view)
-
-    , ("6.A", Entregable "6.A" "Búsquedas" (Just "doc") E1A.title E1A.view)
-    , ("6.B", Entregable "6.B" "Normas de conducta" (Just "doc") E1A.title E1A.view)
-    , ("6.C", Entregable "6.C" "Contenidos digitales" (Just "doc") E1A.title E1A.view)
-    , ("6.D", Entregable "6.D" "Uso responsable" (Just "doc") E1A.title E1A.view)
-    , ("6.E", Entregable "6.E" "Resolución de problemas" (Just "doc") E1A.title E1A.view)
-    ]
-
-seccionesEnOrden : List Seccion
-seccionesEnOrden =
-    List.map (\s -> getSeccionByCode s)
-        ["ambitoscompe"  
-        , "concolab"  
-        , "ensapre"
-        , "preeval" 
-        , "conbasico"
-        , "conprofund"
-        , "colabalumn"
-        , "evlaretro"]
-
-
-secciones : Dict String Seccion
-secciones =
-    let
-        dictEntregables = entregables
-    in 
-        Dict.fromList
-        [  ("ambitoscompe"  
-                ,{ titulo = "Ámbitos de competencia"
-                , entregables = List.map (\e -> getEntregable e dictEntregables) ["1", "2", "3", "4", "5", "6"]
-                , color = blanco})
-            , ("concolab"  
-                ,{ titulo = "Contexto colaborativo del equipo docente"
-                , entregables = List.map (\e -> getEntregable e dictEntregables) ["1.A", "1.B", "1.C"]
-                , color = azul})
-            , ("ensapre" 
-                , { titulo = "Enseñanza y aprendizaje"
-                , entregables = List.map (\e -> getEntregable e dictEntregables) ["3.A", "3.B"]
-                , color = limon})
-            , ("preeval"  
-                ,{ titulo = "Evaluación previa sobre un tema"
-                , entregables = List.map (\e -> getEntregable e dictEntregables) ["4.A"]
-                , color = chicle})
-            , ("conbasico" 
-                ,{ titulo = "Contenido de conocimiento basico"
-                , entregables = List.map (\e -> getEntregable e dictEntregables) ["2.A", "5.A"]
-                , color = naranja})
-            , ("conprofund"
-                ,{ titulo = "Contenido de profundización"
-                , entregables = List.map (\e -> getEntregable e dictEntregables) ["2.B", "5.A", "5.B"]
-                , color = naranja})
-            , ("colabalumn"
-                ,{ titulo = "Contexto colaborativo del alumnado"
-                , entregables = List.map (\e -> getEntregable e dictEntregables) ["6.A", "6.B", "6.C", "6.D", "6.E"]
-                , color = turquesa})
-            , ("evlaretro" 
-                ,{ titulo = "Evaluacion Y Retroalimentacion"
-                , entregables = List.map (\e -> getEntregable e dictEntregables) ["4.B", "4.C"]
-                , color = chicle})
-            ]
-    
-
-
-getSeccionByCode : String -> Seccion
-getSeccionByCode code = 
-    let 
-        secc = secciones
-    in 
-        case Dict.get code secc of
-            Just sec -> sec
-            Nothing ->    
-                { titulo = "esta seccion no es valida"
-                , entregables = []
-                , color = negro
-                }
-
-
-colorFromCode : String -> Color
-colorFromCode code =
-    case (List.head <| String.toList code) of
-      Just c -> 
-        case c of 
-          '1' -> naranja
-          '2' -> turquesa
-          '3' -> azul
-          '4' -> limon
-          '5' -> chicle
-          '6' -> rojo
-          _ -> negro
-      Nothing -> negro
-
-
-
-
-getEntregable : String -> Dict String Entregable -> Entregable
-getEntregable key dict = 
-    case Dict.get key dict of
-        Just entregable -> entregable
-        Nothing -> Entregable "0" "Esto no es un entregable" Nothing "Esta pagina no debería verse" none
-
-
-init : Dimensions -> ( Model, Cmd Msg )
-init dimensions =
-    ({    
-        device = classifyDevice dimensions
+init : Dimensions -> Url -> Navigation.Key -> ( Model, Cmd Msg )
+init dimensions url key =
+    ({  key = key  
+      , route = Route.decode url
+      , device = classifyDevice dimensions
       , dimensions = dimensions
       , hovered = Set.empty
       , modalVisibility = Hidden
@@ -241,27 +80,27 @@ init dimensions =
 
 -- UPDATE
 
-
-type Msg
-  = NoOp
-  | DeviceClassified Dimensions
-  | HoverOn Int
-  | HoverOff Int
-  | HoverOnMany (List Int)
-  | HoverOffMany (List Int)
-  | HoverOffAll
-  | OpenModal String (Element Msg)
-  | CloseModal
-  | SortEntregables SortOrder
-
-
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
 
   case msg of
+    UrlClicked urlRequest ->
+        case urlRequest of
+            Internal url ->
+                ( model
+                , Navigation.pushUrl model.key (Url.toString url)
+                )
+
+            External url ->
+                ( model
+                , Navigation.load url
+                )
+
+    UrlChanged url ->
+        ( { model | route = Route.decode url }, scrollToTop )
 
     DeviceClassified dimensions ->
-        ( { model | device = (classifyDevice dimensions), dimensions = dimensions } , Cmd.none)
+        ( { model | device = (classifyDevice dimensions), dimensions = dimensions, modalView = none}, Cmd.none)
                 
     HoverOn id ->
         ( { model | hovered = Set.insert id model.hovered }
@@ -304,17 +143,23 @@ update msg model =
 
     SortEntregables sortOrder ->
         ( { model | sortOrder = sortOrder }
-        , Cmd.none
+        , Task.succeed HoverOffAll |> Task.perform identity
         )
         
     _ ->
       (model, Cmd.none)
 
 
+
+scrollToTop : Cmd Msg
+scrollToTop =
+    Browser.Dom.setViewport 0 0 |> Task.perform (\() -> NoOp)
+    
+    
 -- VIEW
 
 
-view : Model -> Html Msg
+view : Model -> Browser.Document Msg
 view model =
   let 
     (deviceClass, deviceOrientation) = 
@@ -323,11 +168,17 @@ view model =
 
 
   in
-    case deviceClass of
-        Phone -> phoneView model
-        Tablet -> desktopView model
-        Desktop -> desktopView model
-        BigDesktop -> desktopView model
+    { title  = "B1 Protfolio"
+    , body =    
+        [case deviceClass of
+            Phone -> phoneView model
+            Tablet -> desktopView model
+            Desktop -> desktopView model
+            BigDesktop -> desktopView model
+        ]
+    }
+
+
 
 -- PHONE VIEW
 
@@ -346,15 +197,15 @@ phoneView model =
 
                 Categories ->
                     column [centerX, centerY, width (fillPortion 17), height fill, spacing 10, paddingEach {top = 80, bottom = 20, left = 10, right = 10}]
-                    <| List.indexedMap (\i (k, s) -> 
+                    <| List.indexedMap (\i s -> 
                         column (borderStyle ++ [width fill, Background.color s.color, spacing 10, paddingEach {top = 20, bottom = 20, left = 10, right = 10}] )
                             <| List.append [paragraph [Font.center, paddingEach {top = 15, bottom = 15, left = 10, right = 10}] [ el montserratBold (text s.titulo)]]
                             <| List.indexedMap (\j e -> (botonEntregable e (i*1000 + j) model.hovered)) s.entregables 
                         ) 
-                    <| Dict.toList secciones
+                    <| seccionesEnOrden
     in
         layout 
-        [ width fill, height fill, centerX, centerY, inFront <| phoneHeader model]
+        [ width fill, height fill, centerX, centerY, inFront <| Header.phoneHeader model]
         <| 
         column [centerX, width fill, height fill]
         [row [centerX, centerY, width fill, height fill, paddingEach {top = 40, left = 0, bottom = 50, right = 0}]
@@ -363,35 +214,9 @@ phoneView model =
             , centerCol
             , sideFiller
             ]
-        , footer]
+        , Footer.footer]
  
 
-
-phoneHeader : Model -> Element Msg
-phoneHeader model = 
-  row [alignTop, width fill, spacing 10, height (fill |> maximum 70), Background.color blanco, paddingXY 20 0, Border.widthEach {top=0, left=0, bottom=1, right=0}, Border.solid]
-  [ image [paddingXY 0 0, height (px 40)] {src = "assets/favicon.svg", description = "Logo de Mikel"}
-    , el 
-      ( montserratBold
-      ) 
-      (text "   B1 Digitalizazioa")
-  , sortOrderButton model
-  ]
-
-
-
-sortOrderButton : Model -> Element Msg
-sortOrderButton model = 
-    let 
-        imageAttrs = [paddingXY 0 0, height (px 40), alignRight, htmlAttribute (HtmlAttributes.style "filter" "drop-shadow(2px 2px 0px #000000)")]
-    in
-        case model.sortOrder of
-            Categories -> 
-                image ((Events.onClick <| SortEntregables Desc) :: imageAttrs)
-                    {src = "assets/sort-categories.svg", description = "Logo de Categorias"}
-            Desc ->
-                image ((Events.onClick <| SortEntregables Categories) :: imageAttrs)
-                    {src = "assets/sort-desc.svg", description = "Logo de Ordenar"}
 
 
 -- DESKTOP VIEW
@@ -404,12 +229,12 @@ desktopView model =
             Hidden ->
                 []   
             Visible ->
-                [ viewOverlay model]
+                [ Modal.viewOverlay model]
 
   in
     Html.div [HtmlAttributes.class "main-container"]
       <| 
-      [ headerHtml ]
+      [ Header.headerHtml ]
       ++ modal
       ++ [ layout 
           [ width fill, height fill, centerX, centerY, moveDown 150
@@ -420,120 +245,10 @@ desktopView model =
               [centerX, centerY, width fill, height fill]
               [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20}]
                   (contenido model)
-              , footer 
+              , Footer.footer 
               ]  
       ]
 
-viewOverlay : Model -> Html Msg
-viewOverlay model =
-    div
-        [ style "position" "fixed"
-        , style "top" "0"
-        , style "left" "0"
-        , style "width" "100%"
-        , style "height" "100%"
-        , style "background-color" "rgba(0,0,0,0.4)"
-        , style "z-index" "9999"
-        , onClick CloseModal
-        ]
-        [ -- 2) El contenedor del modal en sí, centrado mediante position absolute + transform
-          div
-            [ style "position" "absolute"
-            , style "top" "50%"
-            , style "left" "50%"
-            , style "transform" "translate(-50%, -50%)"
-            , style "background-color" "white"
-            , style "border-radius" "8px"
-            , style "box-shadow" "0 4px 6px rgba(0,0,0,0.3)"
-            , style "width" "70%"       -- Ajusta al tamaño deseado
-            , style "max-width" "80%" -- O lo que prefieras
-            , style "max-height" "80%" -- O lo que prefieras
-            , style "padding" "20px"
-             -- Evitamos que el clic aquí "suba" y cierre.  
-            , stopPropagationOn "click" (Decode.succeed (NoOp, True))
-            ]
-            [  layout [] <| modalViewFun model
-            ]
-        ]
-
-alwaysPreventDefault : msg -> ( msg, Bool )
-alwaysPreventDefault msg =
-  ( msg, True )
-
-
-modalViewFun : Model -> Element Msg
-modalViewFun model =
-    let 
-        dropShadowValue =
-            if (Set.member 99 model.hovered) then
-                "drop-shadow(3px 3px 1px darkgray)"
-            else
-                "none"
-    in
-    column
-        [ scrollbars
-        , width fill
-        , height fill
-        , Border.rounded 8
-        , Background.color blanco
-        , padding 20
-        ]
-        [ row [ width fill ]
-            [ el (montserratBold) (text model.modalTitle)
-            , closeButton 
-                [ alignRight, pointer, Events.onClick CloseModal  
-                , Events.onMouseEnter (HoverOn 99)
-                , Events.onMouseLeave (HoverOff 99)
-                , htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)
-                ]
-            ]
-        , model.modalView -- aquí va el contenido real del modal
-        ]
-
-
-headerHtml : Html Msg
-headerHtml =
-    Html.div
-        [ HtmlAttributes.class "fixed-header"]
-        [ encabezadoFijado ]
-
-encabezadoFijado : Html Msg
-encabezadoFijado =
-    layout [Background.color blanco] 
-        <| 
-        row [centerY, paddingXY 20 0, width fill]
-        [el 
-            ( montserratTitulo
-            ) 
-            (text "B1 Competencia digital del profesorado")
-        , image [alignRight, paddingXY 20 0, height (px 50)] {src = "assets/favicon.svg", description = "Logo de Mikel"}
-        ]
-
-
-footer : Element Msg
-footer = 
-    column [paddingXY 20 40, width fill, height (px 200), Background.color negro, spaceEvenly]
-    [ el 
-        ( montserratLight ++ [Font.color blanco, centerX]
-        ) 
-        (text "B1 Competencia digital del profesorado")
-    , row 
-        ( montserratLight ++ [Font.color blanco, centerX]
-        ) 
-        [ paragraph [Font.center]
-          [text "Mikel Dalmau "
-          , text " - "
-          , link [Font.underline, padding 5] { url = "https://github.com/mikeldalmauc/b1portfolio", label = text "Código fuente de esta web"}
-          , text " - "
-          , link [Font.underline, padding 5] { url = "https://mikeldalmau.com", label = text "mikeldalmau.com"}
-          ]
-        ]
-
-    , link [Font.underline, padding 5, centerX, paddingXY 20 0] 
-        { url = "https://creativecommons.org/licenses/by-nc-sa/4.0/?ref=chooser-v1"
-        , label = image [height (px 50)] {src = "assets/CC.webp", description = "Creative Commons, Non comercial, Share Alike"
-        }}
-    ]
 
 contenido : Model -> Element Msg
 contenido model =
@@ -542,6 +257,7 @@ contenido model =
     , mainSection model
     , asideEvidencias
     ]
+
 
 aside : Model -> Element Msg
 aside model = 
@@ -779,70 +495,6 @@ ensenanzaAprendizaje model =
                 , botonEntregable (getEntregable "3.B" model.entregables) 5 model.hovered
                 ]
             ]
-
-
-botonEntregable : Entregable -> Int -> Set Int -> Element Msg
-botonEntregable entregable id hovered= 
-  let
-    (shadowStyle, dropShadowValue) =
-        if (Set.member id hovered) then
-            ([Border.shadow
-                { offset = (4, 4)
-                , size = 2
-                , blur = 0
-                , color = negro
-                }
-            ], "drop-shadow(3px 3px 0px black)")
-        else
-            ([], "none")
-    
-    iconoEvidencia = case entregable.tipoEvidencia of 
-        Just icono  -> image [height (px 40), alignRight, moveRight 20, moveDown 20, htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "assets/" ++ icono ++ ".webp", description = "icono de evidencia"}
-        Nothing -> none
-  in
-    row (borderStyle ++ shadowStyle ++
-        [ Background.color <| colorFromCode entregable.codigo, width fill, height (px 60), padding 10, spacing 5, pointer
-        , Events.onMouseEnter (HoverOn id)
-        , Events.onMouseLeave (HoverOff id)
-        , inFront iconoEvidencia
-        , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
-        ])
-        <| 
-        [el (montserratBold ++ []) (text entregable.codigo), paragraph (montserratLight ++ [paddingEach {top = 0, right = 20, bottom = 0, left = 0}]) [text entregable.descripcionEntregable]]
-
-
-botonCompetencia : Entregable -> String -> List Int -> Set Int -> Element Msg
-botonCompetencia entregable entrega ids hovered= 
-  let
-    (shadowStyle, factor, dropShadowValue) = 
-        case (List.head ids) of
-            Nothing -> ([], 0.7, "none")
-            Just id -> 
-                if (Set.member id hovered) then
-                    ([Border.shadow
-                        { offset = (2, 2)
-                        , size = 2
-                        , blur = 0
-                        , color = negro
-                        }
-                    ], 0.0, "drop-shadow(3px 3px 0px black)")
-                else
-                    ([], 0.7, "none")
-    color = colorFromCode entregable.codigo
-  in
-    row (
-        [ width fill, height (px 70), padding 7, spacing 30, pointer
-        , Events.onMouseEnter (HoverOnMany ids)
-        , Events.onMouseLeave (HoverOffMany ids)
-        , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
-        ])
-        [el (shadowStyle ++ montserratBold ++ [Font.center, centerX, centerY, width <| px 50, height <| px 50, Background.color color, Border.width 1, Border.solid, Border.rounded 50, padding 15]) (text entregable.codigo)
-        , column [alignLeft, width (fill), spacing 10] 
-            [ paragraph (montserratSemiBold ++ [ Font.color color, Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer color factor}]) [text entregable.descripcionEntregable]
-            , paragraph (montserratLight ++ [ Font.shadow { offset = ( 0.5, 0.5 ), blur = 0, color = oscurecer grisclaro factor}]) [text entrega]
-            ]
-        , image [height (px 50), htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "assets/" ++ "video" ++ ".webp", description = "icono de video"}
-        ]
 
 
 -- infoDebug : Model -> Element msg
