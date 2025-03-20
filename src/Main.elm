@@ -90,6 +90,11 @@ type alias Entregable =
     , vistaModal : Element Msg
     }
 
+type alias Seccion = 
+    { titulo : String
+    , entregables : List Entregable
+    , color : Color
+    }
 
 entregables : Dict String Entregable
 entregables =
@@ -125,6 +130,74 @@ entregables =
     , ("6.E", Entregable "6.E" "Resolución de problemas" (Just "doc") E1A.title E1A.view)
     ]
 
+seccionesEnOrden : List Seccion
+seccionesEnOrden =
+    List.map (\s -> getSeccionByCode s)
+        ["ambitoscompe"  
+        , "concolab"  
+        , "ensapre"
+        , "preeval" 
+        , "conbasico"
+        , "conprofund"
+        , "colabalumn"
+        , "evlaretro"]
+
+
+secciones : Dict String Seccion
+secciones =
+    let
+        dictEntregables = entregables
+    in 
+        Dict.fromList
+        [  ("ambitoscompe"  
+                ,{ titulo = "Ámbitos de competencia"
+                , entregables = List.map (\e -> getEntregable e dictEntregables) ["1", "2", "3", "4", "5", "6"]
+                , color = blanco})
+            , ("concolab"  
+                ,{ titulo = "Contexto colaborativo del equipo docente"
+                , entregables = List.map (\e -> getEntregable e dictEntregables) ["1.A", "1.B", "1.C"]
+                , color = azul})
+            , ("ensapre" 
+                , { titulo = "Enseñanza y aprendizaje"
+                , entregables = List.map (\e -> getEntregable e dictEntregables) ["3.A", "3.B"]
+                , color = limon})
+            , ("preeval"  
+                ,{ titulo = "Evaluación previa sobre un tema"
+                , entregables = List.map (\e -> getEntregable e dictEntregables) ["4.A"]
+                , color = chicle})
+            , ("conbasico" 
+                ,{ titulo = "Contenido de conocimiento basico"
+                , entregables = List.map (\e -> getEntregable e dictEntregables) ["2.A", "5.A"]
+                , color = naranja})
+            , ("conprofund"
+                ,{ titulo = "Contenido de profundización"
+                , entregables = List.map (\e -> getEntregable e dictEntregables) ["2.B", "5.A", "5.B"]
+                , color = naranja})
+            , ("colabalumn"
+                ,{ titulo = "Contexto colaborativo del alumnado"
+                , entregables = List.map (\e -> getEntregable e dictEntregables) ["6.A", "6.B", "6.C", "6.D", "6.E"]
+                , color = turquesa})
+            , ("evlaretro" 
+                ,{ titulo = "Evaluacion Y Retroalimentacion"
+                , entregables = List.map (\e -> getEntregable e dictEntregables) ["4.B", "4.C"]
+                , color = chicle})
+            ]
+    
+
+
+getSeccionByCode : String -> Seccion
+getSeccionByCode code = 
+    let 
+        secc = secciones
+    in 
+        case Dict.get code secc of
+            Just sec -> sec
+            Nothing ->    
+                { titulo = "esta seccion no es valida"
+                , entregables = []
+                , color = negro
+                }
+
 
 colorFromCode : String -> Color
 colorFromCode code =
@@ -139,6 +212,8 @@ colorFromCode code =
           '6' -> rojo
           _ -> negro
       Nothing -> negro
+
+
 
 
 getEntregable : String -> Dict String Entregable -> Entregable
@@ -259,19 +334,37 @@ view model =
 
 phoneView : Model -> Html Msg
 phoneView model =  
-  let  
-    sideFiller =  el [width (fillPortion 1), height fill] none
-  in
-    layout 
-    [ width fill, height fill, centerX, centerY, inFront <| phoneHeader model]
-    <| row [centerX, centerY, width fill, height fill]
-      <|  
-        [ sideFiller
-        , column [centerX, centerY, width (fillPortion 10), height fill, spacing 10, paddingEach {top = 80, bottom = 20, left = 0, right = 10}]
-          <| List.indexedMap (\i (k, e) -> botonEntregable e i model.hovered) 
-          <| Dict.toList entregables
-        , sideFiller
-        ]
+    let  
+        sideFiller =  el [width (fillPortion 1), height fill] none
+
+        centerCol = 
+            case model.sortOrder of
+                Desc -> 
+                    column [centerX, centerY, width (fillPortion 10), height fill, spacing 10, paddingEach {top = 80, bottom = 20, left = 0, right = 10}]
+                    <| List.indexedMap (\i (k, e) -> botonEntregable e (2000 + i) model.hovered) 
+                    <| Dict.toList entregables    
+
+                Categories ->
+                    column [centerX, centerY, width (fillPortion 17), height fill, spacing 10, paddingEach {top = 80, bottom = 20, left = 10, right = 10}]
+                    <| List.indexedMap (\i (k, s) -> 
+                        column (borderStyle ++ [width fill, Background.color s.color, spacing 10, paddingEach {top = 20, bottom = 20, left = 10, right = 10}] )
+                            <| List.append [paragraph [Font.center, paddingEach {top = 15, bottom = 15, left = 10, right = 10}] [ el montserratBold (text s.titulo)]]
+                            <| List.indexedMap (\j e -> (botonEntregable e (i*1000 + j) model.hovered)) s.entregables 
+                        ) 
+                    <| Dict.toList secciones
+    in
+        layout 
+        [ width fill, height fill, centerX, centerY, inFront <| phoneHeader model]
+        <| 
+        column [centerX, width fill, height fill]
+        [row [centerX, centerY, width fill, height fill, paddingEach {top = 40, left = 0, bottom = 50, right = 0}]
+        <|  
+            [ sideFiller
+            , centerCol
+            , sideFiller
+            ]
+        , footer]
+ 
 
 
 phoneHeader : Model -> Element Msg
@@ -285,15 +378,20 @@ phoneHeader model =
   , sortOrderButton model
   ]
 
+
+
 sortOrderButton : Model -> Element Msg
 sortOrderButton model = 
-  case model.sortOrder of
-    Categories -> 
-      image [paddingXY 0 0, height (px 40), alignRight, Events.onClick <| SortEntregables Desc] 
-        {src = "assets/sort-categories.svg", description = "Logo de Categorias"}
-    Desc ->
-      image [paddingXY 0 0, height (px 40), alignRight, Events.onClick <| SortEntregables Categories] 
-        {src = "assets/sort-desc.svg", description = "Logo de Ordenar"}
+    let 
+        imageAttrs = [paddingXY 0 0, height (px 40), alignRight, htmlAttribute (HtmlAttributes.style "filter" "drop-shadow(2px 2px 0px #000000)")]
+    in
+        case model.sortOrder of
+            Categories -> 
+                image ((Events.onClick <| SortEntregables Desc) :: imageAttrs)
+                    {src = "assets/sort-categories.svg", description = "Logo de Categorias"}
+            Desc ->
+                image ((Events.onClick <| SortEntregables Categories) :: imageAttrs)
+                    {src = "assets/sort-desc.svg", description = "Logo de Ordenar"}
 
 
 -- DESKTOP VIEW
@@ -447,24 +545,27 @@ contenido model =
 
 aside : Model -> Element Msg
 aside model = 
-  column 
-    ([centerX, centerY, height fill
-    , width (fill |> maximum 340)
-    , padding 25, spacing 40])
-    [paragraph [Font.center]
-      [ el montserratBold
-        (text "Ámbitos de competencia")
-      ]
-    , column
-        [alignLeft, alignTop, spacing 5]
-        [ botonCompetencia (getEntregable "1" model.entregables) "1a entrega" [100, 1, 2, 3] model.hovered
-        , botonCompetencia (getEntregable "2" model.entregables) "2a entrega" [101, 8, 10] model.hovered
-        , botonCompetencia (getEntregable "3" model.entregables) "4a entrega" [102, 4, 5] model.hovered
-        , botonCompetencia (getEntregable "4" model.entregables) "6a entrega" [103, 6, 18, 19] model.hovered
-        , botonCompetencia (getEntregable "5" model.entregables) "3a entrega" [104, 9, 11, 12] model.hovered
-        , botonCompetencia (getEntregable "6" model.entregables) "5a entrega" [105, 13, 14, 15, 16, 17] model.hovered
-        ]
-    ]
+    let
+        seccion = getSeccionByCode "ambitoscompe"
+    in
+        column 
+            ([centerX, centerY, height fill
+            , width (fill |> maximum 340)
+            , padding 25, spacing 40])
+            [paragraph [Font.center]
+                [ el montserratBold
+                    (text seccion.titulo)
+                ]
+            , column
+                [alignLeft, alignTop, spacing 5]
+                [ botonCompetencia (getEntregable "1" model.entregables) "1a entrega" [100, 1, 2, 3] model.hovered
+                , botonCompetencia (getEntregable "2" model.entregables) "2a entrega" [101, 8, 10] model.hovered
+                , botonCompetencia (getEntregable "3" model.entregables) "4a entrega" [102, 4, 5] model.hovered
+                , botonCompetencia (getEntregable "4" model.entregables) "6a entrega" [103, 6, 18, 19] model.hovered
+                , botonCompetencia (getEntregable "5" model.entregables) "3a entrega" [104, 9, 11, 12] model.hovered
+                , botonCompetencia (getEntregable "6" model.entregables) "5a entrega" [105, 13, 14, 15, 16, 17] model.hovered
+                ]
+            ]
 
 asideEvidencias : Element Msg
 asideEvidencias = 
@@ -509,21 +610,24 @@ mainSection model =
 
 contextoColaborativo : Model -> Element Msg
 contextoColaborativo model = 
-  column
-    [alignLeft, alignTop, width (fillPortion 1), height fill, padding 25, Background.color azul, spacing 40]
-    [paragraph []
-      [ el montserratBold
-        (text "Contexto colaborativo del equipo docente")
-      ]
-    , column
-        [alignLeft, alignTop, spacing 20
-        -- , noneexplain Debug.todo 
-        ]
-        [ botonEntregable (getEntregable "1.A" model.entregables) 1 model.hovered
-        , botonEntregable (getEntregable "1.B" model.entregables) 2 model.hovered
-        , botonEntregable (getEntregable "1.C" model.entregables) 3 model.hovered
-        ]
-    ]
+    let
+        seccion = getSeccionByCode "concolab"
+    in
+        column
+            [alignLeft, alignTop, width (fillPortion 1), height fill, padding 25, Background.color seccion.color, spacing 40]
+            [paragraph []
+            [ el montserratBold
+                (text seccion.titulo)
+            ]
+            , column
+                [alignLeft, alignTop, spacing 20
+                -- , noneexplain Debug.todo 
+                ]
+                [ botonEntregable (getEntregable "1.A" model.entregables) 1 model.hovered
+                , botonEntregable (getEntregable "1.B" model.entregables) 2 model.hovered
+                , botonEntregable (getEntregable "1.C" model.entregables) 3 model.hovered
+                ]
+            ]
 
 
 centro : Model -> Element Msg
@@ -541,14 +645,17 @@ centro model =
 
 evaluacionPrevia : Model -> Element Msg
 evaluacionPrevia model =
-  row 
-    (borderStyle ++ [Background.color chicle, width fill, padding 15, spacing 10])
-    [ paragraph [Font.center]
-      [ el montserratBold
-        (text "Evaluación previa sobre un tema")
-      ]
-    , botonEntregable (getEntregable "4.A" model.entregables) 6 model.hovered
-    ]
+    let
+        seccion = getSeccionByCode "preeval"
+    in
+        row 
+            (borderStyle ++ [Background.color seccion.color, width fill, padding 15, spacing 10])
+            [ paragraph [Font.center]
+            [ el montserratBold
+                (text seccion.titulo)
+            ]
+            , botonEntregable (getEntregable "4.A" model.entregables) 6 model.hovered
+            ]
 
 
 contenidos : Model -> Element Msg
@@ -582,81 +689,96 @@ preguntaFlujo model =
 
 contenidoBasico : Model -> Element Msg
 contenidoBasico model = 
-    column [spacing 10]
-    [ upArrowSvg [moveRight 65] chicleHex
-    , column 
-        (borderStyle ++ [Background.color naranja, padding 15, spacing 10])
-        [ paragraph [Font.center]
-        [ el montserratBold
-            (text "Contenido de conocimiento basico")
+    let
+        seccion = getSeccionByCode "conbasico"
+    in
+        column [spacing 10]
+        [ upArrowSvg [moveRight 65] chicleHex
+        , column 
+            (borderStyle ++ [Background.color seccion.color, padding 15, spacing 10])
+            [ paragraph [Font.center]
+            [ el montserratBold
+                (text seccion.titulo)
+            ]
+            , botonEntregable (getEntregable "2.A" model.entregables) 8 model.hovered
+            , botonEntregable (getEntregable "5.A" model.entregables) 9 model.hovered
+            ]
         ]
-        , botonEntregable (getEntregable "2.A" model.entregables) 8 model.hovered
-        , botonEntregable (getEntregable "5.A" model.entregables) 9 model.hovered
-        ]
-    ]
 
 contenidoProfundizacion : Model -> Element Msg
 contenidoProfundizacion model = 
-  column 
-    (borderStyle ++ [Background.color naranja, padding 15, spacing 10])
-    [ paragraph [Font.center]
-      [ el montserratBold
-        (text "Contenido de profundización")
-      ]
-    , row [spacing 20]
-    [ botonEntregable (getEntregable "2.B" model.entregables) 10 model.hovered
-    , botonEntregable (getEntregable "5.A" model.entregables) 11 model.hovered
-    , botonEntregable (getEntregable "5.B" model.entregables) 12 model.hovered]
-    ]
+    let
+        seccion = getSeccionByCode "conprofund"
+    in
+        column 
+            (borderStyle ++ [Background.color seccion.color, padding 15, spacing 10])
+            [ paragraph [Font.center]
+            [ el montserratBold
+                (text seccion.titulo)
+            ]
+            , row [spacing 20]
+            [ botonEntregable (getEntregable "2.B" model.entregables) 10 model.hovered
+            , botonEntregable (getEntregable "5.A" model.entregables) 11 model.hovered
+            , botonEntregable (getEntregable "5.B" model.entregables) 12 model.hovered]
+            ]
 
 
 contextoColaborativoAlumnado : Model -> Element Msg
 contextoColaborativoAlumnado model = 
-  column 
-    (borderStyle ++ [Background.color turquesa, padding 15, spacing 10])
-    [ paragraph [Font.center]
-      [ el montserratBold
-        (text "Contexto colaborativo del alumnado")
-      ]
-    , row [spacing 20]
-        [ botonEntregable (getEntregable "6.A" model.entregables) 13 model.hovered
-        , botonEntregable (getEntregable "6.B" model.entregables) 14 model.hovered
-        , botonEntregable (getEntregable "6.C" model.entregables) 15 model.hovered
-      ]
-    , row [spacing 20]
-        [ botonEntregable (getEntregable "6.D" model.entregables) 16 model.hovered
-        , botonEntregable (getEntregable "6.E" model.entregables) 17 model.hovered
-        ]
-    ]
+    let
+        seccion = getSeccionByCode "colabalumn"
+    in
+        column 
+            (borderStyle ++ [Background.color seccion.color, padding 15, spacing 10])
+            [ paragraph [Font.center]
+            [ el montserratBold
+                (text seccion.titulo)
+            ]
+            , row [spacing 20]
+                [ botonEntregable (getEntregable "6.A" model.entregables) 13 model.hovered
+                , botonEntregable (getEntregable "6.B" model.entregables) 14 model.hovered
+                , botonEntregable (getEntregable "6.C" model.entregables) 15 model.hovered
+            ]
+            , row [spacing 20]
+                [ botonEntregable (getEntregable "6.D" model.entregables) 16 model.hovered
+                , botonEntregable (getEntregable "6.E" model.entregables) 17 model.hovered
+                ]
+            ]
 
 evaluacionYRetroalimentacion : Model -> Element Msg
 evaluacionYRetroalimentacion model = 
-  column 
-    (borderStyle ++ [Background.color chicle, padding 15, spacing 10, width fill])
-    [ paragraph [Font.center]
-      [ el montserratBold
-        (text "Evaluacion Y Retroalimentacion")
-      ]
-    , row [spacing 20, centerX]
-        [ botonEntregable (getEntregable "4.B" model.entregables) 18 model.hovered
-        , botonEntregable (getEntregable "4.C" model.entregables) 19 model.hovered
-      ]
-    ]
+    let
+        seccion = getSeccionByCode "evlaretro"
+    in
+        column 
+            (borderStyle ++ [Background.color seccion.color, padding 15, spacing 10, width fill])
+            [ paragraph [Font.center]
+            [ el montserratBold
+                (text seccion.titulo)
+            ]
+            , row [spacing 20, centerX]
+                [ botonEntregable (getEntregable "4.B" model.entregables) 18 model.hovered
+                , botonEntregable (getEntregable "4.C" model.entregables) 19 model.hovered
+            ]
+            ]
 
 ensenanzaAprendizaje : Model -> Element Msg
 ensenanzaAprendizaje model = 
- column
-    [alignRight, alignTop, width (fillPortion 1), height fill, padding 25, Background.color limon, spacing 40]
-    [paragraph [Font.alignRight]
-      [ el montserratBold
-        (text "Enseñanza y aprendizaje")
-      ]
-    , column
-        [alignRight, alignTop, spacing 20]
-        [ botonEntregable (getEntregable "3.A" model.entregables) 4 model.hovered
-        , botonEntregable (getEntregable "3.B" model.entregables) 5 model.hovered
-        ]
-    ]
+    let
+        seccion = getSeccionByCode "ensapre"
+    in
+        column
+            [alignRight, alignTop, width (fillPortion 1), height fill, padding 25, Background.color seccion.color, spacing 40]
+            [paragraph [Font.alignRight]
+            [ el montserratBold
+                (text seccion.titulo)
+            ]
+            , column
+                [alignRight, alignTop, spacing 20]
+                [ botonEntregable (getEntregable "3.A" model.entregables) 4 model.hovered
+                , botonEntregable (getEntregable "3.B" model.entregables) 5 model.hovered
+                ]
+            ]
 
 
 botonEntregable : Entregable -> Int -> Set Int -> Element Msg
