@@ -1,4 +1,4 @@
-module Entregables.Entregable1AComunicacion exposing (view, title)
+module Entregables.Entregable2A exposing (..)
 
 import Element exposing (..)
 import MarkdownThemed

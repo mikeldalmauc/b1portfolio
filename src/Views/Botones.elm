@@ -1,8 +1,10 @@
-module Componentes.Botones exposing (..)
+module Views.Botones exposing (..)
 
 
 import Set exposing (Set)
 
+import Browser exposing (UrlRequest(..))
+import Url
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes exposing (style)
 
@@ -35,16 +37,25 @@ botonEntregable entregable id hovered=
     iconoEvidencia = case entregable.tipoEvidencia of 
         Just icono  -> image [height (px 40), alignRight, moveRight 20, moveDown 20, htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "assets/" ++ icono ++ ".webp", description = "icono de evidencia"}
         Nothing -> none
+    
   in
     row (borderStyle ++ shadowStyle ++
         [ Background.color <| colorFromCode entregable.codigo, width fill, height (px 60), padding 10, spacing 5, pointer
         , Events.onMouseEnter (HoverOn id)
         , Events.onMouseLeave (HoverOff id)
         , inFront iconoEvidencia
-        , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
+        , inFront <| Element.link
+                    [width fill, height fill]
+                    { url = Route.encode entregable.route
+                    , label = none
+                    }
+        -- , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal         
         ])
         <| 
-        [el (montserratBold ++ []) (text entregable.codigo), paragraph (montserratLight ++ [paddingEach {top = 0, right = 20, bottom = 0, left = 0}]) [text entregable.descripcionEntregable]]
+            [el (montserratBold ++ []) (text entregable.codigo)
+            , paragraph (montserratLight ++ [paddingEach {top = 0, right = 20, bottom = 0, left = 0}]) 
+                [text entregable.descripcionEntregable]
+            ]
 
 
 botonCompetencia : Entregable -> String -> List Int -> Set Int -> Element Msg
@@ -70,7 +81,12 @@ botonCompetencia entregable entrega ids hovered=
         [ width fill, height (px 70), padding 7, spacing 30, pointer
         , Events.onMouseEnter (HoverOnMany ids)
         , Events.onMouseLeave (HoverOffMany ids)
-        , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
+        , inFront <| Element.link
+                    [width fill, height fill]
+                    { url = Route.encode entregable.route
+                    , label = none
+                    }
+        -- , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
         ])
         [el (shadowStyle ++ montserratBold ++ [Font.center, centerX, centerY, width <| px 50, height <| px 50, Background.color color, Border.width 1, Border.solid, Border.rounded 50, padding 15]) (text entregable.codigo)
         , column [alignLeft, width (fill), spacing 10] 

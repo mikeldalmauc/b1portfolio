@@ -1,4 +1,4 @@
-module Componentes.Modal exposing (..)
+module Views.Modal exposing (..)
 
 
 import Set exposing (Set)
@@ -16,6 +16,7 @@ import Element.Border as Border
 
 import Styles exposing (..)
 import Types exposing (..)
+
 
 
 
@@ -85,3 +86,4 @@ modalViewFun model =
             ]
         , model.modalView -- aquí va el contenido real del modal
         ]
+        

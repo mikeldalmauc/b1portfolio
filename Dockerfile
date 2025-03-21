@@ -24,5 +24,5 @@ RUN test -f package.json && npm install || echo "No package.json found, skipping
 EXPOSE 8000
 
 # Comando por defecto para iniciar elm-live en modo watch
-CMD ["elm-live", "src/Main.elm", "--open", "--start-page=index.html", "--host=0.0.0.0", "--", "--output=main.min.js" ]
+CMD ["elm-live", "src/Main.elm", "--open",  "--pushstate", "--start-page=index.html", "--host=0.0.0.0", "--", "--output=main.min.js" ]
 #CMD ["sh", "-c", "tail -f /dev/null"]

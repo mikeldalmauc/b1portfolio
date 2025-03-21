@@ -1,4 +1,4 @@
-module Componentes.Footer exposing (..)
+module Views.Footer exposing (..)
 
 
 import Element.Background as Background

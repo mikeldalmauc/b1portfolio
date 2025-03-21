@@ -29,10 +29,10 @@ import Element.Events as Events
 
 import Styles exposing (..)
 import Types exposing (..)
-import Componentes.Header as Header
-import Componentes.Footer as Footer
-import Componentes.Modal as Modal
-import Componentes.Botones as Botones exposing (..)
+import Views.Header as Header
+import Views.Footer as Footer
+import Views.Modal as Modal
+import Views.Botones as Botones exposing (..)
 import Route
 
 -- MAIN
@@ -63,8 +63,12 @@ subscriptions model =
 
 init : Dimensions -> Url -> Navigation.Key -> ( Model, Cmd Msg )
 init dimensions url key =
+    let
+        route =
+            Route.decode url
+    in
     ({  key = key  
-      , route = Route.decode url
+      , route = route
       , device = classifyDevice dimensions
       , dimensions = dimensions
       , hovered = Set.empty
@@ -87,17 +91,28 @@ update msg model =
     UrlClicked urlRequest ->
         case urlRequest of
             Internal url ->
-                ( model
-                , Navigation.pushUrl model.key (Url.toString url)
-                )
+                case  getEntregableFromRoute (Route.decode url) of
+                    Just entregable ->
+                        ( model, Cmd.batch [
+                              Navigation.pushUrl model.key (Url.toString url)
+                            , Task.perform (\_ -> OpenModal entregable) (Task.succeed ())])
+
+                    Nothing ->
+                        (  model 
+                        , Navigation.pushUrl model.key (Url.toString url)
+                        )
 
             External url ->
-                ( model
-                , Navigation.load url
-                )
+                ( model , Navigation.load url)
 
     UrlChanged url ->
-        ( { model | route = Route.decode url }, scrollToTop )
+        case  getEntregableFromRoute  (Route.decode url) of
+            Just entregable ->
+                ( { model | route = Route.decode url}, Cmd.batch [Task.perform (\_ -> OpenModal entregable) (Task.succeed ())])
+
+            Nothing ->
+                ( { model | route = Route.decode url}, Cmd.none)
+
 
     DeviceClassified dimensions ->
         ( { model | device = (classifyDevice dimensions), dimensions = dimensions, modalView = none}, Cmd.none)
@@ -134,8 +149,9 @@ update msg model =
             )
 
 
-    OpenModal modalTitle modalView -> 
-       ( { model | modalVisibility = Visible, modalTitle = modalTitle, modalView = modalView }, Cmd.none)
+    OpenModal entregable -> 
+       ( { model | modalVisibility = Visible, modalTitle = entregable.tituloModal, modalView = entregable.vistaModal}
+        , Cmd.none)
 
 
     CloseModal ->
@@ -168,15 +184,32 @@ view model =
 
 
   in
-    { title  = "B1 Protfolio"
-    , body =    
-        [case deviceClass of
-            Phone -> phoneView model
-            Tablet -> desktopView model
-            Desktop -> desktopView model
-            BigDesktop -> desktopView model
-        ]
-    }
+    case model.route of
+        Route.HomepageRoute ->
+            viewHome model 
+
+        _ ->
+            viewHome model
+
+
+
+viewHome : Model -> Browser.Document Msg
+viewHome model =
+    let 
+        (deviceClass, deviceOrientation) = 
+            case model.device of
+                { class, orientation} -> (class, orientation)
+
+    in
+        { title  = "B1 Protfolio"
+        , body =    
+            [case deviceClass of
+                Phone -> phoneView model
+                Tablet -> desktopView model
+                Desktop -> desktopView model
+                BigDesktop -> desktopView model
+            ]
+        }
 
 
 
@@ -238,7 +271,7 @@ desktopView model =
       ++ modal
       ++ [ layout 
           [ width fill, height fill, centerX, centerY, moveDown 150
-      --,  behindContent <| infoDebug model -- TODO hide maybeÇ
+            ,  behindContent <| infoDebug model -- TODO hide maybeÇ
           --, Background.color white
           ]
           <| column 
@@ -497,17 +530,16 @@ ensenanzaAprendizaje model =
             ]
 
 
--- infoDebug : Model -> Element msg
--- infoDebug model =
---     column 
---         [ width fill, height fill, Font.size 11, padding 10]
---         [ 
---         --  text <| "wheel Delta Y: " ++ fromFloat model.wheelModel.deltaY
---       --  , text <| "wheel Delta X: " ++ fromFloat model.wheelModel.deltaX
---        -- , text <| "tab: " ++ fromInt model.tab
---         --,
---          text <| "device: " ++ Debug.toString model.device
---          , text <| "dimensions: " ++ Debug.toString model.dimensions
---         -- , text <| "galleryTab1: " ++ Debug.toString model.galleryTab1
---         -- , text <| "gesture: " ++ Debug.toString model.gesture
---         ]
+infoDebug : Model -> Element msg
+infoDebug model =
+    column [ width fill, height fill, Font.size 11, padding 10 ]
+        [ text ("key: " ++ Debug.toString model.key)
+        , text ("route: " ++ Debug.toString model.route)
+        , text ("device: " ++ Debug.toString model.device)
+        , text ("dimensions: " ++ Debug.toString model.dimensions)
+        , text ("hovered: " ++ Debug.toString model.hovered)
+        , text ("modalVisibility: " ++ Debug.toString model.modalVisibility)
+        , text ("modalTitle: " ++ model.modalTitle)
+        , text ("entregables: " ++ Debug.toString model.entregables)
+        , text ("sortOrder: " ++ Debug.toString model.sortOrder)
+        ]
