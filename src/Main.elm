@@ -19,7 +19,7 @@ import Browser.Navigation as Navigation
 import Url exposing (Url)
 
 import Html exposing (Html, div)
-import Html.Attributes as HtmlAttributes exposing (style)
+import Html.Attributes as HtmlAttributes
 
 import Element exposing (..)
 import Element.Font as Font
@@ -257,15 +257,15 @@ phoneView model =
 desktopView : Model -> Html Msg
 desktopView model = 
   let 
-    modal = 
+    (modalAttrs, modal) = 
         case model.modalVisibility of
             Hidden ->
-                []   
+                ([] ,[])
             Visible ->
-                [ Modal.viewOverlay model]
+                ([HtmlAttributes.style "overflow" "hidden"] ,[ Modal.viewOverlay model])
 
   in
-    Html.div [HtmlAttributes.class "main-container"]
+    Html.div (modalAttrs ++ [HtmlAttributes.class "main-container"])
       <| 
       [ Header.headerHtml ]
       ++ modal

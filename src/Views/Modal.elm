@@ -45,6 +45,7 @@ viewOverlay model =
             , style "max-width" "80%" -- O lo que prefieras
             , style "max-height" "80%" -- O lo que prefieras
             , style "padding" "20px"
+            , style "overflow-y" "auto"         -- <<--- Para que el scroll ocurra aquí
              -- Evitamos que el clic aquí "suba" y cierre.  
             , stopPropagationOn "click" (Decode.succeed (NoOp, True))
             ]
@@ -70,7 +71,6 @@ modalViewFun model =
     column
         [ scrollbars
         , width fill
-        , height fill
         , Border.rounded 8
         , Background.color blanco
         , padding 20
