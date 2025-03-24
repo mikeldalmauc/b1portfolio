@@ -96,3 +96,31 @@ botonCompetencia entregable entrega ids hovered=
         , image [height (px 50), htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)] {src = "assets/" ++ "video" ++ ".webp", description = "icono de video"}
         ]
 
+
+
+
+sortOrderButton : Model -> Element Msg
+sortOrderButton model = 
+    let 
+        imageAttrs = [paddingXY 0 0, height (px 40), alignRight, htmlAttribute (HtmlAttributes.style "filter" "drop-shadow(2px 2px 0px #000000)")]
+    in
+        case model.sortOrder of
+            Categories -> 
+                image ((Events.onClick <| SortEntregables Desc) :: imageAttrs)
+                    {src = "assets/sort-categories.svg", description = "Logo de Categorias"}
+            Desc ->
+                image ((Events.onClick <| SortEntregables Categories) :: imageAttrs)
+                    {src = "assets/sort-desc.svg", description = "Logo de Ordenar"}
+
+
+backButton : Model -> Element Msg
+backButton model = 
+    leftArrowSvg 
+        [ paddingXY 0 0
+        , height (px 30)
+        , alignRight
+        , htmlAttribute (HtmlAttributes.style "filter" "drop-shadow(2px 2px 0px #666666)")
+        , Events.onClick <| GoTo Route.HomepageRoute
+        ]
+        negroHex
+        

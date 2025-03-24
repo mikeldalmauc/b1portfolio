@@ -19,7 +19,7 @@ import Browser.Navigation as Navigation
 import Url exposing (Url)
 
 import Html exposing (Html, div)
-import Html.Attributes as HtmlAttributes
+import Html.Attributes exposing (style, class)
 
 import Element exposing (..)
 import Element.Font as Font
@@ -63,23 +63,36 @@ subscriptions model =
 
 init : Dimensions -> Url -> Navigation.Key -> ( Model, Cmd Msg )
 init dimensions url key =
-    let
+     let
         route =
             Route.decode url
+
+        baseModel =
+            { key = key
+            , route = route
+            , device = classifyDevice dimensions
+            , dimensions = dimensions
+            , hovered = Set.empty
+            , modalVisibility = Hidden
+            , modalView = none
+            , modalTitle = ""
+            , entregables = entregables
+            , sortOrder = Categories
+            }
     in
-    ({  key = key  
-      , route = route
-      , device = classifyDevice dimensions
-      , dimensions = dimensions
-      , hovered = Set.empty
-      , modalVisibility = Hidden
-      , modalView = none
-      , modalTitle = ""
-      , entregables = entregables
-      , sortOrder = Categories
-    }
-    , Cmd.none
-    )
+    case getEntregableFromRoute route of
+        Just entregable ->
+            -- Si la ruta decodificada es un entregable, abrimos el modal directamente
+            ( { baseModel
+                | modalVisibility = Visible
+                , modalTitle = entregable.tituloModal
+                , modalView = entregable.vistaModal
+              }
+            , Cmd.none
+            )
+
+        Nothing ->
+            ( baseModel, Cmd.none )
 
 
 -- UPDATE
@@ -91,13 +104,13 @@ update msg model =
     UrlClicked urlRequest ->
         case urlRequest of
             Internal url ->
-                case  getEntregableFromRoute (Route.decode url) of
-                    Just entregable ->
-                        ( model, Cmd.batch [
-                              Navigation.pushUrl model.key (Url.toString url)
-                            , Task.perform (\_ -> OpenModal entregable) (Task.succeed ())])
+                -- case  getEntregableFromRoute (Route.decode url) of
+                --     Just entregable ->
+                --         ( model, Cmd.batch [
+                --               Navigation.pushUrl model.key (Url.toString url)
+                --                 , Task.perform (\_ -> OpenModal entregable) (Task.succeed ())])
 
-                    Nothing ->
+                --     Nothing ->
                         (  model 
                         , Navigation.pushUrl model.key (Url.toString url)
                         )
@@ -111,7 +124,7 @@ update msg model =
                 ( { model | route = Route.decode url}, Cmd.batch [Task.perform (\_ -> OpenModal entregable) (Task.succeed ())])
 
             Nothing ->
-                ( { model | route = Route.decode url}, Cmd.none)
+                ( { model | route = Route.decode url}, Cmd.batch [Task.perform (\_ -> CloseModal ) (Task.succeed ())])
 
 
     DeviceClassified dimensions ->
@@ -155,13 +168,22 @@ update msg model =
 
 
     CloseModal ->
-       ( { model | modalVisibility = Hidden, modalView = none}, Task.succeed HoverOffAll |> Task.perform identity)
+        ( { model | modalVisibility = Hidden, modalView = none }
+        , Cmd.batch
+            [ Task.perform identity (Task.succeed HoverOffAll)
+            ]
+        )
 
     SortEntregables sortOrder ->
         ( { model | sortOrder = sortOrder }
         , Task.succeed HoverOffAll |> Task.perform identity
         )
-        
+
+    GoTo route ->
+        ( model
+        , Navigation.pushUrl model.key (Route.encode route)
+        )
+
     _ ->
       (model, Cmd.none)
 
@@ -219,9 +241,15 @@ viewHome model =
 phoneView : Model -> Html Msg
 phoneView model =  
     let  
+        phoneHeaderView =
+            if model.modalVisibility == Visible then
+                Header.phoneHeaderBack model
+            else
+                Header.phoneHeader model
+
         sideFiller =  el [width (fillPortion 1), height fill] none
 
-        centerCol = 
+        mainBlock = 
             case model.sortOrder of
                 Desc -> 
                     column [centerX, centerY, width (fillPortion 10), height fill, spacing 10, paddingEach {top = 80, bottom = 20, left = 0, right = 10}]
@@ -236,17 +264,20 @@ phoneView model =
                             <| List.indexedMap (\j e -> (botonEntregable e (i*1000 + j) model.hovered)) s.entregables 
                         ) 
                     <| seccionesEnOrden
+    
     in
         layout 
-        [ width fill, height fill, centerX, centerY, inFront <| Header.phoneHeader model]
+        [ width fill, height fill, centerX, centerY, inFront phoneHeaderView]
         <| 
         column [centerX, width fill, height fill]
-        [row [centerX, centerY, width fill, height fill, paddingEach {top = 40, left = 0, bottom = 50, right = 0}]
-        <|  
-            [ sideFiller
-            , centerCol
-            , sideFiller
-            ]
+            [ row [centerX, centerY, width fill, height fill, paddingEach {top = 40, left = 0, bottom = 50, right = 0}]
+                <|  [ sideFiller
+                    , if model.modalVisibility == Visible then
+                           el [centerX, centerY, width (fillPortion 17), height fill, paddingEach {top = 80, bottom = 20, left = 10, right = 10}] model.modalView
+                        else
+                            mainBlock
+                    , sideFiller
+                    ]
         , Footer.footer]
  
 
@@ -260,18 +291,18 @@ desktopView model =
     (modalAttrs, modal) = 
         case model.modalVisibility of
             Hidden ->
-                ([] ,[])
+                ([style "height" "100vh", style "overflow" "auto"] ,[])
             Visible ->
-                ([HtmlAttributes.style "overflow" "hidden"] ,[ Modal.viewOverlay model])
+                ([style "height" "100vh", style "overflow" "hidden"] ,[ Modal.viewOverlay model])
 
   in
-    Html.div (modalAttrs ++ [HtmlAttributes.class "main-container"])
+    Html.div (modalAttrs ++ [class "main-container"])
       <| 
       [ Header.headerHtml ]
       ++ modal
       ++ [ layout 
           [ width fill, height fill, centerX, centerY, moveDown 150
-          --  ,  behindContent <| infoDebug model -- TODO hide maybeÇ
+         -- ,  behindContent <| infoDebug model -- TODO hide maybeÇ
           --, Background.color white
           ]
           <| column 
@@ -316,6 +347,7 @@ aside model =
                 ]
             ]
 
+
 asideEvidencias : Element Msg
 asideEvidencias = 
     let 
@@ -356,6 +388,7 @@ mainSection model =
     , centro model
     , ensenanzaAprendizaje model
     ]
+
 
 contextoColaborativo : Model -> Element Msg
 contextoColaborativo model = 
@@ -530,16 +563,16 @@ ensenanzaAprendizaje model =
             ]
 
 
--- infoDebug : Model -> Element msg
--- infoDebug model =
---     column [ width fill, height fill, Font.size 11, padding 10 ]
---         [ text ("key: " ++ Debug.toString model.key)
---         , text ("route: " ++ Debug.toString model.route)
---         , text ("device: " ++ Debug.toString model.device)
---         , text ("dimensions: " ++ Debug.toString model.dimensions)
---         , text ("hovered: " ++ Debug.toString model.hovered)
---         , text ("modalVisibility: " ++ Debug.toString model.modalVisibility)
---         , text ("modalTitle: " ++ model.modalTitle)
---         , text ("entregables: " ++ Debug.toString model.entregables)
---         , text ("sortOrder: " ++ Debug.toString model.sortOrder)
---         ]
+infoDebug : Model -> Element Msg
+infoDebug model =
+    column [ width fill, height fill, Font.size 11, padding 10 ]
+        [ text ("key: " ++ Debug.toString model.key)
+        , text ("route: " ++ Debug.toString model.route)
+        , text ("device: " ++ Debug.toString model.device)
+        , text ("dimensions: " ++ Debug.toString model.dimensions)
+        , text ("hovered: " ++ Debug.toString model.hovered)
+        , text ("modalVisibility: " ++ Debug.toString model.modalVisibility)
+        , text ("modalTitle: " ++ model.modalTitle)
+        , text ("entregables: " ++ Debug.toString model.entregables)
+        , text ("sortOrder: " ++ Debug.toString model.sortOrder)
+        ]

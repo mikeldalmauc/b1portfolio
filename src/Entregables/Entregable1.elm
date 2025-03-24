@@ -8,7 +8,7 @@ title = "1.A Comunicación - Contexto colaborativo del equipo docente"
 
 view : Element msg
 view = 
-    el [scrollbars]
+    el []
     <|
         MarkdownThemed.renderFull 
     """

@@ -16,7 +16,7 @@ import Element.Border as Border
 
 import Styles exposing (..)
 import Types exposing (..)
-
+import Route
 
 
 
@@ -28,25 +28,23 @@ viewOverlay model =
         , style "left" "0"
         , style "width" "100%"
         , style "height" "100%"
+        , style "display" "flex"
+        , style "align-items" "center"
+        , style "justify-content" "center"
         , style "background-color" "rgba(0,0,0,0.4)"
         , style "z-index" "9999"
-        , onClick CloseModal
+        , onClick <| GoTo Route.HomepageRoute
         ]
         [ -- 2) El contenedor del modal en sí, centrado mediante position absolute + transform
           div
-            [ style "position" "absolute"
-            , style "top" "50%"
-            , style "left" "50%"
-            , style "transform" "translate(-50%, -50%)"
-            , style "background-color" "white"
+            [ style "background-color" "white"
             , style "border-radius" "8px"
             , style "box-shadow" "0 4px 6px rgba(0,0,0,0.3)"
-            , style "width" "70%"       -- Ajusta al tamaño deseado
-            , style "max-width" "80%" -- O lo que prefieras
-            , style "max-height" "80%" -- O lo que prefieras
+            , style "width" "70%"
+            , style "max-width" "80%"
+            , style "max-height" "80%"
             , style "padding" "20px"
-            , style "overflow-y" "auto"         -- <<--- Para que el scroll ocurra aquí
-             -- Evitamos que el clic aquí "suba" y cierre.  
+            , style "overflow-y" "auto"
             , stopPropagationOn "click" (Decode.succeed (NoOp, True))
             ]
             [  layout [] <| modalViewFun model
@@ -68,22 +66,21 @@ modalViewFun model =
             else
                 "none"
     in
-    column
-        [ scrollbars
-        , width fill
-        , Border.rounded 8
-        , Background.color blanco
-        , padding 20
-        ]
-        [ row [ width fill ]
-            [ el (montserratBold) (text model.modalTitle)
-            , closeButton 
-                [ alignRight, pointer, Events.onClick CloseModal  
-                , Events.onMouseEnter (HoverOn 99)
-                , Events.onMouseLeave (HoverOff 99)
-                , htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)
-                ]
+        column
+            [ width fill
+            , Border.rounded 8
+            , Background.color blanco
+            , padding 20
             ]
-        , model.modalView -- aquí va el contenido real del modal
-        ]
+            [ row [ width fill ]
+                [ el (montserratBold) (text model.modalTitle)
+                , closeButton 
+                    [ alignRight, pointer, Events.onClick <| GoTo Route.HomepageRoute  
+                    , Events.onMouseEnter (HoverOn 99)
+                    , Events.onMouseLeave (HoverOff 99)
+                    , htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)
+                    ]
+                ]
+            , model.modalView -- aquí va el contenido real del modal
+            ]
         

@@ -51,6 +51,7 @@ type Msg = NoOp
     | OpenModal Entregable
     | CloseModal
     | SortEntregables SortOrder
+    | GoTo Route
 
 
 -- MODEL
