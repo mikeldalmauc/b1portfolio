@@ -242,18 +242,16 @@ viewHome model =
 
 
 -- DESKTOP VIEW
-
-
-infoDebug : Model -> Element Msg
-infoDebug model =
-    column [ width fill, height fill, Font.size 11, padding 10 ]
-        [ text ("key: " ++ Debug.toString model.key)
-        , text ("route: " ++ Debug.toString model.route)
-        , text ("device: " ++ Debug.toString model.device)
-        , text ("dimensions: " ++ Debug.toString model.dimensions)
-        , text ("hovered: " ++ Debug.toString model.hovered)
-        , text ("modalVisibility: " ++ Debug.toString model.modalVisibility)
-        , text ("modalTitle: " ++ model.modalTitle)
-        , text ("entregables: " ++ Debug.toString model.entregables)
-        , text ("sortOrder: " ++ Debug.toString model.sortOrder)
-        ]
+-- infoDebug : Model -> Element Msg
+-- infoDebug model =
+--     column [ width fill, height fill, Font.size 11, padding 10 ]
+--         [ text ("key: " ++ Debug.toString model.key)
+--         , text ("route: " ++ Debug.toString model.route)
+--         , text ("device: " ++ Debug.toString model.device)
+--         , text ("dimensions: " ++ Debug.toString model.dimensions)
+--         , text ("hovered: " ++ Debug.toString model.hovered)
+--         , text ("modalVisibility: " ++ Debug.toString model.modalVisibility)
+--         , text ("modalTitle: " ++ model.modalTitle)
+--         , text ("entregables: " ++ Debug.toString model.entregables)
+--         , text ("sortOrder: " ++ Debug.toString model.sortOrder)
+--         ]
