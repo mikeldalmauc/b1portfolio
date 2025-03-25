@@ -1,3 +1,18 @@
+module Entregables.Entregable4C exposing (..)
+
+import Element exposing (..)
+import MarkdownThemed
+
+
+title : String
+title = "1.A Comunicación - Contexto colaborativo del equipo docente"
+
+view : Element msg
+view = 
+    el [scrollbars]
+    <|
+        MarkdownThemed.renderFull 
+    """
 # B1 portfolio website
 
 Esta es una web estilo SPA (Single Page Application) desarrollada en ELM. Visita la web en [mikeldalmau.uk](https://mikeldalmau.uk)
@@ -7,8 +22,6 @@ Esta es una web estilo SPA (Single Page Application) desarrollada en ELM. Visita
     - [Troubleshooting :wrench:](#troubleshooting-wrench)
   - [Preparar la web para producción :rocket:](#preparar-la-web-para-producción-rocket)
     - [Troubleshooting :wrench:](#troubleshooting-wrench-1)
-    - [Despliegue en AWS](#despliegue-en-aws)
-      - [Configurar credenciales en GitHub](#configurar-credenciales-en-github)
   - [Extensiones Recomendadas :rainbow:](#extensiones-recomendadas-rainbow)
 
 
@@ -54,33 +67,14 @@ El contenido de la carpeta `build` se puede servir directamnete con cualquier se
 
 Si no compila elm es posible que haya sentencias Debug.log en el código. Elm no permite sentencias de log en producción.
 
-### Despliegue en AWS 
-
-El repositorio está configurado usando github actios para desplegar el codigo a un bucket S3 de Amazon y limpiar la cache de CloudFront.
-
-Si se desea mantener esta configuración es necesario añadir los secrets al repositorio
-
-#### Configurar credenciales en GitHub
-
-- Crea un usuario de AWS (IAM) con permisos para subir a tu bucket S3 y realizar invalidaciones en CloudFront.
-  
-- En la configuración de tu repositorio GitHub, ve a:
-**Settings → Security → Secrets and variables → Actions → New repository** secret
-
-- Añade las siguientes variables (secrets) al repositorio:
-  - AWS_ACCESS_KEY_ID
-  - AWS_SECRET_ACCESS_KEY
-  - AWS_REGION (ej. us-east-1)
-  - S3_BUCKET (nombre de tu bucket, sin s3://)
-  - CLOUDFRONT_DISTRIBUTION_ID (ID de tu distribución de CloudFront)
-
 ## Extensiones Recomendadas :rainbow:
 
 ![alt text](doc/image.png)
 
 --- 
 
-| <a href="https://mikeldalmau.com" target="_blank">**Mikel Dalmau**</a>
-|:---:|
-| [![mdalmau](https://avatars1.githubusercontent.com/u/1708961?v=3&s=50)](http://mikeldalmau.com)    | 
-| <a href="https://github.com/mikeldalmauc" target="_blank">`github.com/mikeldalmauc`</a>
+
+```
+"""
+
+

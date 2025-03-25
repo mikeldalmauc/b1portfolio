@@ -140,9 +140,9 @@ downArrowSvg : List (Attribute msg) -> String -> Element msg
 downArrowSvg attrs color =
      Element.el attrs <| Element.html <| arrowSvg color "90"
 
-leftArrowSvg : String -> Element msg
-leftArrowSvg color =
-    Element.html <| arrowSvg color "270"
+leftArrowSvg : List (Attribute msg) -> String -> Element msg
+leftArrowSvg attrs color =
+     Element.el attrs <| Element.html <| arrowSvg color "180"
 
 rightArrowSvg : List (Attribute msg) -> String -> Element msg
 rightArrowSvg attrs color =
