@@ -89,6 +89,6 @@ modalViewFun model =
                 ]
                 
             , divider
-            , model.modalView -- aquí va el contenido real del modal
+            , model.modalView
             ]
         

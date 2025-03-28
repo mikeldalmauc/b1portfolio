@@ -36,6 +36,8 @@ Codigo bash
 
 ```bash
 docker compose up --build
+docker compose up --build
+docker compose up --build
 ```
 
 Un vez que la imagen del contenedor esté construida y el contenedor esté en ejecución, se puede acceder a la web en la dirección http://localhost:8000. Ya no hace flata que agregues el el parametro --build, a menos que quieras reconstruir la imagen.

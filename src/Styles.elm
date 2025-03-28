@@ -25,6 +25,9 @@ grisclaro = rgb255 170 170 170
 grisclaro20 : Color
 grisclaro20 = rgba 0 0 0 0.2
 
+grisclaro5 : Color
+grisclaro5 = rgba 0 0 0 0.05
+
 
 grisClaroFondo : Color
 grisClaroFondo = rgb255 244 244 240
