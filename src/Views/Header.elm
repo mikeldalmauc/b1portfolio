@@ -25,7 +25,7 @@ encabezadoFijado =
         --, explain Debug.todo
             ]
             [ 
-            el [ htmlAttribute <| HtmlAttributes.class "bordered", padding 15] <| image [ alignLeft, height (px 26) ] { src = "assets/menu.svg", description = "Boton de menu" }
+            el [ htmlAttribute <| HtmlAttributes.class "bordered", padding 10] <| image [ alignLeft, height (px 20) ] { src = "assets/menu.svg", description = "Boton de menu" }
             , el
                 montserratTitulo
                 (text "B1 Competencia digital del profesorado")
