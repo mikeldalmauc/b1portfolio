@@ -9,10 +9,55 @@ import Element.Font as Font
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes exposing (style)
 import Route exposing (Route(..))
-import Set exposing (Set)
+import Set exposing (Set, empty)
 import Styles exposing (..)
 import Types exposing (..)
 import Url
+
+
+botonHome : Int -> Set Int -> Element Msg
+botonHome id hovered =
+    let
+        ( shadowStyle, dropShadowValue ) =
+            if Set.member id hovered then
+                ( [ Border.shadow
+                        { offset = ( 4, 4 )
+                        , size = 2
+                        , blur = 0
+                        , color = negro
+                        }
+                  ]
+                , "drop-shadow(3px 3px 0px black)"
+                )
+
+            else
+                ( [], "none" )
+    in
+    row
+        (borderStyle
+            ++ shadowStyle
+            ++ [ Background.color blanco
+               , width fill
+               , height (px 60)
+               , padding 10
+               , spacing 5
+               , pointer
+               , Events.onMouseEnter (HoverOn id)
+               , Events.onMouseLeave (HoverOff id)
+               , inFront <|
+                    Element.link
+                        [ width fill, height fill ]
+                        { url = Route.encode HomepageRoute
+                        , label = none
+                        }
+
+               -- , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
+               ]
+        )
+    <|
+        [ paragraph (montserratLight ++ [ paddingEach { top = 0, right = 20, bottom = 0, left = 0 } ])
+            [ text "Esquema" ]
+        ]
 
 
 botonEntregable : Entregable -> Int -> Set Int -> Element Msg

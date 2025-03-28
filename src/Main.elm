@@ -32,6 +32,7 @@ import Views.Modal as Modal
 import Views.PhoneMain as PhoneMain
 
 
+
 -- MAIN
 
 
@@ -45,6 +46,7 @@ main =
         , onUrlRequest = UrlClicked
         , onUrlChange = UrlChanged
         }
+
 
 
 -- SUBSCRIPTIONS
@@ -77,6 +79,7 @@ init dimensions url key =
             , modalTitle = ""
             , entregables = entregables
             , sortOrder = Categories
+            , menuVisible = Hidden
             }
     in
     case getEntregableFromRoute route of
@@ -101,6 +104,9 @@ init dimensions url key =
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
         UrlClicked urlRequest ->
             case urlRequest of
                 Internal url ->
@@ -183,8 +189,17 @@ update msg model =
             , Navigation.pushUrl model.key (Route.encode route)
             )
 
-        _ ->
-            ( model, Cmd.none )
+        OpenMenu ->
+            ( { model
+                | menuVisible =
+                    if model.menuVisible == Visible then
+                        Hidden
+
+                    else
+                        Visible
+              }
+            , Cmd.none
+            )
 
 
 scrollToTop : Cmd Msg
