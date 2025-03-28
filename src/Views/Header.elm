@@ -21,8 +21,12 @@ headerHtml =
 encabezadoFijado : Html Msg
 encabezadoFijado =
     layout [ Background.color blanco ] <|
-        row [ centerY, paddingXY 20 0, width fill ]
-            [ el
+        row [ centerY, paddingXY 20 0, width fill, spacing 20
+        --, explain Debug.todo
+            ]
+            [ 
+            el [ htmlAttribute <| HtmlAttributes.class "bordered", padding 15] <| image [ alignLeft, height (px 26) ] { src = "assets/menu.svg", description = "Boton de menu" }
+            , el
                 montserratTitulo
                 (text "B1 Competencia digital del profesorado")
             , image [ alignRight, paddingXY 20 0, height (px 50) ] { src = "assets/favicon.svg", description = "Logo de Mikel" }
