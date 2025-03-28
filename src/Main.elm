@@ -32,7 +32,6 @@ import Views.Modal as Modal
 import Views.PhoneMain as PhoneMain
 
 
-
 -- MAIN
 
 
@@ -46,7 +45,6 @@ main =
         , onUrlRequest = UrlClicked
         , onUrlChange = UrlChanged
         }
-
 
 
 -- SUBSCRIPTIONS

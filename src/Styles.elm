@@ -1,10 +1,10 @@
 module Styles exposing (..)
 
 import Element.Font as Font
-import Element exposing (Element, Attribute, rgba, rgba255, rgb255, Color, toRgb)
+import Element exposing (..)
 import Element.Border as Border
 import Element.HexColor as HexColor exposing (hex)
-
+import Element.Background as Background
 import Html exposing (Html)
 import Svg 
 import Svg.Attributes as SvgAttrs
@@ -21,6 +21,10 @@ blanco = rgb255 256 256 256
 
 grisclaro : Color
 grisclaro = rgb255 170 170 170
+
+grisclaro20 : Color
+grisclaro20 = rgba 0 0 0 0.2
+
 
 grisClaroFondo : Color
 grisClaroFondo = rgb255 244 244 240
@@ -195,3 +199,14 @@ closeButtonSvg color =
             ]
             []
         ]
+
+
+divider : Element msg
+divider =
+    -- Un elemento vacío con ancho completo y 1px de altura
+    el
+        [ width fill
+        , height (Element.px 3)
+        , Background.color grisclaro20  -- un gris #CCC
+        ]
+        none

@@ -62,7 +62,7 @@ render chosenRenderer markdownBody =
 
 bulletPoint : List (Element msg) -> Element msg
 bulletPoint children =
-    Element.wrappedRow
+    Element.row
         [ Element.spacing 5
         , Element.paddingEach { top = 0, right = 0, bottom = 0, left = 20 }
         , Element.width Element.fill
@@ -123,7 +123,7 @@ renderer theme =
                 |> Markdown.Html.withOptionalAttribute "bg"
             , Markdown.Html.tag "br" (\_ -> html <| Html.br [] [])
             ]
-    , text = \s -> Element.el [] (Element.text s)
+    , text = \s -> Element.el [Styles.montserrat] (Element.text s)
     , codeSpan =
         \content -> Element.html (Html.code [ Html.Attributes.style "color" "#220cb0" ] [ Html.text content ])
     , strong = \list -> Element.paragraph [ Element.Font.bold ] list
@@ -230,29 +230,28 @@ renderer theme =
     }
 
 
-heading1 : List (Element.Attr () msg)
-heading1 =
-    Styles.montserratBold
-
-
 heading : Theme -> { level : HeadingLevel, rawText : String, children : List (Element msg) } -> Element msg
 heading theme { level, rawText, children } =
     Element.paragraph
         ((case Markdown.Block.headingLevelToInt level of
             1 ->
-                heading1
+                [ Element.Font.color theme.defaultText
+                , Element.Font.size 30
+                , Element.Font.bold
+                , Element.paddingEach { top = 30, right = 0, bottom = 30, left = 0 }
+                ]
 
             2 ->
                 [ Element.Font.color theme.defaultText
                 , Element.Font.size 28
-                , Element.Font.semiBold
+                , Element.Font.bold
                 , Element.paddingEach { top = 20, right = 0, bottom = 20, left = 0 }
                 ]
 
             3 ->
                 [ Element.Font.color theme.defaultText
                 , Element.Font.size 20
-                , Element.Font.semiBold
+                , Element.Font.bold
 
                 --, Element.Font.medium
                 , Element.paddingEach { top = 10, right = 0, bottom = 10, left = 0 }
@@ -261,18 +260,19 @@ heading theme { level, rawText, children } =
             4 ->
                 [ Element.Font.color theme.defaultText
                 , Element.Font.size 16
-                , Element.Font.medium
+                , Element.Font.bold
                 , Element.paddingEach { top = 0, right = 0, bottom = 10, left = 0 }
                 ]
 
             _ ->
                 [ Element.Font.size 12
-                , Element.Font.medium
+                , Element.Font.bold
                 , Element.Font.center
                 , Element.paddingXY 0 20
                 ]
          )
-            ++ [ Element.Region.heading (Markdown.Block.headingLevelToInt level)
+            ++ [ Styles.montserrat
+                , Element.Region.heading (Markdown.Block.headingLevelToInt level)
                , Element.htmlAttribute
                     (Html.Attributes.attribute "name" (rawTextToId rawText))
                , Element.htmlAttribute

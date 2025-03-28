@@ -14,21 +14,25 @@ view =
     el [] <|
         MarkdownThemed.renderFull
             """
-# B1 portfolio website
+
+# Titulo 1 B1 portfolio website
 
 Esta es una web estilo SPA (Single Page Application) desarrollada en ELM. Visita la web en [mikeldalmau.uk](https://mikeldalmau.uk)
+TOC
 
-- [B1 portfolio website](#b1-portfolio-website)
-  - [Ejecutar el entorno de desarrollo](#ejecutar-el-entorno-de-desarrollo)
-    - [Troubleshooting :wrench:](#troubleshooting-wrench)
-  - [Preparar la web para producción :rocket:](#preparar-la-web-para-producción-rocket)
-    - [Troubleshooting :wrench:](#troubleshooting-wrench-1)
-  - [Extensiones Recomendadas :rainbow:](#extensiones-recomendadas-rainbow)
+- [Titulo 1 B1 portfolio website](#titulo-1-b1-portfolio-website)
+  - [Titulo 2 Ejecutar el entorno de desarrollo](#titulo-2-ejecutar-el-entorno-de-desarrollo)
+    - [Titulo 3 Troubleshooting :wrench:](#titulo-3-troubleshooting-wrench)
+      - [Titulo 4](#titulo-4)
+  - [linea horizontal](#linea-horizontal)
 
 
-## Ejecutar el entorno de desarrollo 
+## Titulo 2 Ejecutar el entorno de desarrollo 
 
 El entorno de desarrollo utiliza un único contenedor Debian con node y elm. Para ejecutarlo es necesario tener instalado Docker y Docker Compose.
+
+
+Codigo bash
 
 ```bash
 docker compose up --build
@@ -43,37 +47,42 @@ docker compose up
 Es apropiado en este caso no usar el parametro `-d` ya que se necesita ver la salida de la consola para ver los mensajes de error del live server y de la compilación de elm. 
 
 
-### Troubleshooting :wrench:
+### Titulo 3 Troubleshooting :wrench:
 
 Si tienes problemas con la descarga de paquetes de debian al construir el contenedor, en windows puedes intentar con el siguiente comando: `ipconfig /flushdns` para borrar el cache de la resolución de nombres DNS.
 
-## Preparar la web para producción :rocket:
+#### Titulo 4
 
-Averigua el nombre del contendor y accede al este con el siguiente comando:
+- Lista 1
+- Lista 2
+- Lista 3
+  - Sublista 2
+  - Sublista 3
+    - Subsublista1
+    - Subsubslita2
 
-```bash
-docker exec -it nombre-contendor bash
-```
+1. Enumeracion1
+2. Enumaeracion2
+  1. Sub enumeración
+  2. Sub enumeración
 
-Lanza el comando `gulp` para generar la web en la carpeta `build`.
+*Texto en italicas*
 
-```bash
-gulp
-```
+**Texto en negrita**
+~~Strikethrough~~
 
-El contenido de la carpeta `build` se puede servir directamnete con cualquier servidor web ya que esta todo construido y minificado.
+![alt text](image.png)
 
+linea horizontal
 
-### Troubleshooting :wrench: 
+---
 
-Si no compila elm es posible que haya sentencias Debug.log en el código. Elm no permite sentencias de log en producción.
-
-## Extensiones Recomendadas :rainbow:
-
-![alt text](doc/image.png)
-
---- 
+[enlace mdalmau](https://mikeldalmau.com)
 
 
-```
+| A | B | C |
+| -- | -- | --|
+| d1 | d3 | d 2 |
+
+
 """
