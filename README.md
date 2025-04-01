@@ -10,6 +10,7 @@ Esta es una web estilo SPA (Single Page Application) desarrollada en ELM. Visita
     - [Despliegue en AWS](#despliegue-en-aws)
       - [Configurar credenciales en GitHub](#configurar-credenciales-en-github)
   - [Extensiones Recomendadas :rainbow:](#extensiones-recomendadas-rainbow)
+  - [s](#s)
 
 
 ## Ejecutar el entorno de desarrollo 
@@ -78,6 +79,13 @@ Si se desea mantener esta configuración es necesario añadir los secrets al rep
 
 ![alt text](doc/image.png)
 
+Para el soporte del lenguaje en local hay que tener node e instalar estas librerías.
+
+```bash
+npm install -g elm-test elm-format elm-review 
+```
+
+s
 --- 
 
 | <a href="https://mikeldalmau.com" target="_blank">**Mikel Dalmau**</a>

@@ -59,7 +59,7 @@ alwaysPreventDefault msg =
 
 modalViewFun : Model -> Element Msg
 modalViewFun model =
-    let 
+    let
         dropShadowValue =
             if (Set.member 99 model.hovered) then
                 "drop-shadow(3px 3px 1px darkgray)"
@@ -71,9 +71,15 @@ modalViewFun model =
             , Border.rounded 8
             , Background.color blanco
             , padding 20
+            , spacing 30
             ]
             [ row [ width fill ]
-                [ el (montserratBold) (text model.modalTitle)
+                [ paragraph   
+                    [ montserrat
+                    , Font.size 32
+                    , Font.bold
+                    ] [ text model.modalTitle
+                    ]
                 , closeButton 
                     [ alignRight, pointer, Events.onClick <| GoTo Route.HomepageRoute  
                     , Events.onMouseEnter (HoverOn 99)
@@ -81,6 +87,8 @@ modalViewFun model =
                     , htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)
                     ]
                 ]
-            , model.modalView -- aquí va el contenido real del modal
+                
+            , divider
+            , model.modalView
             ]
         

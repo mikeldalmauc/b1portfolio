@@ -6,6 +6,7 @@ import Element.Border as Border
 import Element.Events as Events
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes exposing (style)
+import Route
 import Styles exposing (..)
 import Types exposing (..)
 import Views.Botones exposing (..)
@@ -21,11 +22,36 @@ headerHtml =
 encabezadoFijado : Html Msg
 encabezadoFijado =
     layout [ Background.color blanco ] <|
-        row [ centerY, paddingXY 20 0, width fill ]
+        row
+            [ centerY
+            , paddingXY 20 0
+            , width fill
+            , spacing 20
+
+            --, explain Debug.todo
+            ]
             [ el
+                [ Events.onClick OpenMenu
+                , htmlAttribute <| HtmlAttributes.class "bordered"
+                , padding 10
+                ]
+              <|
+                image [ alignLeft, height (px 20) ] { src = "assets/menu.svg", description = "Boton de menu" }
+            , el
                 montserratTitulo
                 (text "B1 Competencia digital del profesorado")
-            , image [ alignRight, paddingXY 20 0, height (px 50) ] { src = "assets/favicon.svg", description = "Logo de Mikel" }
+            , image
+                [ alignRight
+                , paddingXY 20 0
+                , height (px 50)
+                , inFront <|
+                    Element.link
+                        [ width fill, height fill ]
+                        { url = Route.encode Route.HomepageRoute
+                        , label = none
+                        }
+                ]
+                { src = "assets/favicon.svg", description = "Logo de Mikel" }
             ]
 
 

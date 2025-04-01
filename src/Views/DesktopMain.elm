@@ -5,6 +5,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
+import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
 import Styles exposing (..)
@@ -12,41 +13,52 @@ import Types exposing (..)
 import Views.Botones as Botones exposing (..)
 import Views.Footer as Footer
 import Views.Header as Header
+import Views.Menu as Menu
 import Views.Modal as Modal
+import Views.PhoneMain as PhoneMain
 
 
 view : Model -> Html Msg
 view model =
     let
-        ( modalAttrs, modal ) =
+        content =
             case model.modalVisibility of
                 Hidden ->
-                    ( [ style "height" "100vh", style "overflow" "auto" ], [] )
+                    contenido model
 
                 Visible ->
-                    ( [ style "height" "100vh", style "overflow" "hidden" ], [ Modal.viewOverlay model ] )
-    in
-    Html.div (modalAttrs ++ [ class "main-container" ]) <|
-        [ Header.headerHtml ]
-            ++ modal
-            ++ [ layout
-                    [ width fill
-                    , height fill
-                    , centerX
-                    , centerY
-                    , moveDown 150
-
-                    -- ,  behindContent <| infoDebug model -- TODO hide maybeÇ
-                    --, Background.color white
-                    ]
-                 <|
-                    column
-                        [ centerX, centerY, width fill, height fill ]
+                    row [ centerX, centerY, width (fill |> maximum 1150) ]
                         [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20 } ]
-                            (contenido model)
-                        , Footer.footer
+                            model.modalView
                         ]
-               ]
+
+        menu =
+            case model.menuVisible of
+                Hidden ->
+                    []
+
+                Visible ->
+                    [ inFront <| Menu.view model ]
+    in
+    Html.div [ class "main-container" ]
+        [ Header.headerHtml
+        , layout
+            (menu
+                ++ [ width fill
+                   , height fill
+                   , centerX
+                   , centerY
+                   , moveDown 150
+                   ]
+            )
+          <|
+            column
+                [ centerX, centerY, width fill, height fill ]
+                [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20 } ]
+                    content
+                , Footer.footer
+                ]
+        ]
 
 
 contenido : Model -> Element Msg
