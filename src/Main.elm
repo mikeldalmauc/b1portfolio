@@ -129,15 +129,28 @@ update msg model =
                 newRoute =
                     Route.decode url
 
-                maybeFragment =
-                    url.fragment
+                -- Prepara un comando de scroll si hay un fragmento presente
+                scrollCmd =
+                    case url.fragment of
+                        Just fragmentId ->
+                            Task.attempt (always NoOp)
+                                (Browser.Dom.getElement fragmentId
+                                    |> Task.andThen
+                                        (\elem ->
+                                            -- Desplazar la ventana al punto Y del elemento
+                                            Browser.Dom.setViewport 0 elem.element.y
+                                        )
+                                )
+
+                        Nothing ->
+                            Cmd.none
             in
             case getEntregableFromRoute newRoute of
                 Just entregable ->
                     ( { model | route = newRoute }
                     , Cmd.batch
                         [ Task.perform (\_ -> OpenModal entregable) (Task.succeed ())
-                        , scrollToId maybeFragment
+                        , scrollCmd
                         ]
                     )
 
@@ -145,7 +158,7 @@ update msg model =
                     ( { model | route = newRoute }
                     , Cmd.batch
                         [ Task.perform (\_ -> CloseModal) (Task.succeed ())
-                        , scrollToId maybeFragment
+                        , scrollCmd
                         ]
                     )
 
@@ -223,21 +236,6 @@ update msg model =
 scrollToTop : Cmd Msg
 scrollToTop =
     Browser.Dom.setViewport 0 0 |> Task.perform (\() -> NoOp)
-
-
-scrollToId : Maybe String -> Cmd Msg
-scrollToId elementId =
-    case elementId of
-        Nothing ->
-            Task.perform (\_ -> NoOp) (Task.succeed ())
-
-        Just e ->
-            Browser.Dom.getElement e
-                |> Task.andThen
-                    (\info ->
-                        Browser.Dom.setViewportOf "documentElement" 0 info.element.y
-                    )
-                |> Task.attempt (\_ -> NoOp)
 
 
 
