@@ -6,6 +6,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Events as Events
 import Element.Font as Font
+import Entregables.Entregables exposing (..)
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes exposing (style)
 import Route exposing (Route(..))

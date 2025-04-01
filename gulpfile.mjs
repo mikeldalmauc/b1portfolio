@@ -1,11 +1,11 @@
 import { src, dest, series, parallel, watch } from 'gulp';
-import exec from 'gulp-exec';
 import { deleteAsync } from 'del';
 import gulpElm from 'gulp-elm';
 import uglify from 'gulp-uglify';
 import rename from 'gulp-rename';
-import debug from 'gulp-debug';
-import { copy } from 'fs-extra';
+import { copy} from 'fs-extra';
+import fs from 'fs';
+import path from 'path';
 
 // Rutas de archivos
 const paths = {
@@ -14,7 +14,8 @@ const paths = {
   html: 'index.html',
   robots: 'robots.txt',
   sitemap: 'sitemap.xml',
-  output: 'build'
+  output: 'build',
+  entregableAssets: 'src/Entregables/markdowns'
 };
 
 // Limpia la carpeta de salida
@@ -42,7 +43,45 @@ function elmTask() {
     .pipe(dest(paths.output));
 }
 
+// Lee recursivamente todos los archivos de un directorio
+function readDirRecursive(dir) {
+  let results = [];
+  const items = fs.readdirSync(dir);
+  
+  items.forEach((item) => {
+    const itemPath = path.join(dir, item);
+    const stat = fs.lstatSync(itemPath);
+    
+    if (stat.isDirectory()) {
+      results = results.concat(readDirRecursive(itemPath));
+    } else {
+      results.push(itemPath);
+    }
+  });
+  return results;
+}
 
+
+
+function entregableAssetsTask(cb) {
+  try {
+    // 1. Obtenemos la lista de todos los archivos de markdowns
+    const allFiles = readDirRecursive(paths.entregableAssets);
+
+    // 2. Filtramos solo los que sean imágenes
+    const imageFiles = allFiles.filter(file => /\.(png|jpe?g|svg|webp)$/i.test(file));
+
+    // 3. Copiamos cada imagen a 'assets' con el nombre base (aplanado)
+    imageFiles.forEach(file => {
+      const fileName = path.basename(file);
+      copy(file, path.join('assets', fileName));
+    });
+
+    cb();
+  } catch (error) {
+    cb(error);
+  }
+}
 // Copia los assets a la carpeta de build
 // function assetsTask() {
 //   return src(paths.assets, { allowEmpty: true })
@@ -55,6 +94,7 @@ function assetsTask(cb) {
     .then(() => cb())
     .catch(err => cb(err));
 }
+
 
 // Copia el HTML
 function htmlTask() {
@@ -77,6 +117,7 @@ function sitemapTask() {
 // Construye todo en paralelo (tras limpiar la carpeta)
 const build = series(
   clean,
+  entregableAssetsTask,
   parallel(elmTask, assetsTask, htmlTask, robotsTask, sitemapTask)
 );
 
@@ -92,4 +133,4 @@ function watchTask() {
 const dev = series(build, watchTask);
 
 // Exporta las tareas
-export { dev, watchTask as watch, build, build as default };
+export { dev, watchTask as watch, build, build as default, entregableAssetsTask as entregableAssets};

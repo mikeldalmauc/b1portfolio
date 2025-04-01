@@ -4,6 +4,7 @@ import Dict exposing (Dict)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
+import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
 import Styles exposing (..)
 import Types exposing (..)

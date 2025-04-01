@@ -3,23 +3,27 @@ module Entregables.Entregable1B exposing (..)
 import Element exposing (..)
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes
-import Views.Contenidos exposing (videoView)
+import Views.ContenidosViews exposing (videoView)
+
 
 title : String
-title = "1.B Trabajo en equipo"
+title =
+    "1.B Trabajo en equipo"
+
 
 view : Element msg
-view = 
-    Element.textColumn [ spacing 10, padding 10, centerX, centerY]
+view =
+    Element.textColumn [ spacing 10, padding 10, centerX, centerY ]
         [ paragraph [] [ text testText ]
         , el [ alignLeft ] none
-        ,  el [ centerX, centerY ]
-            <| videoView  "https://www.youtube.com/embed/o5Gv4_FdcYs?si=pcHtFUzWvv0IjbrM"
+        , el [ centerX, centerY ] <|
+            videoView "https://www.youtube.com/embed/o5Gv4_FdcYs?si=pcHtFUzWvv0IjbrM"
         , paragraph [] [ text "lots of text ...." ]
         ]
-      
+
+
 testText : String
-testText = 
+testText =
     """
     # B1 portfolio website
 
@@ -84,5 +88,3 @@ testText =
 
     ```
     """
-
-

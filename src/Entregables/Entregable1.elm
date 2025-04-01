@@ -6,7 +6,7 @@ import MarkdownThemed
 
 title : String
 title =
-    "1.A Comunicación - Contexto colaborativo del equipo docente"
+    "1 Compromiso profesional"
 
 
 view : Element msg

@@ -15,7 +15,8 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Events as Events
-import Element.Font as Font
+import Element.Font as Fon
+import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
 import Route
@@ -124,12 +125,29 @@ update msg model =
                     ( model, Navigation.load url )
 
         UrlChanged url ->
-            case getEntregableFromRoute (Route.decode url) of
+            let
+                newRoute =
+                    Route.decode url
+
+                maybeFragment =
+                    url.fragment
+            in
+            case getEntregableFromRoute newRoute of
                 Just entregable ->
-                    ( { model | route = Route.decode url }, Cmd.batch [ Task.perform (\_ -> OpenModal entregable) (Task.succeed ()) ] )
+                    ( { model | route = newRoute }
+                    , Cmd.batch
+                        [ Task.perform (\_ -> OpenModal entregable) (Task.succeed ())
+                        , scrollToId maybeFragment
+                        ]
+                    )
 
                 Nothing ->
-                    ( { model | route = Route.decode url }, Cmd.batch [ Task.perform (\_ -> CloseModal) (Task.succeed ()) ] )
+                    ( { model | route = newRoute }
+                    , Cmd.batch
+                        [ Task.perform (\_ -> CloseModal) (Task.succeed ())
+                        , scrollToId maybeFragment
+                        ]
+                    )
 
         DeviceClassified dimensions ->
             ( { model | device = classifyDevice dimensions, dimensions = dimensions }, Cmd.none )
@@ -205,6 +223,21 @@ update msg model =
 scrollToTop : Cmd Msg
 scrollToTop =
     Browser.Dom.setViewport 0 0 |> Task.perform (\() -> NoOp)
+
+
+scrollToId : Maybe String -> Cmd Msg
+scrollToId elementId =
+    case elementId of
+        Nothing ->
+            Task.perform (\_ -> NoOp) (Task.succeed ())
+
+        Just e ->
+            Browser.Dom.getElement e
+                |> Task.andThen
+                    (\info ->
+                        Browser.Dom.setViewportOf "documentElement" 0 info.element.y
+                    )
+                |> Task.attempt (\_ -> NoOp)
 
 
 

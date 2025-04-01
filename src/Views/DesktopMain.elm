@@ -5,6 +5,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
+import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
 import Styles exposing (..)

@@ -13,6 +13,7 @@ import Markdown.Parser
 import Markdown.Renderer
 import Styles
 
+
 type alias Theme =
     { defaultText : Color
     , mutedText : Color
@@ -26,7 +27,7 @@ lightTheme : Theme
 lightTheme =
     { defaultText = rgb255 30 50 46
     , mutedText = rgb255 74 94 122
-    , link = rgb255 12 82 200
+    , link = Styles.linkBlue
     , lightGrey = rgb255 248 250 240
     , grey = rgb255 200 220 240
     }
@@ -56,7 +57,8 @@ render chosenRenderer markdownBody =
                                     ]
                        )
                     |> column
-                        [ width fill, spacing 10
+                        [ width fill
+                        , spacing 10
                         ]
            )
 
@@ -124,7 +126,7 @@ renderer theme =
                 |> Markdown.Html.withOptionalAttribute "bg"
             , Markdown.Html.tag "br" (\_ -> html <| Html.br [] [])
             ]
-    , text = \s -> el [Styles.montserrat] (text s)
+    , text = \s -> el [ Styles.montserrat ] (text s)
     , codeSpan =
         \content -> html (Html.code [ Html.Attributes.style "color" "#220cb0" ] [ Html.text content ])
     , strong = \list -> paragraph [ Font.bold ] list
@@ -149,7 +151,9 @@ renderer theme =
         \{ alt, src, title } ->
             let
                 attrs =
-                    [ title |> Maybe.map (\title_ -> htmlAttribute (Html.Attributes.attribute "title" title_)) ]
+                    [ title |> Maybe.map (\title_ -> htmlAttribute (Html.Attributes.attribute "title" title_))
+                    , width fill |> Just
+                    ]
                         |> justs
             in
             image
@@ -220,7 +224,7 @@ renderer theme =
                 , scrollbarX
                 , Background.color Styles.grisclaro5
                 ]
-                [ el [centerY, padding 10] <| html (Html.text body) ]
+                [ el [ centerY, padding 10 ] <| html (Html.text body) ]
     , thematicBreak = Styles.divider
     , table = \children -> column [ width fill ] children
     , tableHeader = \children -> column [] children
@@ -274,7 +278,7 @@ heading theme { level, rawText, children } =
                 ]
          )
             ++ [ Styles.montserrat
-                , Region.heading (Markdown.Block.headingLevelToInt level)
+               , Region.heading (Markdown.Block.headingLevelToInt level)
                , htmlAttribute
                     (Html.Attributes.attribute "name" (rawTextToId rawText))
                , htmlAttribute
