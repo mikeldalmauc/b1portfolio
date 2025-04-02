@@ -41,7 +41,7 @@ type alias Model =
     , dimensions : Dimensions
     , hovered : Set Int
     , modalVisibility : ModalVisibilty
-    , modalView : Element Msg
+    , modalView : Dimensions -> Element Msg
     , modalTitle : String
     , entregables : Dict String Entregable
     , sortOrder : SortOrder
@@ -75,7 +75,7 @@ type alias Entregable =
     , descripcionEntregable : String
     , tipoEvidencia : Maybe String
     , tituloModal : String
-    , vistaModal : Element Msg
+    , vistaModal : Dimensions -> Element Msg
     }
 
 

@@ -1,4 +1,4 @@
-module Views.DesktopMain exposing (view)
+module Views.DesktopView exposing (view)
 
 import Dict exposing (Dict)
 import Element exposing (..)
@@ -14,8 +14,7 @@ import Views.Botones as Botones exposing (..)
 import Views.Footer as Footer
 import Views.Header as Header
 import Views.Menu as Menu
-import Views.Modal as Modal
-import Views.PhoneMain as PhoneMain
+import Views.PhoneView as PhoneView
 
 
 view : Model -> Html Msg
@@ -29,7 +28,7 @@ view model =
                 Visible ->
                     row [ centerX, centerY, width (fill |> maximum 1150) ]
                         [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20 } ]
-                            model.modalView
+                            (model.modalView model.dimensions)
                         ]
 
         menu =

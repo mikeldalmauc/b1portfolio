@@ -3,6 +3,7 @@ module Entregables.Entregable1B exposing (..)
 import Element exposing (..)
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes
+import Types exposing (..)
 import Views.ContenidosViews exposing (videoView)
 
 
@@ -11,8 +12,8 @@ title =
     "1.B Trabajo en equipo"
 
 
-view : Element msg
-view =
+view : Dimensions -> Element msg
+view d =
     Element.textColumn [ spacing 10, padding 10, centerX, centerY ]
         [ paragraph [] [ text testText ]
         , el [ alignLeft ] none

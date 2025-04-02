@@ -14,24 +14,33 @@ title =
     "1.A Comunicación - Contexto colaborativo del equipo docente"
 
 
-view : Element msg
-view =
-    column []
-        [ breadcrumbs
-            [ Just (Entregable "1" Entregable1 "Compromiso profesional" (Just "video") E1.title E1.view)
-            , Just (Entregable "1.A" Entregable1A "Comunicación" (Just "captura") title none)
+view : Dimensions -> Element msg
+view d =
+    column [ width (fill |> maximum (round (toFloat d.width * 0.9))) ]
+        [ breadcrumbs d
+            [ Just ( Entregable1, E1.title )
+            , Just ( Entregable1A, title )
             ]
-        , content
-        , footerNavigation
-            (Just (Entregable "1" Entregable1 "Compromiso profesional" (Just "video") E1.title E1.view))
-            (Just (Entregable "1.B" Entregable1B "Trabajo en equipo" (Just "captura") E1B.title E1B.view))
+        , content d
+        , footerNavigation d
+            (Just ( Entregable1, E1.title ))
+            (Just ( Entregable1B, E1B.title ))
         ]
 
 
-content : Element msg
-content =
+content : Dimensions -> Element msg
+content d =
+    let
+        whatsappWidth =
+            String.fromInt <|
+                if d.width > 600 then
+                    600
+
+                else
+                    round (toFloat d.width * 0.9)
+    in
     MarkdownThemed.renderFull
-        """
+        ("""
 
 # 1.A Comunicación - Contexto colaborativo del equipo docente
 
@@ -75,7 +84,9 @@ Los usos incluyen:
 
 A continuación, se muestra una captura del grupo de whatsapp del departamento al que pertenezco:
 
-<img src="assets/1Awhatsapp.webp" width="600"/>
+<img src="assets/1Awhatsapp.webp" width='"""
+            ++ whatsappWidth
+            ++ """'/>
 
 
 ---
@@ -93,3 +104,4 @@ Se trata de una herramienta de comunicación asíncrona que muchas veces complem
 ---
 
 """
+        )

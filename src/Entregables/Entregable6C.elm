@@ -2,17 +2,19 @@ module Entregables.Entregable6C exposing (..)
 
 import Element exposing (..)
 import MarkdownThemed
+import Types exposing (..)
 
 
 title : String
-title = "6C Contenidos Digitales"
+title =
+    "6C Contenidos Digitales"
 
-view : Element msg
-view = 
-    el [scrollbars]
-    <|
-        MarkdownThemed.renderFull 
-    """
+
+view : Dimensions -> Element msg
+view d =
+    el [ scrollbars ] <|
+        MarkdownThemed.renderFull
+            """
 # B1 portfolio website
 
 Esta es una web estilo SPA (Single Page Application) desarrollada en ELM. Visita la web en [mikeldalmau.uk](https://mikeldalmau.uk)
@@ -76,5 +78,3 @@ Si no compila elm es posible que haya sentencias Debug.log en el código. Elm no
 
 ```
 """
-
-

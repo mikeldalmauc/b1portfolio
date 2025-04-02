@@ -215,4 +215,4 @@ getEntregable key dict =
             entregable
 
         Nothing ->
-            Entregable "0" HomepageRoute "Esto no es un entregable" Nothing "Esta pagina no debería verse" none
+            Entregable "0" HomepageRoute "Esto no es un entregable" Nothing "Esta pagina no debería verse" (\d -> none)

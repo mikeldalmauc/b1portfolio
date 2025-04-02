@@ -26,11 +26,10 @@ import Task
 import Types exposing (..)
 import Url exposing (Url)
 import Views.Botones as Botones exposing (..)
-import Views.DesktopMain as DesktopMain
+import Views.DesktopView as DesktopView
 import Views.Footer as Footer
 import Views.Header as Header
-import Views.Modal as Modal
-import Views.PhoneMain as PhoneMain
+import Views.PhoneView as PhoneView
 
 
 
@@ -76,7 +75,7 @@ init dimensions url key =
             , dimensions = dimensions
             , hovered = Set.empty
             , modalVisibility = Hidden
-            , modalView = none
+            , modalView = \d -> none
             , modalTitle = ""
             , entregables = entregables
             , sortOrder = Categories
@@ -204,7 +203,7 @@ update msg model =
             )
 
         CloseModal ->
-            ( { model | modalVisibility = Hidden, modalView = none }
+            ( { model | modalVisibility = Hidden, modalView = \d -> none }
             , Cmd.batch
                 [ Task.perform identity (Task.succeed HoverOffAll)
                 ]
@@ -270,16 +269,16 @@ viewHome model =
     , body =
         [ case deviceClass of
             Phone ->
-                PhoneMain.view model
+                PhoneView.view model
 
             Tablet ->
-                DesktopMain.view model
+                DesktopView.view model
 
             Desktop ->
-                DesktopMain.view model
+                DesktopView.view model
 
             BigDesktop ->
-                DesktopMain.view model
+                DesktopView.view model
         ]
     }
 

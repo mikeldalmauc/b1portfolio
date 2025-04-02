@@ -2,6 +2,7 @@ module Entregables.Entregable1 exposing (..)
 
 import Element exposing (..)
 import MarkdownThemed
+import Types exposing (..)
 
 
 title : String
@@ -9,8 +10,8 @@ title =
     "1 Compromiso profesional"
 
 
-view : Element msg
-view =
+view : Dimensions -> Element msg
+view d =
     el [] <|
         MarkdownThemed.renderFull
             """

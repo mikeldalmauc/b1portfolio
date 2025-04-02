@@ -9,8 +9,8 @@ import Styles exposing (..)
 import Types exposing (..)
 
 
-breadcrumbs : List (Maybe Entregable) -> Element msg
-breadcrumbs entregables =
+breadcrumbs : Dimensions -> List (Maybe ( Route, String )) -> Element msg
+breadcrumbs d entregables =
     let
         textAttrs =
             montserratSemiBold
@@ -30,8 +30,8 @@ breadcrumbs entregables =
                 :: List.map
                     (\entregable ->
                         case entregable of
-                            Just e ->
-                                link e.route e.tituloModal
+                            Just ( r, s ) ->
+                                link r s
 
                             Nothing ->
                                 none
@@ -48,18 +48,23 @@ breadcrumbs entregables =
         -- Usamos `List.intersperse` para intercalar la contrabarra entre los enlaces
         itemsConBarra : List (Element msg)
         itemsConBarra =
-            List.intersperse contrabarra routes
+            List.intersperse (text "   ") <|
+                List.intersperse contrabarra routes
     in
-    row
-        [ spacing 10
-        , padding 20
-        , alignLeft
+    -- wrappedRow
+    --     [ spacing 10
+    --     , padding 20
+    --     , alignLeft
+    --     ]
+    --     itemsConBarra
+    paragraph
+        [ alignLeft
         ]
         itemsConBarra
 
 
-footerNavigation : Maybe Entregable -> Maybe Entregable -> Element msg
-footerNavigation prev next =
+footerNavigation : Dimensions -> Maybe ( Route, String ) -> Maybe ( Route, String ) -> Element msg
+footerNavigation d prev next =
     let
         rowAttrs =
             \route -> [ width fill, height fill, spacing 20, padding 20, pointer, inFront <| Element.link [ width fill, height fill ] { url = Route.encode route, label = none } ]
@@ -69,11 +74,11 @@ footerNavigation prev next =
 
         prevLink =
             case prev of
-                Just e ->
-                    row
-                        (rowAttrs e.route)
+                Just ( r, t ) ->
+                    wrappedRow
+                        (rowAttrs r)
                         [ leftArrowSvg [] grisclaroHex
-                        , el textAttrs (text e.tituloModal)
+                        , paragraph textAttrs [ text t ]
                         ]
 
                 Nothing ->
@@ -81,18 +86,24 @@ footerNavigation prev next =
 
         nextLink =
             case next of
-                Just e ->
-                    row
-                        (rowAttrs e.route)
-                        [ el textAttrs (text e.tituloModal)
+                Just ( r, t ) ->
+                    wrappedRow
+                        (rowAttrs r)
+                        [ paragraph (Font.alignRight :: textAttrs) [ text t ]
                         , rightArrowSvg [] grisclaroHex
                         ]
 
                 Nothing ->
                     none
     in
-    Element.row
-        [ spacing 50, padding 50, centerX ]
+    Element.wrappedRow
+        [ spacing 50
+        , padding 50
+        , centerX
+        , width (fill |> maximum (round (toFloat d.width * 0.95)))
+
+        -- , explain Debug.todo
+        ]
         [ prevLink
         , nextLink
         ]
