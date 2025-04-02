@@ -26,7 +26,7 @@ breadcrumbs d entregables =
 
         routes : List (Element msg)
         routes =
-            link HomepageRoute "Inicio"
+            link HomepageRoute "Esquema"
                 :: List.map
                     (\entregable ->
                         case entregable of
@@ -109,13 +109,32 @@ footerNavigation d prev next =
         ]
 
 
-videoView : String -> Element msg
-videoView src =
+
+-- view : Dimensions -> Element msg
+-- view d =
+--     Element.textColumn [ spacing 10, padding 10, centerX, centerY ]
+--         [ paragraph [] [ text testText ]
+--         , el [ alignLeft ] none
+--         , el [ centerX, centerY ] <|
+--             videoView "https://www.youtube.com/embed/o5Gv4_FdcYs?si=pcHtFUzWvv0IjbrM"
+--         , paragraph [] [ text "lots of text ...." ]
+--         ]
+
+
+videoView : Dimensions -> String -> Element msg
+videoView d src =
+    let
+        w =
+            round <| toFloat d.width * 0.9
+
+        h =
+            round <| toFloat w * 0.56
+    in
     html <|
         Html.div []
             [ Html.node "iframe"
-                [ HtmlAttributes.width 560
-                , HtmlAttributes.height 315
+                [ HtmlAttributes.width w
+                , HtmlAttributes.height h
                 , HtmlAttributes.src src
                 , HtmlAttributes.attribute "title" "YouTube video player"
                 , HtmlAttributes.attribute "frameborder" "0"

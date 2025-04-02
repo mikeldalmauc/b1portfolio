@@ -5,11 +5,6 @@ import MarkdownThemed
 import Types exposing (..)
 
 
-title : String
-title =
-    "1 Compromiso profesional"
-
-
 view : Dimensions -> Element msg
 view d =
     el [] <|

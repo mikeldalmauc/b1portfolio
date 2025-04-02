@@ -1,91 +1,64 @@
 module Entregables.Entregable1B exposing (..)
 
 import Element exposing (..)
+import Entregables.Titulos exposing (..)
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes
+import MarkdownThemed
+import Route exposing (Route(..))
 import Types exposing (..)
-import Views.ContenidosViews exposing (videoView)
-
-
-title : String
-title =
-    "1.B Trabajo en equipo"
+import Views.ContenidosViews exposing (..)
 
 
 view : Dimensions -> Element msg
 view d =
-    Element.textColumn [ spacing 10, padding 10, centerX, centerY ]
-        [ paragraph [] [ text testText ]
-        , el [ alignLeft ] none
-        , el [ centerX, centerY ] <|
-            videoView "https://www.youtube.com/embed/o5Gv4_FdcYs?si=pcHtFUzWvv0IjbrM"
-        , paragraph [] [ text "lots of text ...." ]
+    column [ width (fill |> maximum (round (toFloat d.width * 0.9))) ]
+        [ breadcrumbs d
+            [ Just ( Entregable1, titulo "E1" )
+            , Just ( Entregable1B, titulo "E1B" )
+            ]
+        , content d
+        , footerNavigation d
+            (Just ( Entregable1A, titulo "E1A" ))
+            (Just ( Entregable1C, titulo "E1C" ))
         ]
 
 
-testText : String
-testText =
-    """
-    # B1 portfolio website
+content : Dimensions -> Element msg
+content d =
+    let
+        whatsappWidth =
+            String.fromInt <|
+                if d.width > 600 then
+                    600
 
-    Esta es una web estilo SPA (Single Page Application) desarrollada en ELM. Visita la web en [mikeldalmau.uk](https://mikeldalmau.uk)
+                else
+                    round (toFloat d.width * 0.9)
+    in
+    MarkdownThemed.renderFull
+        """
 
-    - [B1 portfolio website](#b1-portfolio-website)
-    - [Ejecutar el entorno de desarrollo](#ejecutar-el-entorno-de-desarrollo)
-        - [Troubleshooting :wrench:](#troubleshooting-wrench)
-    - [Preparar la web para producción :rocket:](#preparar-la-web-para-producción-rocket)
-        - [Troubleshooting :wrench:](#troubleshooting-wrench-1)
-    - [Extensiones Recomendadas :rainbow:](#extensiones-recomendadas-rainbow)
+# 1.B Contexto de colaboración
 
+- [Nube - Google Drive](#nube---google-drive)
+- [Cuaderno del profesor](#cuaderno-del-profesor)
 
-    ## Ejecutar el entorno de desarrollo 
+## Nube - Google Drive
 
-    El entorno de desarrollo utiliza un único contenedor Debian con node y elm. Para ejecutarlo es necesario tener instalado Docker y Docker Compose.
+En el centro, la herramienta que utilizamos como sistema de información y colaboración es **Google Drive**. 
 
-    ```bash
-    docker compose up --build
-    ```
+Aquí, toda la información está disponible y clasificada para que el profesorado pueda acceder y coordinarse gracias a los documentos que se actualizan en vivo y al momento. 
 
-    Un vez que la imagen del contenedor esté construida y el contenedor esté en ejecución, se puede acceder a la web en la dirección http://localhost:8000. Ya no hace flata que agregues el el parametro --build, a menos que quieras reconstruir la imagen.
+![Captura de google drive](assets/1BDrive.webp)
 
-    ```bash
-    docker compose up
-    ```
+## Cuaderno del profesor
 
-    Es apropiado en este caso no usar el parametro `-d` ya que se necesita ver la salida de la consola para ver los mensajes de error del live server y de la compilación de elm. 
+Estos cuadernos son **fundamentales para la colaboración del equipo docente** y se alojan en la nube para manterse actualizados y sincronizados.
 
+Los cuadernos se crean a nivel de modulo y por retos e incluyen aspectos como rúbricas, seguimiento de faltas, planificaciones, horarios, calificaciones, agrupamiento del alumnado etc
 
-    ### Troubleshooting :wrench:
+![alt text](assets/1BCuaderno.webp)
 
-    Si tienes problemas con la descarga de paquetes de debian al construir el contenedor, en windows puedes intentar con el siguiente comando: `ipconfig /flushdns` para borrar el cache de la resolución de nombres DNS.
+--- 
 
-    ## Preparar la web para producción :rocket:
-
-    Averigua el nombre del contendor y accede al este con el siguiente comando:
-
-    ```bash
-    docker exec -it nombre-contendor bash
-    ```
-
-    Lanza el comando `gulp` para generar la web en la carpeta `build`.
-
-    ```bash
-    gulp
-    ```
-
-    El contenido de la carpeta `build` se puede servir directamnete con cualquier servidor web ya que esta todo construido y minificado.
-
-
-    ### Troubleshooting :wrench: 
-
-    Si no compila elm es posible que haya sentencias Debug.log en el código. Elm no permite sentencias de log en producción.
-
-    ## Extensiones Recomendadas :rainbow:
-
-    ![alt text](doc/image.png)
-
-    --- 
-
-
-    ```
-    """
+"""

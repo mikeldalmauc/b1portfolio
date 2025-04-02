@@ -1,30 +1,24 @@
 module Entregables.Entregable1A exposing (..)
 
 import Element exposing (..)
-import Entregables.Entregable1 as E1
-import Entregables.Entregable1B as E1B
+import Entregables.Titulos exposing (..)
 import MarkdownThemed
 import Route exposing (Route(..))
 import Types exposing (..)
 import Views.ContenidosViews exposing (..)
 
 
-title : String
-title =
-    "1.A Comunicación - Contexto colaborativo del equipo docente"
-
-
 view : Dimensions -> Element msg
 view d =
     column [ width (fill |> maximum (round (toFloat d.width * 0.9))) ]
         [ breadcrumbs d
-            [ Just ( Entregable1, E1.title )
-            , Just ( Entregable1A, title )
+            [ Just ( Entregable1, titulo "E1" )
+            , Just ( Entregable1A, titulo "E1A" )
             ]
         , content d
         , footerNavigation d
-            (Just ( Entregable1, E1.title ))
-            (Just ( Entregable1B, E1B.title ))
+            (Just ( Entregable1, titulo "E1" ))
+            (Just ( Entregable1B, titulo "E1B" ))
         ]
 
 
@@ -42,11 +36,11 @@ content d =
     MarkdownThemed.renderFull
         ("""
 
-# 1.A Comunicación - Contexto colaborativo del equipo docente
+# 1.A Contexto para la comunicación
 
 - [Correo electrónico - Gmail](#correo-electrónico---gmail)
 - [Chats - Whatsapp](#chats---whatsapp)
-- [Nube - Google Drive](#nube---google-drive)
+- [Web del centro](#web-del-centro)
 
 ## Correo electrónico - Gmail
 
@@ -91,15 +85,11 @@ A continuación, se muestra una captura del grupo de whatsapp del departamento a
 
 ---
 
-## Nube - Google Drive
+## Web del centro
 
-En el centro, la herramienta que utilizamos como sistema de información y comunicación es **Google Drive**. 
+La web del centro es otro canal de comunicación que suele utilizarse para publicar eventos. Además incluye una sección privada para el profesorado donde se enlaza documentos de Drive para que estos sean más accesibles y también una herramienta para la gestion de faltas y guardias del profesorado.
 
-Aquí, toda la información está disponible y clasificada para que el profesorado pueda acceder y coordinarse gracias a los documentos que se actualizan en vivo y al momento. 
-
-Se trata de una herramienta de comunicación asíncrona que muchas veces complementa al correo electrónico, ya que los correos suelen incluir enlaces a documentos como listas en las que apuntarse, normativas, protocolos etc.
-
-![Captura de google drive](assets/1ADrive.webp)
+![Captura de seccion de noticias de la web del centro](assets/1AWeb.webp)
 
 ---
 

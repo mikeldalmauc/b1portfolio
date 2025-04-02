@@ -142,7 +142,7 @@ update msg model =
                                 )
 
                         Nothing ->
-                            Cmd.none
+                            scrollToTop
             in
             case getEntregableFromRoute newRoute of
                 Just entregable ->
