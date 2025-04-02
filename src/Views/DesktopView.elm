@@ -1,4 +1,4 @@
-module Views.DesktopMain exposing (view)
+module Views.DesktopView exposing (view)
 
 import Dict exposing (Dict)
 import Element exposing (..)
@@ -8,14 +8,14 @@ import Element.Font as Font
 import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
+import Lottie
 import Styles exposing (..)
 import Types exposing (..)
 import Views.Botones as Botones exposing (..)
 import Views.Footer as Footer
 import Views.Header as Header
 import Views.Menu as Menu
-import Views.Modal as Modal
-import Views.PhoneMain as PhoneMain
+import Views.PhoneView as PhoneView
 
 
 view : Model -> Html Msg
@@ -27,9 +27,9 @@ view model =
                     contenido model
 
                 Visible ->
-                    row [ centerX, centerY, width (fill |> maximum 1150) ]
+                    row [ centerX, centerY, width (fill |> maximum 900) ]
                         [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20 } ]
-                            model.modalView
+                            (model.modalView model.dimensions)
                         ]
 
         menu =
@@ -63,7 +63,7 @@ view model =
 
 contenido : Model -> Element Msg
 contenido model =
-    row [ centerX, centerY, spacing 40, width fill ]
+    row [ centerX, centerY, spacing 40, width fill, inFront <| Lottie.viewTeaching, inFront <| Lottie.viewStudent ]
         [ aside model
         , mainSection model
         , asideEvidencias

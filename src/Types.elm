@@ -4,6 +4,7 @@ import Browser exposing (UrlRequest)
 import Browser.Navigation as Navigation
 import Dict exposing (Dict)
 import Element exposing (Color, Device, Element)
+import Lottie
 import Route exposing (Route(..))
 import Set exposing (Set)
 import Url exposing (Url)
@@ -28,6 +29,7 @@ type Msg
     | SortEntregables SortOrder
     | GoTo Route
     | OpenMenu
+    | LottieMsg
 
 
 
@@ -41,7 +43,7 @@ type alias Model =
     , dimensions : Dimensions
     , hovered : Set Int
     , modalVisibility : ModalVisibilty
-    , modalView : Element Msg
+    , modalView : Dimensions -> Element Msg
     , modalTitle : String
     , entregables : Dict String Entregable
     , sortOrder : SortOrder
@@ -75,7 +77,7 @@ type alias Entregable =
     , descripcionEntregable : String
     , tipoEvidencia : Maybe String
     , tituloModal : String
-    , vistaModal : Element Msg
+    , vistaModal : Dimensions -> Element Msg
     }
 
 

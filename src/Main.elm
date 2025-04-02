@@ -1,4 +1,4 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 -- Press buttons to increment and decrement a counter.
 --
@@ -19,6 +19,7 @@ import Element.Font as Fon
 import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
+import Lottie
 import Route
 import Set exposing (Set)
 import Styles exposing (..)
@@ -26,11 +27,17 @@ import Task
 import Types exposing (..)
 import Url exposing (Url)
 import Views.Botones as Botones exposing (..)
-import Views.DesktopMain as DesktopMain
+import Views.DesktopView as DesktopView
 import Views.Footer as Footer
 import Views.Header as Header
-import Views.Modal as Modal
-import Views.PhoneMain as PhoneMain
+import Views.PhoneView as PhoneView
+
+
+
+-- Define el puerto para pedir una animación
+
+
+port playLottie : List String -> Cmd msg
 
 
 
@@ -76,7 +83,7 @@ init dimensions url key =
             , dimensions = dimensions
             , hovered = Set.empty
             , modalVisibility = Hidden
-            , modalView = none
+            , modalView = \d -> none
             , modalTitle = ""
             , entregables = entregables
             , sortOrder = Categories
@@ -91,11 +98,11 @@ init dimensions url key =
                 , modalTitle = entregable.tituloModal
                 , modalView = entregable.vistaModal
               }
-            , Cmd.none
+            , Task.perform (\_ -> LottieMsg) (Task.succeed ())
             )
 
         Nothing ->
-            ( baseModel, Cmd.none )
+            ( baseModel, Task.perform (\_ -> LottieMsg) (Task.succeed ()) )
 
 
 
@@ -118,7 +125,10 @@ update msg model =
                     --                 , Task.perform (\_ -> OpenModal entregable) (Task.succeed ())])
                     --     Nothing ->
                     ( model
-                    , Navigation.pushUrl model.key (Url.toString url)
+                    , Cmd.batch
+                        [ Navigation.pushUrl model.key (Url.toString url)
+                        , Task.perform (\_ -> LottieMsg) (Task.succeed ())
+                        ]
                     )
 
                 External url ->
@@ -129,15 +139,30 @@ update msg model =
                 newRoute =
                     Route.decode url
 
-                maybeFragment =
-                    url.fragment
+                -- Prepara un comando de scroll si hay un fragmento presente
+                scrollCmd =
+                    case url.fragment of
+                        Just fragmentId ->
+                            Task.attempt (always NoOp)
+                                (Browser.Dom.getElement fragmentId
+                                    |> Task.andThen
+                                        (\elem ->
+                                            -- Desplazar la ventana al punto Y del elemento
+                                            Browser.Dom.setViewport 0 (elem.element.y - (elem.element.height + 20))
+                                        )
+                                )
+
+                        Nothing ->
+                            scrollToTop
             in
             case getEntregableFromRoute newRoute of
                 Just entregable ->
                     ( { model | route = newRoute }
                     , Cmd.batch
                         [ Task.perform (\_ -> OpenModal entregable) (Task.succeed ())
-                        , scrollToId maybeFragment
+                        , scrollCmd
+
+                        --  , Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ())
                         ]
                     )
 
@@ -145,7 +170,8 @@ update msg model =
                     ( { model | route = newRoute }
                     , Cmd.batch
                         [ Task.perform (\_ -> CloseModal) (Task.succeed ())
-                        , scrollToId maybeFragment
+
+                        -- , Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ())
                         ]
                     )
 
@@ -191,7 +217,7 @@ update msg model =
             )
 
         CloseModal ->
-            ( { model | modalVisibility = Hidden, modalView = none }
+            ( { model | modalVisibility = Hidden, modalView = \d -> none }
             , Cmd.batch
                 [ Task.perform identity (Task.succeed HoverOffAll)
                 ]
@@ -219,25 +245,16 @@ update msg model =
             , Cmd.none
             )
 
+        LottieMsg ->
+            ( model
+            , Cmd.batch
+                [ playLottie Lottie.animationids ]
+            )
+
 
 scrollToTop : Cmd Msg
 scrollToTop =
     Browser.Dom.setViewport 0 0 |> Task.perform (\() -> NoOp)
-
-
-scrollToId : Maybe String -> Cmd Msg
-scrollToId elementId =
-    case elementId of
-        Nothing ->
-            Task.perform (\_ -> NoOp) (Task.succeed ())
-
-        Just e ->
-            Browser.Dom.getElement e
-                |> Task.andThen
-                    (\info ->
-                        Browser.Dom.setViewportOf "documentElement" 0 info.element.y
-                    )
-                |> Task.attempt (\_ -> NoOp)
 
 
 
@@ -272,16 +289,16 @@ viewHome model =
     , body =
         [ case deviceClass of
             Phone ->
-                PhoneMain.view model
+                PhoneView.view model
 
             Tablet ->
-                DesktopMain.view model
+                DesktopView.view model
 
             Desktop ->
-                DesktopMain.view model
+                DesktopView.view model
 
             BigDesktop ->
-                DesktopMain.view model
+                DesktopView.view model
         ]
     }
 

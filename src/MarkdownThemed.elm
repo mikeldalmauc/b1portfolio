@@ -79,7 +79,7 @@ bulletPoint children =
 renderer : Theme -> Markdown.Renderer.Renderer (Element msg)
 renderer theme =
     { heading = \data -> row [] [ heading theme data ]
-    , paragraph = paragraph [ paddingEach { left = 0, right = 0, top = 0, bottom = 20 } ]
+    , paragraph = paragraph [ spacing 15, paddingEach { left = 0, right = 0, top = 0, bottom = 20 } ]
     , blockQuote =
         \children ->
             column
@@ -93,37 +93,7 @@ renderer theme =
                 children
     , html =
         Markdown.Html.oneOf
-            [ Markdown.Html.tag "img"
-                (\src width_ maxWidth_ bg_ content ->
-                    let
-                        attrs =
-                            case maxWidth_ of
-                                Just maxWidth ->
-                                    [ maxWidth
-                                        |> String.toInt
-                                        |> Maybe.map (\w -> width (fill |> maximum w))
-                                        |> Maybe.withDefault (width fill)
-                                    , centerX
-                                    ]
-
-                                Nothing ->
-                                    [ width_
-                                        |> Maybe.andThen String.toInt
-                                        |> Maybe.map (\w -> width (px w))
-                                        |> Maybe.withDefault (width fill)
-                                    ]
-                    in
-                    case bg_ of
-                        Just bg ->
-                            el [ Border.rounded 10, padding 20 ] <| image attrs { src = src, description = "" }
-
-                        Nothing ->
-                            image attrs { src = src, description = "" }
-                )
-                |> Markdown.Html.withAttribute "src"
-                |> Markdown.Html.withOptionalAttribute "width"
-                |> Markdown.Html.withOptionalAttribute "maxwidth"
-                |> Markdown.Html.withOptionalAttribute "bg"
+            [ htmlImageView
             , Markdown.Html.tag "br" (\_ -> html <| Html.br [] [])
             ]
     , text = \s -> el [ Styles.montserrat ] (text s)
@@ -153,6 +123,7 @@ renderer theme =
                 attrs =
                     [ title |> Maybe.map (\title_ -> htmlAttribute (Html.Attributes.attribute "title" title_))
                     , width fill |> Just
+                    , paddingEach { top = 30, right = 10, bottom = 20, left = 10 } |> Just
                     ]
                         |> justs
             in
@@ -308,3 +279,38 @@ justs =
                     acc
         )
         []
+
+
+htmlImageView : Markdown.Html.Renderer (a -> Element msg)
+htmlImageView =
+    Markdown.Html.tag "img"
+        (\src width_ maxWidth_ bg_ content ->
+            let
+                attrs =
+                    case maxWidth_ of
+                        Just maxWidth ->
+                            [ maxWidth
+                                |> String.toInt
+                                |> Maybe.map (\w -> width (fill |> maximum w))
+                                |> Maybe.withDefault (width fill)
+                            , centerX
+                            ]
+
+                        Nothing ->
+                            [ width_
+                                |> Maybe.andThen String.toInt
+                                |> Maybe.map (\w -> width (px w))
+                                |> Maybe.withDefault (width fill)
+                            ]
+            in
+            case bg_ of
+                Just bg ->
+                    el [ Border.rounded 10, padding 20 ] <| image attrs { src = src, description = "" }
+
+                Nothing ->
+                    image attrs { src = src, description = "" }
+        )
+        |> Markdown.Html.withAttribute "src"
+        |> Markdown.Html.withOptionalAttribute "width"
+        |> Markdown.Html.withOptionalAttribute "maxwidth"
+        |> Markdown.Html.withOptionalAttribute "bg"

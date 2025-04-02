@@ -4,13 +4,14 @@ import Element exposing (..)
 import Element.Font as Font
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes
+import Lottie
 import Route exposing (..)
 import Styles exposing (..)
 import Types exposing (..)
 
 
-breadcrumbs : List (Maybe Entregable) -> Element msg
-breadcrumbs entregables =
+breadcrumbs : Dimensions -> List (Maybe ( Route, String )) -> Element msg
+breadcrumbs d entregables =
     let
         textAttrs =
             montserratSemiBold
@@ -26,12 +27,12 @@ breadcrumbs entregables =
 
         routes : List (Element msg)
         routes =
-            link HomepageRoute "Inicio"
+            link HomepageRoute "Esquema"
                 :: List.map
                     (\entregable ->
                         case entregable of
-                            Just e ->
-                                link e.route e.tituloModal
+                            Just ( r, s ) ->
+                                link r s
 
                             Nothing ->
                                 none
@@ -48,18 +49,23 @@ breadcrumbs entregables =
         -- Usamos `List.intersperse` para intercalar la contrabarra entre los enlaces
         itemsConBarra : List (Element msg)
         itemsConBarra =
-            List.intersperse contrabarra routes
+            List.intersperse (text "   ") <|
+                List.intersperse contrabarra routes
     in
-    row
-        [ spacing 10
-        , padding 20
-        , alignLeft
+    -- wrappedRow
+    --     [ spacing 10
+    --     , padding 20
+    --     , alignLeft
+    --     ]
+    --     itemsConBarra
+    paragraph
+        [ alignLeft
         ]
         itemsConBarra
 
 
-footerNavigation : Maybe Entregable -> Maybe Entregable -> Element msg
-footerNavigation prev next =
+footerNavigation : Dimensions -> Maybe ( Route, String ) -> Maybe ( Route, String ) -> Element msg
+footerNavigation d prev next =
     let
         rowAttrs =
             \route -> [ width fill, height fill, spacing 20, padding 20, pointer, inFront <| Element.link [ width fill, height fill ] { url = Route.encode route, label = none } ]
@@ -69,11 +75,11 @@ footerNavigation prev next =
 
         prevLink =
             case prev of
-                Just e ->
-                    row
-                        (rowAttrs e.route)
+                Just ( r, t ) ->
+                    wrappedRow
+                        (rowAttrs r)
                         [ leftArrowSvg [] grisclaroHex
-                        , el textAttrs (text e.tituloModal)
+                        , paragraph textAttrs [ text t ]
                         ]
 
                 Nothing ->
@@ -81,30 +87,69 @@ footerNavigation prev next =
 
         nextLink =
             case next of
-                Just e ->
-                    row
-                        (rowAttrs e.route)
-                        [ el textAttrs (text e.tituloModal)
+                Just ( r, t ) ->
+                    wrappedRow
+                        (rowAttrs r)
+                        [ paragraph (Font.alignRight :: textAttrs) [ text t ]
                         , rightArrowSvg [] grisclaroHex
                         ]
 
                 Nothing ->
                     none
     in
-    Element.row
-        [ spacing 50, padding 50, centerX ]
+    Element.wrappedRow
+        [ spacing 50
+        , padding 50
+        , centerX
+        , width (fill |> maximum (round (toFloat d.width * 0.95)))
+
+        -- , explain Debug.todo
+        ]
         [ prevLink
         , nextLink
         ]
 
 
-videoView : String -> Element msg
-videoView src =
+
+-- view : Dimensions -> Element msg
+-- view d =
+--     Element.textColumn [ spacing 10, padding 10, centerX, centerY ]
+--         [ paragraph [] [ text testText ]
+--         , el [ alignLeft ] none
+--         , el [ centerX, centerY ] <|
+--             videoView "https://www.youtube.com/embed/o5Gv4_FdcYs?si=pcHtFUzWvv0IjbrM"
+--         , paragraph [] [ text "lots of text ...." ]
+--         ]
+
+
+wip : Dimensions -> Element msg
+wip d =
+    column [ width fill, height fill, spacing 20 ]
+        [ el [] none
+        , el [] none
+        , el [] none
+        , el [] none
+        , Lottie.viewWip
+        , el [ centerX, montserrat, Font.size 22 ] (text "Work in progress...")
+        , el [] none
+        , el [] none
+        , el [] none
+        ]
+
+
+videoView d src =
+    let
+        w =
+            round <| toFloat d.width * 0.9
+
+        h =
+            round <| toFloat w * 0.56
+    in
     html <|
         Html.div []
             [ Html.node "iframe"
-                [ HtmlAttributes.width 560
-                , HtmlAttributes.height 315
+                [ HtmlAttributes.width w
+                , HtmlAttributes.height h
                 , HtmlAttributes.src src
                 , HtmlAttributes.attribute "title" "YouTube video player"
                 , HtmlAttributes.attribute "frameborder" "0"

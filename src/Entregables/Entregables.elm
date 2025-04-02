@@ -25,6 +25,7 @@ import Entregables.Entregable6B as E6B
 import Entregables.Entregable6C as E6C
 import Entregables.Entregable6D as E6D
 import Entregables.Entregable6E as E6E
+import Entregables.Titulos exposing (..)
 import Route exposing (Route(..))
 import Styles exposing (..)
 import Types exposing (..)
@@ -33,29 +34,29 @@ import Types exposing (..)
 entregables : Dict String Entregable
 entregables =
     Dict.fromList
-        [ ( "1", Entregable "1" Entregable1 "Compromiso profesional" (Just "video") E1.title E1.view )
-        , ( "2", Entregable "2" Entregable2 "Contenidos digitales" (Just "video") E2.title E2.view )
-        , ( "3", Entregable "3" Entregable3 "Enseñanza y aprendizaje" (Just "video") E3.title E3.view )
-        , ( "4", Entregable "4" Entregable4 "Evaluación y retroalimentación" (Just "video") E4.title E4.view )
-        , ( "5", Entregable "5" Entregable5 "Empoderamiento del alumnado" (Just "video") E5.title E5.view )
-        , ( "6", Entregable "6" Entregable6 "Desarrollo de la competencia digital del alumnado" (Just "video") E6.title E6.view )
-        , ( "1.A", Entregable "1.A" Entregable1A "Comunicación" (Just "captura") E1A.title E1A.view )
-        , ( "1.B", Entregable "1.B" Entregable1B "Trabajo en equipo" (Just "captura") E1B.title E1B.view )
-        , ( "1.C", Entregable "1.C" Entregable1C "Netiqueta" (Just "infografia") E1C.title E1C.view )
-        , ( "2.A", Entregable "2.A" Entregable2A "Básico" (Just "contenido") E2A.title E2A.view )
-        , ( "2.B", Entregable "2.B" Entregable2B "Profundización" (Just "contenido") E2B.title E2B.view )
-        , ( "3.A", Entregable "3.A" Entregable3A "Contexto colaborativo del alumnado" Nothing E3A.title E3A.view )
-        , ( "3.B", Entregable "3.B" Entregable3B "Recursos" Nothing E3B.title E3B.view )
-        , ( "4.A", Entregable "4.A" Entregable4A "Evaluación previa" Nothing E4A.title E4A.view )
-        , ( "4.B", Entregable "4.B" Entregable4B "Formativa" Nothing E4B.title E4B.view )
-        , ( "4.C", Entregable "4.C" Entregable4C "Retroalimentación" Nothing E4C.title E4C.view )
-        , ( "5.A", Entregable "5.A" Entregable5A "Accesibilidad" Nothing E5A.title E5A.view )
-        , ( "5.B", Entregable "5.B" Entregable5B "Personalización" Nothing E5B.title E5B.view )
-        , ( "6.A", Entregable "6.A" Entregable6A "Búsquedas" (Just "doc") E6A.title E6A.view )
-        , ( "6.B", Entregable "6.B" Entregable6B "Normas de conducta" (Just "doc") E6B.title E6B.view )
-        , ( "6.C", Entregable "6.C" Entregable6C "Contenidos digitales" (Just "doc") E6C.title E6C.view )
-        , ( "6.D", Entregable "6.D" Entregable6D "Uso responsable" (Just "doc") E6D.title E6D.view )
-        , ( "6.E", Entregable "6.E" Entregable6E "Resolución de problemas" (Just "doc") E6E.title E6E.view )
+        [ ( "1", Entregable "1" Entregable1 "Compromiso profesional" (Just "video") (titulo "E1") E1.view )
+        , ( "2", Entregable "2" Entregable2 "Contenidos digitales" (Just "video") (titulo "E2") E2.view )
+        , ( "3", Entregable "3" Entregable3 "Enseñanza y aprendizaje" (Just "video") (titulo "E3") E3.view )
+        , ( "4", Entregable "4" Entregable4 "Evaluación y retroalimentación" (Just "video") (titulo "E4") E4.view )
+        , ( "5", Entregable "5" Entregable5 "Empoderamiento del alumnado" (Just "video") (titulo "E5") E5.view )
+        , ( "6", Entregable "6" Entregable6 "Desarrollo de la competencia digital del alumnado" (Just "video") (titulo "E6") E6.view )
+        , ( "1.A", Entregable "1.A" Entregable1A "Comunicación" (Just "captura") (titulo "E1A") E1A.view )
+        , ( "1.B", Entregable "1.B" Entregable1B "Trabajo en equipo" (Just "captura") (titulo "E1B") E1B.view )
+        , ( "1.C", Entregable "1.C" Entregable1C "Netiqueta" (Just "infografia") (titulo "E1C") E1C.view )
+        , ( "2.A", Entregable "2.A" Entregable2A "Básico" (Just "contenido") (titulo "E2A") E2A.view )
+        , ( "2.B", Entregable "2.B" Entregable2B "Profundización" (Just "contenido") (titulo "E2B") E2B.view )
+        , ( "3.A", Entregable "3.A" Entregable3A "Contexto colaborativo del alumnado" Nothing (titulo "E3A") E3A.view )
+        , ( "3.B", Entregable "3.B" Entregable3B "Recursos" Nothing (titulo "E3B") E3B.view )
+        , ( "4.A", Entregable "4.A" Entregable4A "Evaluación previa" Nothing (titulo "E4A") E4A.view )
+        , ( "4.B", Entregable "4.B" Entregable4B "Formativa" Nothing (titulo "E4B") E4B.view )
+        , ( "4.C", Entregable "4.C" Entregable4C "Retroalimentación" Nothing (titulo "E4C") E4C.view )
+        , ( "5.A", Entregable "5.A" Entregable5A "Accesibilidad" Nothing (titulo "E5A") E5A.view )
+        , ( "5.B", Entregable "5.B" Entregable5B "Personalización" Nothing (titulo "E5B") E5B.view )
+        , ( "6.A", Entregable "6.A" Entregable6A "Búsquedas" (Just "doc") (titulo "E6A") E6A.view )
+        , ( "6.B", Entregable "6.B" Entregable6B "Normas de conducta" (Just "doc") (titulo "E6B") E6B.view )
+        , ( "6.C", Entregable "6.C" Entregable6C "Contenidos digitales" (Just "doc") (titulo "E6C") E6C.view )
+        , ( "6.D", Entregable "6.D" Entregable6D "Uso responsable" (Just "doc") (titulo "E6D") E6D.view )
+        , ( "6.E", Entregable "6.E" Entregable6E "Resolución de problemas" (Just "doc") (titulo "E6E") E6E.view )
         ]
 
 
@@ -215,4 +216,4 @@ getEntregable key dict =
             entregable
 
         Nothing ->
-            Entregable "0" HomepageRoute "Esto no es un entregable" Nothing "Esta pagina no debería verse" none
+            Entregable "0" HomepageRoute "Esto no es un entregable" Nothing "Esta pagina no debería verse" (\d -> none)

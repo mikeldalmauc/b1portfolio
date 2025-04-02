@@ -1,4 +1,4 @@
-module Views.PhoneMain exposing (view)
+module Views.PhoneView exposing (view)
 
 import Dict exposing (Dict)
 import Element exposing (..)
@@ -48,10 +48,17 @@ view model =
         [ width fill, height fill, centerX, centerY, inFront phoneHeaderView ]
     <|
         column [ centerX, width fill, height fill ]
-            [ row [ centerX, centerY, width fill, height fill, paddingEach { top = 40, left = 0, bottom = 50, right = 0 } ] <|
+            [ row
+                [ centerX
+                , centerY
+                , width fill
+                , height fill
+                , paddingEach { top = 40, left = 0, bottom = 50, right = 0 }
+                ]
+              <|
                 [ sideFiller
                 , if model.modalVisibility == Visible then
-                    el [ centerX, centerY, width (fillPortion 17), height fill, paddingEach { top = 80, bottom = 20, left = 10, right = 10 } ] model.modalView
+                    el [ centerX, centerY, width (fillPortion 17), height fill, paddingEach { top = 80, bottom = 20, left = 10, right = 10 } ] (model.modalView model.dimensions)
 
                   else
                     mainBlock
