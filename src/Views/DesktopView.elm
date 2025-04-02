@@ -8,6 +8,7 @@ import Element.Font as Font
 import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
+import Lottie
 import Styles exposing (..)
 import Types exposing (..)
 import Views.Botones as Botones exposing (..)
@@ -26,7 +27,7 @@ view model =
                     contenido model
 
                 Visible ->
-                    row [ centerX, centerY, width (fill |> maximum 1150) ]
+                    row [ centerX, centerY, width (fill |> maximum 900) ]
                         [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20 } ]
                             (model.modalView model.dimensions)
                         ]
@@ -62,7 +63,7 @@ view model =
 
 contenido : Model -> Element Msg
 contenido model =
-    row [ centerX, centerY, spacing 40, width fill ]
+    row [ centerX, centerY, spacing 40, width fill, inFront <| Lottie.view model.lottie ]
         [ aside model
         , mainSection model
         , asideEvidencias

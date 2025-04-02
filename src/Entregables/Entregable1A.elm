@@ -27,8 +27,8 @@ content d =
     let
         whatsappWidth =
             String.fromInt <|
-                if d.width > 600 then
-                    600
+                if d.width > 400 then
+                    400
 
                 else
                     round (toFloat d.width * 0.9)

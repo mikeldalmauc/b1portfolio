@@ -42,6 +42,7 @@ content d =
 
 - [Nube - Google Drive](#nube---google-drive)
 - [Cuaderno del profesor](#cuaderno-del-profesor)
+- [Repositorios de GitHub](#repositorios-de-github)
 
 ## Nube - Google Drive
 
@@ -61,4 +62,21 @@ Los cuadernos se crean a nivel de modulo y por retos e incluyen aspectos como r�
 
 --- 
 
+## Repositorios de GitHub
+
+Los repositorios de GitHub son la herramienta que utilizamos para almacenar y versionar el código de los proyectos.
+Los repositorios se crean a nivel de modulo y por retos y ayudan a evaluar aspectos como la planificación, el seguimiento del alumnado, las entregas, los issues y pull requests, etc.
+
+Github ofrece la posibilidad de crear organizaciones, lo que permite crear equipos de trabajo y crear repositorios privados con permisos de acceso restringidos a los miembros del equipo y el profesorado.
+
+![alt text](assets/1BEquipos.png)
+
+A continuación se muestra una organización creada para la asignatura de **Desarrollo de Aplicaciones Multiplataforma**. En las pestañas se pueden ver la cantidad de equipos, repositorios y miembros de la organización.
+
+![alt text](assets/1BFPTxurdinagaDAM.png)
+
+A nivel de centro, todos estas organizaciones se agrupan en una Enterprise de nombre **CIFP Txurdinaga LHII**. 
+En esta organización se pueden ver los diferentes módulos y asignaturas que se imparten en el centro y los repositorios creados por cada uno de ellos.
+
+![alt text](assets/1BEnterprise.png)
 """

@@ -1,4 +1,4 @@
-module Main exposing (..)
+port module Main exposing (..)
 
 -- Press buttons to increment and decrement a counter.
 --
@@ -19,6 +19,7 @@ import Element.Font as Fon
 import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
+import Lottie
 import Route
 import Set exposing (Set)
 import Styles exposing (..)
@@ -30,6 +31,13 @@ import Views.DesktopView as DesktopView
 import Views.Footer as Footer
 import Views.Header as Header
 import Views.PhoneView as PhoneView
+
+
+
+-- Define el puerto para pedir una animación
+
+
+port playLottie : { animationId : String, jsonPath : String } -> Cmd msg
 
 
 
@@ -68,6 +76,9 @@ init dimensions url key =
         route =
             Route.decode url
 
+        ( lottieModel, lottieCmd ) =
+            Lottie.init "teaching-animation"
+
         baseModel =
             { key = key
             , route = route
@@ -80,6 +91,7 @@ init dimensions url key =
             , entregables = entregables
             , sortOrder = Categories
             , menuVisible = Hidden
+            , lottie = lottieModel
             }
     in
     case getEntregableFromRoute route of
@@ -90,11 +102,11 @@ init dimensions url key =
                 , modalTitle = entregable.tituloModal
                 , modalView = entregable.vistaModal
               }
-            , Cmd.none
+            , Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ())
             )
 
         Nothing ->
-            ( baseModel, Cmd.none )
+            ( baseModel, Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ()) )
 
 
 
@@ -117,7 +129,10 @@ update msg model =
                     --                 , Task.perform (\_ -> OpenModal entregable) (Task.succeed ())])
                     --     Nothing ->
                     ( model
-                    , Navigation.pushUrl model.key (Url.toString url)
+                    , Cmd.batch
+                        [ Navigation.pushUrl model.key (Url.toString url)
+                        , Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ())
+                        ]
                     )
 
                 External url ->
@@ -137,7 +152,7 @@ update msg model =
                                     |> Task.andThen
                                         (\elem ->
                                             -- Desplazar la ventana al punto Y del elemento
-                                            Browser.Dom.setViewport 0 elem.element.y
+                                            Browser.Dom.setViewport 0 (elem.element.y - (elem.element.height + 20))
                                         )
                                 )
 
@@ -150,6 +165,8 @@ update msg model =
                     , Cmd.batch
                         [ Task.perform (\_ -> OpenModal entregable) (Task.succeed ())
                         , scrollCmd
+
+                        --  , Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ())
                         ]
                     )
 
@@ -157,7 +174,8 @@ update msg model =
                     ( { model | route = newRoute }
                     , Cmd.batch
                         [ Task.perform (\_ -> CloseModal) (Task.succeed ())
-                        , scrollCmd
+
+                        -- , Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ())
                         ]
                     )
 
@@ -230,6 +248,28 @@ update msg model =
               }
             , Cmd.none
             )
+
+        LottieMsg subMsg ->
+            let
+                ( newLottieModel, subCmd ) =
+                    Lottie.update subMsg model.lottie
+            in
+            case subMsg of
+                Lottie.Play ->
+                    ( { model | lottie = newLottieModel }
+                    , Cmd.batch
+                        [ Cmd.map LottieMsg subCmd
+                        , playLottie
+                            { animationId = newLottieModel.containerId
+                            , jsonPath = "assets/" ++ newLottieModel.containerId ++ ".json"
+                            }
+                        ]
+                    )
+
+                _ ->
+                    ( { model | lottie = newLottieModel }
+                    , Cmd.map LottieMsg subCmd
+                    )
 
 
 scrollToTop : Cmd Msg

@@ -6,6 +6,7 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.HexColor as HexColor exposing (hex)
 import Html exposing (Html)
+import Html.Attributes
 import Svg
 import Svg.Attributes as SvgAttrs
 
@@ -272,3 +273,20 @@ divider =
         , Background.color grisclaro20 -- un gris #CCC
         ]
         none
+
+
+
+-- 👁️ Vista usando elm-ui
+
+
+teachingAnimation : Element msg
+teachingAnimation =
+    column
+        [ centerX, centerY, height fill, width fill ]
+        [ el
+            [ htmlAttribute (Html.Attributes.id "teaching-animation")
+            , width (px 300)
+            , height (px 300)
+            ]
+            none
+        ]

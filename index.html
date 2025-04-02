@@ -23,6 +23,8 @@
     <meta itemprop="name" content="B1 digitalización portfolio">
     <meta name="author" content="Mikel Dalmau">
   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.2/lottie.min.js"></script>
+
     <title>Mikel Dalmau - B1 digitalización portfolio</title>
     <script src="main.min.js"></script>
     <style>
@@ -30,7 +32,7 @@
         margin: 0;
         padding: 0;
         height: 100%;
-        background-color: #f4f4f0;
+        background-color: #fCfCf5;
       }
 
       .main-container {
@@ -78,8 +80,21 @@
           location.reload();
         });
 
-         // Suscribirnos al puerto parseMarkdown
-     
+        app.ports.playLottie.subscribe(function({ animationId, jsonPath }) {
+          
+          let container;
+          
+          container = document.getElementById(animationId);
+          if (container) {
+            lottie.loadAnimation({
+              container: container,
+              renderer: 'svg',
+              loop: true,
+              autoplay: true,
+              path: jsonPath
+            });
+          }
+        });
     </script>
 </body>
 </html>

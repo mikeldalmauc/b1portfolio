@@ -20,7 +20,7 @@ view d =
         , content d
         , footerNavigation d
             (Just ( Entregable1A, titulo "E1B" ))
-            (Just ( Entregable1C, titulo "E2" ))
+            (Just ( Entregable2, titulo "E2" ))
         ]
 
 
@@ -38,7 +38,8 @@ content d =
     MarkdownThemed.renderFull
         """
 
-# 1.C Netiqueta
+# 1.C Normas de netiqueta
 
+![infografia netiqueta](assets/1CInfografia.svg)
 
 """
