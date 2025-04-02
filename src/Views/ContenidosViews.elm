@@ -4,6 +4,7 @@ import Element exposing (..)
 import Element.Font as Font
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes
+import Lottie
 import Route exposing (..)
 import Styles exposing (..)
 import Types exposing (..)
@@ -121,7 +122,21 @@ footerNavigation d prev next =
 --         ]
 
 
-videoView : Dimensions -> String -> Element msg
+wip : Dimensions -> Element msg
+wip d =
+    column [ width fill, height fill, spacing 20 ]
+        [ el [] none
+        , el [] none
+        , el [] none
+        , el [] none
+        , Lottie.viewWip
+        , el [ centerX, montserrat, Font.size 22 ] (text "Work in progress...")
+        , el [] none
+        , el [] none
+        , el [] none
+        ]
+
+
 videoView d src =
     let
         w =

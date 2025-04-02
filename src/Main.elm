@@ -37,7 +37,7 @@ import Views.PhoneView as PhoneView
 -- Define el puerto para pedir una animación
 
 
-port playLottie : { animationId : String, jsonPath : String } -> Cmd msg
+port playLottie : List String -> Cmd msg
 
 
 
@@ -76,9 +76,6 @@ init dimensions url key =
         route =
             Route.decode url
 
-        ( lottieModel, lottieCmd ) =
-            Lottie.init "teaching-animation"
-
         baseModel =
             { key = key
             , route = route
@@ -91,7 +88,6 @@ init dimensions url key =
             , entregables = entregables
             , sortOrder = Categories
             , menuVisible = Hidden
-            , lottie = lottieModel
             }
     in
     case getEntregableFromRoute route of
@@ -102,11 +98,11 @@ init dimensions url key =
                 , modalTitle = entregable.tituloModal
                 , modalView = entregable.vistaModal
               }
-            , Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ())
+            , Task.perform (\_ -> LottieMsg) (Task.succeed ())
             )
 
         Nothing ->
-            ( baseModel, Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ()) )
+            ( baseModel, Task.perform (\_ -> LottieMsg) (Task.succeed ()) )
 
 
 
@@ -131,7 +127,7 @@ update msg model =
                     ( model
                     , Cmd.batch
                         [ Navigation.pushUrl model.key (Url.toString url)
-                        , Task.perform (\_ -> LottieMsg Lottie.Play) (Task.succeed ())
+                        , Task.perform (\_ -> LottieMsg) (Task.succeed ())
                         ]
                     )
 
@@ -249,27 +245,11 @@ update msg model =
             , Cmd.none
             )
 
-        LottieMsg subMsg ->
-            let
-                ( newLottieModel, subCmd ) =
-                    Lottie.update subMsg model.lottie
-            in
-            case subMsg of
-                Lottie.Play ->
-                    ( { model | lottie = newLottieModel }
-                    , Cmd.batch
-                        [ Cmd.map LottieMsg subCmd
-                        , playLottie
-                            { animationId = newLottieModel.containerId
-                            , jsonPath = "assets/" ++ newLottieModel.containerId ++ ".json"
-                            }
-                        ]
-                    )
-
-                _ ->
-                    ( { model | lottie = newLottieModel }
-                    , Cmd.map LottieMsg subCmd
-                    )
+        LottieMsg ->
+            ( model
+            , Cmd.batch
+                [ playLottie Lottie.animationids ]
+            )
 
 
 scrollToTop : Cmd Msg

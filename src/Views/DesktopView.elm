@@ -63,7 +63,7 @@ view model =
 
 contenido : Model -> Element Msg
 contenido model =
-    row [ centerX, centerY, spacing 40, width fill, inFront <| Lottie.view model.lottie ]
+    row [ centerX, centerY, spacing 40, width fill, inFront <| Lottie.viewTeaching, inFront <| Lottie.viewStudent ]
         [ aside model
         , mainSection model
         , asideEvidencias

@@ -80,20 +80,24 @@
           location.reload();
         });
 
-        app.ports.playLottie.subscribe(function({ animationId, jsonPath }) {
+        app.ports.playLottie.subscribe(function(animationIds) {
           
-          let container;
-          
-          container = document.getElementById(animationId);
-          if (container) {
-            lottie.loadAnimation({
-              container: container,
-              renderer: 'svg',
-              loop: true,
-              autoplay: true,
-              path: jsonPath
-            });
+          lottie.destroy();
+
+          animationIds.forEach(animationId => {
+            let container;
+            container = document.getElementById(animationId);
+            if (container) {
+
+              lottie.loadAnimation({
+                container: container,
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'assets/' + animationId + '.json' // path to the animation file
+              });
           }
+          });
         });
     </script>
 </body>

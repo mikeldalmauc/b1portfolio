@@ -29,7 +29,7 @@ type Msg
     | SortEntregables SortOrder
     | GoTo Route
     | OpenMenu
-    | LottieMsg Lottie.Msg
+    | LottieMsg
 
 
 
@@ -48,7 +48,6 @@ type alias Model =
     , entregables : Dict String Entregable
     , sortOrder : SortOrder
     , menuVisible : ModalVisibilty
-    , lottie : Lottie.Model
     }
 
 

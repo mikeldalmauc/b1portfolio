@@ -26,15 +26,6 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    let
-        whatsappWidth =
-            String.fromInt <|
-                if d.width > 600 then
-                    600
-
-                else
-                    round (toFloat d.width * 0.9)
-    in
     MarkdownThemed.renderFull
         """
 

@@ -1,4 +1,4 @@
-module Lottie exposing (Model, Msg(..), init, update, view)
+module Lottie exposing (..)
 
 {-| Subcomponente para mostrar la animación Lottie.
 -}
@@ -10,50 +10,67 @@ import Html.Attributes
 import Task
 
 
-
--- No necesitamos nada complejo para el Modelo
-
-
-type alias Model =
-    { containerId : String }
-
-
-
--- Mensajes internos (si tuviera eventos)
+animationids : List String
+animationids =
+    [ "student-animation"
+    , "teaching-animation"
+    , "wip-animation"
+    ]
 
 
-type Msg
-    = NoOp
-    | Play
-
-
-init : String -> ( Model, Cmd Msg )
-init givenId =
-    ( { containerId = givenId }, Cmd.none )
-
-
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        NoOp ->
-            ( model, Cmd.none )
-
-        Play ->
-            ( model, Cmd.none )
-
-
-view : Model -> Element msg
-view model =
+viewTeaching : Element msg
+viewTeaching =
     el
-        [ htmlAttribute (Html.Attributes.id model.containerId)
-        , htmlAttribute (Html.Attributes.id model.containerId)
-        , width (px 600)
-        , height (px 600)
-        , centerX
+        [ centerX
         , centerY
         , padding 10
         , moveDown 350
-        , moveRight 700
+        , moveRight 750
         , htmlAttribute (Html.Attributes.style "filter" "saturate(2)")
         ]
-        none
+    <|
+        el
+            [ htmlAttribute (Html.Attributes.style "transform" "rotateY(180deg)")
+            , htmlAttribute (Html.Attributes.id "teaching-animation")
+            , width (px 550)
+            , height (px 550)
+            ]
+            none
+
+
+viewStudent : Element msg
+viewStudent =
+    el
+        [ centerX
+        , centerY
+        , padding 10
+        , moveDown 290
+        , moveLeft 650
+        , htmlAttribute (Html.Attributes.style "filter" "saturate(1.1)")
+        ]
+    <|
+        el
+            [ htmlAttribute (Html.Attributes.id "student-animation")
+            , width (px 500)
+            , height (px 500)
+            , htmlAttribute (Html.Attributes.style "filter" "hue-rotate(30deg)")
+            , htmlAttribute (Html.Attributes.style "transform" "rotateY(180deg)")
+            ]
+            none
+
+
+viewWip : Element msg
+viewWip =
+    el
+        [ centerX
+        , centerY
+        , padding 10
+        , htmlAttribute (Html.Attributes.style "filter" "saturate(1.1)")
+        ]
+    <|
+        el
+            [ htmlAttribute (Html.Attributes.id "wip-animation")
+            , width (px 400)
+            , height (px 400)
+            ]
+            none
