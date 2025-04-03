@@ -48,7 +48,7 @@ encabezadoFijado =
                     Element.link
                         [ width fill, height fill ]
                         { url = Route.encode Route.HomepageRoute
-                        , label = none
+                        , label = el [alpha 0.0] (text "Inicio")
                         }
                 ]
                 { src = "assets/favicon.svg", description = "Logo de Mikel" }

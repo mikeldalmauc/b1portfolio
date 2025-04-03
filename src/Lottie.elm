@@ -25,7 +25,7 @@ viewTeaching =
         , centerY
         , padding 10
         , moveDown 350
-        , moveRight 750
+        , moveLeft 650
         , htmlAttribute (Html.Attributes.style "filter" "saturate(2)")
         ]
     <|
@@ -45,7 +45,7 @@ viewStudent =
         , centerY
         , padding 10
         , moveDown 290
-        , moveLeft 650
+        , moveRight 650
         , htmlAttribute (Html.Attributes.style "filter" "saturate(1.1)")
         ]
     <|
@@ -54,7 +54,6 @@ viewStudent =
             , width (px 500)
             , height (px 500)
             , htmlAttribute (Html.Attributes.style "filter" "hue-rotate(30deg)")
-            , htmlAttribute (Html.Attributes.style "transform" "rotateY(180deg)")
             ]
             none
 
