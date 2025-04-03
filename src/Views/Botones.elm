@@ -49,7 +49,7 @@ botonHome id hovered =
                     Element.link
                         [ width fill, height fill ]
                         { url = Route.encode HomepageRoute
-                        , label = none
+                        , label = el [alpha 0.0] (text "Esquema")
                         }
 
                -- , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
@@ -103,7 +103,7 @@ botonEntregable entregable id hovered =
                     Element.link
                         [ width fill, height fill ]
                         { url = Route.encode entregable.route
-                        , label = none
+                        , label = el [alpha 0.0] (text entregable.codigo)
                         }
 
                -- , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
@@ -155,7 +155,7 @@ botonCompetencia entregable entrega ids hovered =
             Element.link
                 [ width fill, height fill ]
                 { url = Route.encode entregable.route
-                , label = none
+                , label = el [alpha 0.0] (text entregable.codigo)
                 }
 
         -- , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal

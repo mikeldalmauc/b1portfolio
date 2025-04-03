@@ -54,7 +54,7 @@ view model =
           <|
             column
                 [ centerX, centerY, width fill, height fill ]
-                [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20 } ]
+                [ el [ width fill, height fill, paddingEach { top = 20, bottom = 180, left = 20, right = 20 } ]
                     content
                 , Footer.footer
                 ]
