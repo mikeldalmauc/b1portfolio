@@ -6,6 +6,7 @@ import Html exposing (Html)
 import Html.Attributes as HtmlAttributes
 import Lottie
 import Route exposing (..)
+import String exposing (fromFloat, toInt)
 import Styles exposing (..)
 import Types exposing (..)
 
@@ -139,17 +140,28 @@ wip d =
 
 videoView d src =
     let
+        proportions =
+            315 / 560
+
+        maxw =
+            1000
+
+        maxH =
+            round <| toFloat maxw * proportions
+
         w =
             round <| toFloat d.width * 0.9
 
         h =
-            round <| toFloat w * 0.56
+            round <| toFloat w * proportions
     in
     html <|
         Html.div []
             [ Html.node "iframe"
                 [ HtmlAttributes.width w
+                , HtmlAttributes.style "max-width" <| String.fromInt maxw ++ "px"
                 , HtmlAttributes.height h
+                , HtmlAttributes.style "max-height" <| String.fromInt maxH ++ "px"
                 , HtmlAttributes.src src
                 , HtmlAttributes.attribute "title" "YouTube video player"
                 , HtmlAttributes.attribute "frameborder" "0"
