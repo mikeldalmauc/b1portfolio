@@ -27,4 +27,16 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    column [ paddingEach { top = 20, right = 0, bottom = 20, left = 0 } ]
+        [ MarkdownThemed.renderFull
+            """
+# 1. Entrega. Contexto colaborativo del equipo docente 🚀
+
+En este vídeo se muestra el portfolio y los tres entregables correspondientes al contexto colaborativo del equipo docente.
+
+--- 
+
+<br/>
+"""
+        , videoView d "https://www.youtube.com/embed/a4ljkcniF4U?si=GBCfKhfEx-MxMFJ9"
+        ]
