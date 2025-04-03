@@ -161,6 +161,7 @@ update msg model =
                     , Cmd.batch
                         [ Task.perform (\_ -> OpenModal entregable) (Task.succeed ())
                         , scrollCmd
+                        , Task.perform (\_ -> LottieMsg) (Task.succeed ())
                         ]
                     )
 
@@ -168,25 +169,12 @@ update msg model =
                     ( { model | route = newRoute }
                     , Cmd.batch
                         [ Task.perform (\_ -> CloseModal) (Task.succeed ())
+                        , Task.perform (\_ -> LottieMsg) (Task.succeed ())
                         ]
                     )
 
         DeviceClassified dimensions ->
-            let 
-                device = classifyDevice dimensions
-
-                message =  
-                    case device.class of
-                        Phone ->
-                            Cmd.none
-
-                        _ ->
-                            if (model.device.class == Phone) then
-                                Task.perform (\_ -> LottieMsg) (Task.succeed ()) 
-                            else
-                                Cmd.none 
-            in
-                ( { model | device = classifyDevice dimensions, dimensions = dimensions } , message )
+            ( { model | device = classifyDevice dimensions, dimensions = dimensions }, Cmd.none )
 
         HoverOn id ->
             ( { model | hovered = Set.insert id model.hovered }
@@ -252,7 +240,7 @@ update msg model =
                     else
                         Visible
               }
-            , scrollToTop   
+            , Cmd.none
             )
 
         LottieMsg ->
