@@ -24,10 +24,13 @@
   <meta itemprop="name" content="B1 digitalización portfolio">
   <meta name="author" content="Mikel Dalmau">
 
-  <script src="assets/lottie.min.js"></script>
 
   <title>Mikel Dalmau - B1 digitalización portfolio</title>
   <script src="main.min.js"></script>
+
+  <script src="assets/lottie.min.js"></script>
+  <script type="text/javascript" src="assets/main.bundle.js"></script>
+
   <style>
     html,
     body {
@@ -112,11 +115,74 @@
             }
           }, 200);
         }
-
-
-
       });
     });
+
+
+    
+    //----------------------------------------------------
+    // H5P
+    //----------------------------------------------------
+
+    if (!window.myH5PInstances) {
+      window.myH5PInstances = {};
+    }
+
+    // Suscribimos el puerto requestH5PInit
+    app.ports.requestH5PInit?.subscribe(function (h5pIds) {
+      // Asegurarnos de que sea un array
+      if (!Array.isArray(h5pIds)) {
+        console.error("Se esperaba un array de IDs H5P, llegó:", h5pIds);
+        return;
+      }
+
+      // Intentamos inicializar cada ID
+      h5pIds.forEach(function (id) {
+        // Si ya hay una instancia cargada para este ID, saltamos
+        if (window.myH5PInstances[id]) {
+          //console.log("H5P para el elemento '" + id + "' ya fue creado. Se omite reinit.");
+          return;
+        }
+
+        // Si no existe, lo creamos
+        initH5PInstance(id);
+      });
+    });
+
+    // Intenta localizar el contenedor y crear la instancia
+    function initH5PInstance(elementId) {
+      let container = document.getElementById(elementId);
+
+      if (!container) {
+        // Si no está en el DOM, reintentamos tras un pequeño delay
+        setTimeout(function () {
+          container = document.getElementById(elementId);
+          if (!container) {
+          //console.error("No existe elemento con id='" + elementId + "' (tras reintento).");
+          } else {
+            createH5P(elementId, container);
+          }
+        }, 200);
+      } else {
+        // El elemento existe, creamos la instancia
+        createH5P(elementId, container);
+      }
+    }
+
+    // Crea la instancia H5P con h5p-standalone
+    function createH5P(elementId, container) {
+      const options = {
+        h5pJsonPath: '/assets/h5p/' + elementId,      // ruta al contenido .h5p o carpeta "descomprimida"
+        frameJs:       '/assets/frame.bundle.js',
+        frameCss:     '/assets/styles/h5p.css',
+        
+      };
+
+      const instance = new H5PStandalone.H5P(container, options);
+      window.myH5PInstances[elementId] = instance;
+    }
+
+
   </script>
 </body>
 

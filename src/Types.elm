@@ -30,6 +30,7 @@ type Msg
     | GoTo Route
     | OpenMenu
     | LottieMsg
+    | MountH5P
 
 
 

@@ -15,7 +15,8 @@ const paths = {
   robots: 'robots.txt',
   sitemap: 'sitemap.xml',
   output: 'build',
-  entregableAssets: 'src/Entregables/markdowns'
+  entregableAssets: 'src/Entregables/markdowns',
+  h5pstandalone: 'h5p-standalone/**/*'
 };
 
 // Limpia la carpeta de salida
@@ -96,6 +97,11 @@ function assetsTask(cb) {
 }
 
 
+function h5pTask(cb){
+  return src(paths.h5pstandalone)
+   .pipe(dest(paths.output+ '/assets'));
+
+}
 // Copia el HTML
 function htmlTask() {
   return src(paths.html)
@@ -118,7 +124,7 @@ function sitemapTask() {
 const build = series(
   clean,
   entregableAssetsTask,
-  parallel(elmTask, assetsTask, htmlTask, robotsTask, sitemapTask)
+  parallel(elmTask, assetsTask, htmlTask, robotsTask, sitemapTask, h5pTask)
 );
 
 // (Opcional) Tarea para vigilar archivos y recompilar al vuelo
