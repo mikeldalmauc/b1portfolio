@@ -33,12 +33,13 @@ content d =
             """
 # 2.A Contenido Básico
 
-A continuación se muestra un contenido que he enriquecido mediante la utilización de elementos [H5P](https://h5p.org/content-types-and-applications). Los elementos, H5P son un conjunto de componente que permiten y facilitan la creación de contenido interactivo y se pueden integrar en Moodle, Drupal, Wordpress u otra web, tal y como lo hago aquí. La siguiente imagen muestra algunos ejemplos, [pueden previsualizarse todos en la web]([H5P](https://h5p.org/content-types-and-applications)).
+A continuación se muestra un básico que he enriquecido mediante la utilización de elementos [H5P](https://h5p.org/content-types-and-applications). Los elementos, H5P son un conjunto de componente que permiten y facilitan la creación de contenido interactivo y se pueden integrar en Moodle, Drupal, Wordpress u otra web, tal y como lo hago aquí. La siguiente imagen muestra algunos ejemplos, [pueden previsualizarse todos en la web](https://h5p.org/content-types-and-applications).
 
 <br/>
 
 ![Imagen de distintos h5p](assets/2Ah5p.webp)
 
+---
 
 ## Introducción a Jetpack Compose
 
@@ -142,6 +143,7 @@ fun FormularioSimple() {
 
 Con esto, al escribir en cada campo, se actualiza la variable correspondiente y Compose **recompone** la UI reflejando los cambios.
 
+---
 
 ## Preguntas
 
