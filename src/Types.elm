@@ -31,6 +31,7 @@ type Msg
     | OpenMenu
     | LottieMsg
     | MountH5P
+    | CleanH5PContent
 
 
 
