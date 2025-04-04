@@ -31,7 +31,7 @@ import Views.DesktopView as DesktopView
 import Views.Footer as Footer
 import Views.Header as Header
 import Views.PhoneView as PhoneView
-
+import H5P
 
 
 -- Define el puerto para pedir una animación
@@ -39,6 +39,8 @@ import Views.PhoneView as PhoneView
 
 port playLottie : List String -> Cmd msg
 
+
+port requestH5PInit : List String -> Cmd msg
 
 
 -- MAIN
@@ -98,11 +100,11 @@ init dimensions url key =
                 , modalTitle = entregable.tituloModal
                 , modalView = entregable.vistaModal
               }
-            , Task.perform (\_ -> LottieMsg) (Task.succeed ())
+            , Cmd.batch [startH5PContent, startLottieAnimations]
             )
 
         Nothing ->
-            ( baseModel, Task.perform (\_ -> LottieMsg) (Task.succeed ()) )
+            ( baseModel, Cmd.batch [startH5PContent, startLottieAnimations])
 
 
 
@@ -127,7 +129,7 @@ update msg model =
                     ( model
                     , Cmd.batch
                         [ Navigation.pushUrl model.key (Url.toString url)
-                        , Task.perform (\_ -> LottieMsg) (Task.succeed ())
+                        , startLottieAnimations, startH5PContent
                         ]
                     )
 
@@ -161,7 +163,7 @@ update msg model =
                     , Cmd.batch
                         [ Task.perform (\_ -> OpenModal entregable) (Task.succeed ())
                         , scrollCmd
-                        , Task.perform (\_ -> LottieMsg) (Task.succeed ())
+                        , startLottieAnimations, startH5PContent
                         ]
                     )
 
@@ -169,7 +171,7 @@ update msg model =
                     ( { model | route = newRoute }
                     , Cmd.batch
                         [ Task.perform (\_ -> CloseModal) (Task.succeed ())
-                        , Task.perform (\_ -> LottieMsg) (Task.succeed ())
+                        , startLottieAnimations, startH5PContent
                         ]
                     )
 
@@ -249,11 +251,23 @@ update msg model =
                 [ playLottie Lottie.animationids ]
             )
 
+        MountH5P ->
+            (model, Cmd.batch [requestH5PInit H5P.h5pIds])
+
+
 
 scrollToTop : Cmd Msg
 scrollToTop =
     Browser.Dom.setViewport 0 0 |> Task.perform (\() -> NoOp)
 
+startLottieAnimations : Cmd Msg
+startLottieAnimations =
+    Task.perform (\_ -> LottieMsg) (Task.succeed ())
+
+
+startH5PContent : Cmd Msg
+startH5PContent = 
+    Task.perform (\_ -> MountH5P) (Task.succeed ())
 
 
 -- VIEW

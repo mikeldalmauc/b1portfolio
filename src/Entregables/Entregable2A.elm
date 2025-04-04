@@ -28,4 +28,5 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    column [width fill, height fill]
+    [ el [width fill, height fill,htmlAttribute <| HtmlAttributes.id "decision-tree"] none]
