@@ -33,10 +33,6 @@ content d =
             """
 # 2.A Contenido Avanzado
 
-- [2.A Contenido Básico](#2a-contenido-básico)
-  - [Elige la API de animación adecuada](#elige-la-api-de-animación-adecuada)
-
-
 A continuación se muestra un diagrama que he enriquecido mediante la utilización de un elemento [H5P](https://h5p.org/content-types-and-applications). 
 
 En este caso he utilizado el Image Hotspots, que permite agregar puntos de interes a una imagen que he tomado de la documentación oficial de Android  se trata de un diagrama de decisión, con ejemplos de cada tipo de animación.
