@@ -20,10 +20,10 @@ titulo code =
             "2 Contenidos digitales"
 
         "E2A" ->
-            "2.A"
+            "2.A Contenido Básico"
 
         "E2B" ->
-            "2.B"
+            "2.B Contenido de Profundización"
 
         "E3" ->
             "3"

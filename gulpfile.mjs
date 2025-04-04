@@ -16,7 +16,8 @@ const paths = {
   sitemap: 'sitemap.xml',
   output: 'build',
   entregableAssets: 'src/Entregables/markdowns',
-  h5pstandalone: 'h5p-standalone/**/*'
+  h5pstandalone: 'h5p-standalone/**/*',
+  highlight: 'highlight/**/*',
 };
 
 // Limpia la carpeta de salida
@@ -102,6 +103,14 @@ function h5pTask(cb){
    .pipe(dest(paths.output+ '/assets'));
 
 }
+
+// Copia sitemap.xml
+function highlightTask() {
+  return src(paths.highlight)
+    .pipe(dest(paths.output + '/assets'));
+}
+
+
 // Copia el HTML
 function htmlTask() {
   return src(paths.html)
