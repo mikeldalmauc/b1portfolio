@@ -42,6 +42,7 @@ port playLottie : List String -> Cmd msg
 
 port requestH5PInit : List String -> Cmd msg
 
+port requestH5PCleanup : List String -> Cmd msg
 
 -- MAIN
 
@@ -129,7 +130,7 @@ update msg model =
                     ( model
                     , Cmd.batch
                         [ Navigation.pushUrl model.key (Url.toString url)
-                        , startLottieAnimations, startH5PContent
+                        , startLottieAnimations
                         ]
                     )
 
@@ -163,7 +164,9 @@ update msg model =
                     , Cmd.batch
                         [ Task.perform (\_ -> OpenModal entregable) (Task.succeed ())
                         , scrollCmd
-                        , startLottieAnimations, startH5PContent
+                        , startLottieAnimations
+                        , cleanH5PContent
+                        , startH5PContent
                         ]
                     )
 
@@ -171,7 +174,7 @@ update msg model =
                     ( { model | route = newRoute }
                     , Cmd.batch
                         [ Task.perform (\_ -> CloseModal) (Task.succeed ())
-                        , startLottieAnimations, startH5PContent
+                        , startLottieAnimations, cleanH5PContent, startH5PContent
                         ]
                     )
 
@@ -242,7 +245,7 @@ update msg model =
                     else
                         Visible
               }
-            , Cmd.none
+            ,  scrollToTop
             )
 
         LottieMsg ->
@@ -254,7 +257,10 @@ update msg model =
         MountH5P ->
             (model, Cmd.batch [requestH5PInit H5P.h5pIds])
 
+        CleanH5PContent -> 
+            (model, Cmd.batch [requestH5PCleanup H5P.h5pIds])
 
+            
 
 scrollToTop : Cmd Msg
 scrollToTop =
@@ -269,6 +275,9 @@ startH5PContent : Cmd Msg
 startH5PContent = 
     Task.perform (\_ -> MountH5P) (Task.succeed ())
 
+cleanH5PContent : Cmd Msg
+cleanH5PContent = 
+    Task.perform (\_ -> NoOp) (Task.succeed ())
 
 -- VIEW
 

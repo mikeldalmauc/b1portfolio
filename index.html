@@ -119,14 +119,13 @@
     });
 
 
-    
+
     //----------------------------------------------------
     // H5P
     //----------------------------------------------------
 
-    if (!window.myH5PInstances) {
-      window.myH5PInstances = {};
-    }
+    let localStandalone = window.H5PStandalone
+    const instanceMap = {};
 
     // Suscribimos el puerto requestH5PInit
     app.ports.requestH5PInit?.subscribe(function (h5pIds) {
@@ -137,52 +136,54 @@
       }
 
       // Intentamos inicializar cada ID
-      h5pIds.forEach(function (id) {
-        // Si ya hay una instancia cargada para este ID, saltamos
-        if (window.myH5PInstances[id]) {
-          //console.log("H5P para el elemento '" + id + "' ya fue creado. Se omite reinit.");
-          return;
+      h5pIds.forEach(function (elementId) {
+        
+        console.log(elementId)
+        // Si ya existía una instancia, la limpiamos antes de crear la nueva
+        if (instanceMap[elementId]) {
+          cleanupH5PInstance(elementId);
         }
 
-        // Si no existe, lo creamos
-        initH5PInstance(id);
+
+        const options = {
+          h5pJsonPath: '/assets/h5p/' + elementId,      // ruta al contenido .h5p o carpeta "descomprimida"
+          frameJs: '/assets/frame.bundle.js',
+          frameCss: '/assets/styles/h5p.css',
+
+        };
+
+      let container = document.getElementById(elementId);
+      if (!container) {
+        return;
+      } else {
+        const instance = new localStandalone.H5P(container, options);
+        instanceMap[elementId] = instance;
+      }
       });
     });
 
-    // Intenta localizar el contenedor y crear la instancia
-    function initH5PInstance(elementId) {
-      let container = document.getElementById(elementId);
+    // -----------------------------------------------
+    // cleanupH5PInstance: limpia la instancia previa y quita su contenedor
+    // -----------------------------------------------
+    function cleanupH5PInstance(elementId) {
+      const instance = instanceMap[elementId];
+      if (instance) {
+        console.log("Limpiando instancia H5P de:", elementId);
 
-      if (!container) {
-        // Si no está en el DOM, reintentamos tras un pequeño delay
-        setTimeout(function () {
-          container = document.getElementById(elementId);
-          if (!container) {
-          //console.error("No existe elemento con id='" + elementId + "' (tras reintento).");
-          } else {
-            createH5P(elementId, container);
-          }
-        }, 200);
-      } else {
-        // El elemento existe, creamos la instancia
-        createH5P(elementId, container);
+        // Si existiera algún método .stop() o .off(), podrías llamarlo aquí:
+        // instance.off?.();
+        // instance.stop?.();
+
+        // Borramos la referencia del mapa
+        delete instanceMap[elementId];
+      }
+
+      // Vaciar el contenedor del DOM (si todavía existe)
+      const containers = document.getElementsByClassName("h5p-iframe-wrapper");
+      for(let i=0; i < containers.length; i++){
+        containers[i].innerHTML = ""
       }
     }
-
-    // Crea la instancia H5P con h5p-standalone
-    function createH5P(elementId, container) {
-      const options = {
-        h5pJsonPath: '/assets/h5p/' + elementId,      // ruta al contenido .h5p o carpeta "descomprimida"
-        frameJs:       '/assets/frame.bundle.js',
-        frameCss:     '/assets/styles/h5p.css',
-        
-      };
-
-      const instance = new H5PStandalone.H5P(container, options);
-      window.myH5PInstances[elementId] = instance;
-    }
-
-
   </script>
 </body>
 
