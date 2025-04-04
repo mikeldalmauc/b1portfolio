@@ -32,6 +32,7 @@ type Msg
     | LottieMsg
     | MountH5P
     | CleanH5PContent
+    | Highlight
 
 
 

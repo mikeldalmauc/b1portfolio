@@ -173,8 +173,16 @@ renderer theme =
                         )
                 )
     , codeBlock =
-        \{ body } ->
+        \{ body, language } ->
             let
+                languageClass =
+                    case language of
+                        Just lang ->
+                            "language-" ++ lang
+
+                        Nothing ->
+                            ""
+
                 numberOfLines =
                     String.lines body
                         |> List.length
@@ -183,19 +191,16 @@ renderer theme =
                         |> round
             in
             column
-                [ Font.family [ Font.monospace ]
-                , Font.size 14
-                , Font.color (rgb255 34 12 176)
-                , Border.rounded 2
+                [ Border.rounded 2
                 , paddingEach { left = 0, right = 0, top = 8, bottom = 20 }
                 , width fill
-                , height (px <| 16 * numberOfLines + 10)
+                , height shrink
                 , htmlAttribute (Html.Attributes.class "preserve-white-space")
-                , htmlAttribute (Html.Attributes.style "line-height" "1.4")
+                , htmlAttribute (Html.Attributes.style "line-height" "1.8")
                 , scrollbarX
                 , Background.color Styles.grisclaro5
                 ]
-                [ el [ centerY, padding 10 ] <| html (Html.text body) ]
+                [ el [ centerY, padding 10 ] <| html (Html.code [ Html.Attributes.class languageClass ] [ Html.text body ]) ]
     , thematicBreak = Styles.divider
     , table = \children -> column [ width fill ] children
     , tableHeader = \children -> column [] children

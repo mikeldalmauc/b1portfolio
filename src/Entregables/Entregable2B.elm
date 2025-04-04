@@ -28,4 +28,22 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    column [ width fill, height fill, spacing 10 ]
+        [ MarkdownThemed.renderFull
+            """
+# 2.A Contenido Avanzado
+
+A continuación se muestra un diagrama que he enriquecido mediante la utilización de un elemento [H5P](https://h5p.org/content-types-and-applications). 
+
+En este caso he utilizado el Image Hotspots, que permite agregar puntos de interes a una imagen que he tomado de la documentación oficial de Android  se trata de un diagrama de decisión, con ejemplos de cada tipo de animación.
+
+Es un contenido más avanzado y que permite una amplia visión de los casos de uso de animación y que tecnologías resuelven cada caso. Como me gusta decir, la mejor forma de resolver un problema, es haberlo resuelto antes, y tener estos conocimientos es fundamental a la hora de sentirnos seguros y tomar decisiones.
+
+## Elige la API de animación adecuada
+"""
+        , el [ width fill, height fill, htmlAttribute <| HtmlAttributes.id "decision-tree" ] none
+        , MarkdownThemed.renderFull
+            """
+*Portions of this page are modifications based on work created and shared by the [Android Open Source Project](https://developers.google.com/terms/site-policies) and used according to terms described in the [Creative Commons 2.5 Attribution License](http://creativecommons.org/licenses/by/2.5/).*
+"""
+        ]

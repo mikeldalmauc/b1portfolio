@@ -17,6 +17,7 @@ import Element.Border as Border
 import Element.Events as Events
 import Element.Font as Fon
 import Entregables.Entregables exposing (..)
+import H5P
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
 import Lottie
@@ -31,7 +32,7 @@ import Views.DesktopView as DesktopView
 import Views.Footer as Footer
 import Views.Header as Header
 import Views.PhoneView as PhoneView
-import H5P
+
 
 
 -- Define el puerto para pedir una animación
@@ -42,7 +43,13 @@ port playLottie : List String -> Cmd msg
 
 port requestH5PInit : List String -> Cmd msg
 
+
 port requestH5PCleanup : List String -> Cmd msg
+
+
+port highlight : String -> Cmd msg
+
+
 
 -- MAIN
 
@@ -101,11 +108,11 @@ init dimensions url key =
                 , modalTitle = entregable.tituloModal
                 , modalView = entregable.vistaModal
               }
-            , Cmd.batch [startH5PContent, startLottieAnimations]
+            , Cmd.batch [ startH5PContent, startLottieAnimations, checkMarkdownHighlight ]
             )
 
         Nothing ->
-            ( baseModel, Cmd.batch [startH5PContent, startLottieAnimations])
+            ( baseModel, Cmd.batch [ startH5PContent, startLottieAnimations, checkMarkdownHighlight ] )
 
 
 
@@ -131,6 +138,8 @@ update msg model =
                     , Cmd.batch
                         [ Navigation.pushUrl model.key (Url.toString url)
                         , startLottieAnimations
+                        , highlight "code"
+                        , checkMarkdownHighlight
                         ]
                     )
 
@@ -167,6 +176,7 @@ update msg model =
                         , startLottieAnimations
                         , cleanH5PContent
                         , startH5PContent
+                        , checkMarkdownHighlight
                         ]
                     )
 
@@ -174,7 +184,8 @@ update msg model =
                     ( { model | route = newRoute }
                     , Cmd.batch
                         [ Task.perform (\_ -> CloseModal) (Task.succeed ())
-                        , startLottieAnimations, cleanH5PContent, startH5PContent
+                        , startLottieAnimations
+                        , cleanH5PContent
                         ]
                     )
 
@@ -245,7 +256,7 @@ update msg model =
                     else
                         Visible
               }
-            ,  scrollToTop
+            , scrollToTop
             )
 
         LottieMsg ->
@@ -255,16 +266,19 @@ update msg model =
             )
 
         MountH5P ->
-            (model, Cmd.batch [requestH5PInit H5P.h5pIds])
+            ( model, Cmd.batch [ requestH5PInit H5P.h5pIds ] )
 
-        CleanH5PContent -> 
-            (model, Cmd.batch [requestH5PCleanup H5P.h5pIds])
+        CleanH5PContent ->
+            ( model, Cmd.batch [ requestH5PCleanup H5P.h5pIds ] )
 
-            
+        Highlight ->
+            ( model, Cmd.batch [ highlight "code" ] )
+
 
 scrollToTop : Cmd Msg
 scrollToTop =
     Browser.Dom.setViewport 0 0 |> Task.perform (\() -> NoOp)
+
 
 startLottieAnimations : Cmd Msg
 startLottieAnimations =
@@ -272,12 +286,20 @@ startLottieAnimations =
 
 
 startH5PContent : Cmd Msg
-startH5PContent = 
+startH5PContent =
     Task.perform (\_ -> MountH5P) (Task.succeed ())
 
+
 cleanH5PContent : Cmd Msg
-cleanH5PContent = 
+cleanH5PContent =
     Task.perform (\_ -> NoOp) (Task.succeed ())
+
+
+checkMarkdownHighlight : Cmd Msg
+checkMarkdownHighlight =
+    Task.perform (\_ -> Highlight) (Task.succeed ())
+
+
 
 -- VIEW
 

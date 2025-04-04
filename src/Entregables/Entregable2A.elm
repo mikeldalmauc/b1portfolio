@@ -28,25 +28,126 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    column [width fill, height fill, spacing 10]
-        [     MarkdownThemed.renderFull
-    """
+    column [ width fill, height fill, spacing 10 ]
+        [ MarkdownThemed.renderFull
+            """
 # 2.A Contenido Básico
 
-A continuación se muestra un diagrama que he enriquecido mediante la utilización de un elemento [H5P](https://h5p.org/content-types-and-applications). H5P lo componen un conjunto de componente que permiten y facilitan la definición de elemento interactivo y se puede integrar en Moodle, Drupal, Wordpress u otra web como lo hago aquí. La siguiente imagen muestra algunos ejemplos.
+A continuación se muestra un básico que he enriquecido mediante la utilización de elementos [H5P](https://h5p.org/content-types-and-applications). Los elementos, H5P son un conjunto de componente que permiten y facilitan la creación de contenido interactivo y se pueden integrar en Moodle, Drupal, Wordpress u otra web, tal y como lo hago aquí. La siguiente imagen muestra algunos ejemplos, [pueden previsualizarse todos en la web](https://h5p.org/content-types-and-applications).
 
 <br/>
 
 ![Imagen de distintos h5p](assets/2Ah5p.webp)
 
-En mi caso he utilizado el Image Hotspots, que permite agregar puntos de interes a una imagen que he tomado de la documentación oficial de Android  se trata de un diagrama de decisión, con ejemplos de cada tipo de animación.
+---
 
-Es un contenido que permite una amplia visión de los casos de uso de animación y que tecnologías resuelven cada caso. Como me gusta decir, la mejor forma de resolver un problema, es haberlo resuelto antes, y tener estos conocimientos es fundamental a la hora de sentirnos seguros y tomar decisiones.
+## Introducción a Jetpack Compose
 
-## Elige la API de animación adecuada
+**Jetpack Compose** es el kit moderno de herramientas de Android para crear interfaces de usuario declarativas. En lugar de basarte en XML o vistas imperativas, Compose te permite describir la UI usando funciones llamadas *composables*, que reaccionan a cambios de estado de manera fluida. Sus ventajas principales son:
+
+- **Menos código repetitivo** al construir interfaces.  
+- **Reactividad**: la UI se actualiza cuando cambia el estado subyacente.  
+- **Integración** con otras APIs de Jetpack (ViewModel, LiveData, etc.).  
+- **Modularidad**: cada componente se escribe como una función composable independiente, lo que facilita la lectura y el mantenimiento.
+
+### Elementos básicos de Jetpack Compose
+
+1. **Funciones composable**  
+    <br/>
+    - Se anotan con `@Composable`.  
+    - Definen qué UI se pinta en pantalla.  
+    - Ejemplo rápido:
+
+```kotlin
+@Composable
+fun Saludo(name: String) {
+    Text(text = "Hola, $name")
+}
+```
+
+2. **Vista previa**  
+    <br/>
+   - Para ver resultados en el IDE (Android Studio), se puede usar `@Preview`.  
+   - Ejemplo de función de vista previa:
+  
+```kotlin
+@Preview(showBackground = true)
+@Composable
+fun PreviewSaludo() {
+    Saludo(name = "Mundo")
+}
+```
+
+3. **State y Recomposition**  
+    <br/>
+   - Si el contenido depende de un estado (variable), Compose lo reevaluará cuando ese estado cambie, actualizando la UI automáticamente.  
+   - Ejemplo con un `remember` y un `mutableStateOf`:
+
+```kotlin
+@Composable
+fun Contador() {
+    var count by remember { mutableStateOf(0) }
+    Button(onClick = { count++ }) {
+        Text("Has hecho clic $count veces")
+    }
+}
+```
+
+4. **Column, Row y Box**  
+    <br/>
+   - Para estructurar la UI, Compose ofrece elementos de layout como `Column`, `Row` y `Box`.  
+   - Ejemplo:
+
+```kotlin
+@Composable
+fun VistaBasica() {
+    Column {
+        Text("Texto en la parte superior")
+        Row {
+            Text("Texto a la izquierda")
+            Text("Texto a la derecha")
+        }
+    }
+}
+```
+
+## 3. Ejemplo práctico: formulario sencillo
+
+Supongamos que quieres crear un formulario con dos campos de texto y un botón de envío. Se podría hacer así:
+
+```kotlin
+@Composable
+fun FormularioSimple() {
+    var texto1 by remember { mutableStateOf("") }
+    var texto2 by remember { mutableStateOf("") }
+
+    Column {
+        TextField(
+            value = texto1,
+            onValueChange = { texto1 = it },
+            label = { Text("Campo 1") }
+        )
+        TextField(
+            value = texto2,
+            onValueChange = { texto2 = it },
+            label = { Text("Campo 2") }
+        )
+        Button(onClick = {
+            // Lógica de envío o validación
+        }) {
+            Text("Enviar")
+        }
+    }
+}
+```
+
+Con esto, al escribir en cada campo, se actualiza la variable correspondiente y Compose **recompone** la UI reflejando los cambios.
+
+---
+
+## Preguntas
+
 """
-        , el [width fill, height fill,htmlAttribute <| HtmlAttributes.id "decision-tree"] none
-        , MarkdownThemed.renderFull 
-    """
-*Portions of this page are modifications based on work created and shared by the [Android Open Source Project](https://developers.google.com/terms/site-policies) and used according to terms described in the [Creative Commons 2.5 Attribution License](http://creativecommons.org/licenses/by/2.5/).*
-"""]
+        , el [ width fill, height fill, htmlAttribute <| HtmlAttributes.id "2A-pregunta-1" ] none
+        , el [ width fill, height fill, htmlAttribute <| HtmlAttributes.id "fill-in-the-blanks-19" ] none
+        ]
