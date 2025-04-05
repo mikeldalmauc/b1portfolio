@@ -183,7 +183,7 @@
         },
         {
           "label": "Assegna un punto per l'intero compito",
-          "description": "Attiva per assegnare un punto a risposte multiple corrette. Questa non è un'opzione in modalità \"Risposta singola\"."
+          "description": "Attiva per assegnare un punto a risposte multiple corrette. Questa non è un'opzione in entregableità \"Risposta singola\"."
         },
         {
           "label": "Risposte in ordine casuale",

@@ -50,10 +50,10 @@ titulo code =
             "5"
 
         "E5A" ->
-            "5.A"
+            "5.A Accesibilidad de los contenidos digitales"
 
         "E5B" ->
-            "5.B"
+            "5.B Personalización del aprendizaje"
 
         "E6" ->
             "6"

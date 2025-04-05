@@ -7,7 +7,7 @@ import Html.Attributes as HtmlAttributes
 import MarkdownThemed
 import Route exposing (Route(..))
 import Types exposing (..)
-import Views.ContenidosViews exposing (..)
+import Views.Componentes exposing (..)
 
 
 view : Dimensions -> Element msg
@@ -50,7 +50,7 @@ En el centro, la herramienta que utilizamos como sistema de información y colab
 
 Aquí, toda la información está disponible y clasificada para que el profesorado pueda acceder y coordinarse gracias a los documentos que se actualizan en vivo y al momento. 
 
-![Captura de google drive](assets/1BDrive.webp)
+![Captura del dashboard de google drive](assets/1BDrive.webp)
 
 ## Cuaderno del profesor
 
@@ -58,7 +58,7 @@ Estos cuadernos son **fundamentales para la colaboración del equipo docente** y
 
 Los cuadernos se crean a nivel de modulo y por retos e incluyen aspectos como rúbricas, seguimiento de faltas, planificaciones, horarios, calificaciones, agrupamiento del alumnado etc
 
-![alt text](assets/1BCuaderno.webp)
+![Captura de una cuaderno den google sheets en el que se ven tablas.](assets/1BCuaderno.webp)
 
 --- 
 
@@ -69,14 +69,14 @@ Los repositorios se crean a nivel de modulo y por retos y ayudan a evaluar aspec
 
 Github ofrece la posibilidad de crear organizaciones, lo que permite crear equipos de trabajo y crear repositorios privados con permisos de acceso restringidos a los miembros del equipo y el profesorado.
 
-![alt text](assets/1BEquipos.png)
+![Captura de github. vista de equipo de organización](assets/1BEquipos.png)
 
 A continuación se muestra una organización creada para la asignatura de **Desarrollo de Aplicaciones Multiplataforma**. En las pestañas se pueden ver la cantidad de equipos, repositorios y miembros de la organización.
 
-![alt text](assets/1BFPTxurdinagaDAM.png)
+![Captura de github de la vista de organización](assets/1BFPTxurdinagaDAM.png)
 
 A nivel de centro, todos estas organizaciones se agrupan en una Enterprise de nombre **CIFP Txurdinaga LHII**. 
 En esta organización se pueden ver los diferentes módulos y asignaturas que se imparten en el centro y los repositorios creados por cada uno de ellos.
 
-![alt text](assets/1BEnterprise.png)
+![Captura de github de la vista de entreprise donde se ven](assets/1BEnterprise.png)
 """

@@ -9,7 +9,7 @@ import Route exposing (Route(..))
 import Styles exposing (montserrat)
 import Svg.Attributes exposing (fontSize)
 import Types exposing (..)
-import Views.ContenidosViews exposing (..)
+import Views.Componentes exposing (..)
 
 
 view : Dimensions -> Element msg
@@ -27,4 +27,14 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    column [ paddingEach { top = 20, right = 0, bottom = 20, left = 0 } ]
+        [ MarkdownThemed.renderFull
+            """
+## Entregable 2 
+
+- [Contenido básico](/entregable2a)
+- [contenido avanzado](/entregable2b)
+
+    """
+        , videoView d "https://www.youtube.com/embed/KD2d2vpqkSo?si=wI2hyvcu6D0lH2J0"
+        ]

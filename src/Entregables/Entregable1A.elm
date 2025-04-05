@@ -5,7 +5,7 @@ import Entregables.Titulos exposing (..)
 import MarkdownThemed
 import Route exposing (Route(..))
 import Types exposing (..)
-import Views.ContenidosViews exposing (..)
+import Views.Componentes exposing (..)
 
 
 view : Dimensions -> Element msg
@@ -59,7 +59,7 @@ Al tratarse de una herramienta de comunicación **asíncrona**, generalemente ut
 
 Cómo puede apreciarse en la captura, clasifico el correo con etiquetas para tenerlo más ordenado y sea más clara la lectura.
 
-![Captura de la bandeja de entrada de gmail](assets/1Agmail.webp)
+![Captura de la bandeja de entrada de gmail en la que se ven las etiquetas de los correos.](assets/1Agmail.webp)
 
 ---
 

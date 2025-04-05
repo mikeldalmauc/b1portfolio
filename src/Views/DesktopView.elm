@@ -5,6 +5,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
+import Entregables.Entregable2B as E2B exposing (diagramaEngrande)
 import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
@@ -15,22 +16,31 @@ import Views.Botones as Botones exposing (..)
 import Views.Footer as Footer
 import Views.Header as Header
 import Views.Menu as Menu
+import Views.Modal as Modal
 import Views.PhoneView as PhoneView
 
 
 view : Model -> Html Msg
 view model =
     let
-        content =
-            case model.modalVisibility of
+        entregable =
+            case model.entregableVisibility of
                 Hidden ->
                     contenido model
 
                 Visible ->
                     row [ centerX, centerY, width (fill |> maximum 900) ]
                         [ el [ width fill, height fill, paddingEach { top = 20, bottom = 80, left = 20, right = 20 } ]
-                            (model.modalView model.dimensions)
+                            (model.entregableView model.dimensions)
                         ]
+
+        content =
+            case model.modalVisibility of
+                Hidden ->
+                    entregable
+
+                Visible ->
+                    Modal.modalViewFun diagramaEngrande
 
         menu =
             case model.menuVisible of
