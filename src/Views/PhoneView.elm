@@ -17,7 +17,7 @@ view : Model -> Html Msg
 view model =
     let
         phoneHeaderView =
-            if model.modalVisibility == Visible then
+            if model.entregableVisibility == Visible then
                 Header.phoneHeaderBack model
 
             else
@@ -57,8 +57,8 @@ view model =
                 ]
               <|
                 [ sideFiller
-                , if model.modalVisibility == Visible then
-                    el [ centerX, centerY, width (fillPortion 17), height fill, paddingEach { top = 80, bottom = 20, left = 10, right = 10 } ] (model.modalView model.dimensions)
+                , if model.entregableVisibility == Visible then
+                    el [ centerX, centerY, width (fillPortion 17), height fill, paddingEach { top = 80, bottom = 20, left = 10, right = 10 } ] (model.entregableView model.dimensions)
 
                   else
                     mainBlock

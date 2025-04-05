@@ -1,6 +1,8 @@
 module Entregables.Entregable2B exposing (..)
 
+import Browser.Events as BrowserEvents
 import Element exposing (..)
+import Element.Events as Events
 import Entregables.Titulos exposing (..)
 import Html exposing (Html, col)
 import Html.Attributes as HtmlAttributes
@@ -9,10 +11,11 @@ import Route exposing (Route(..))
 import Styles exposing (montserrat)
 import Svg.Attributes exposing (fontSize)
 import Types exposing (..)
-import Views.ContenidosViews exposing (..)
+import Views.Componentes exposing (..)
+import Views.Modal as Modal
 
 
-view : Dimensions -> Element msg
+view : Dimensions -> Element Msg
 view d =
     column [ width (fill |> maximum (round (toFloat d.width * 0.9))) ]
         [ breadcrumbs d
@@ -26,9 +29,10 @@ view d =
         ]
 
 
-content : Dimensions -> Element msg
+content : Dimensions -> Element Msg
 content d =
-    column [ width fill, height fill, spacing 10 ]
+    column
+        [ width fill, height fill, spacing 10 ]
         [ MarkdownThemed.renderFull
             """
 # 2.A Contenido Avanzado
@@ -41,9 +45,21 @@ Es un contenido más avanzado y que permite una amplia visión de los casos de u
 
 ## Elige la API de animación adecuada
 """
+        , image
+            [ alignRight
+            , paddingXY 20 0
+            , height (px 30)
+            , Events.onClick (OpenModal "diagramaEngrande")
+            ]
+            { src = "assets/fullscreen.svg", description = "Icono para ampliar diagrama." }
         , el [ width fill, height fill, htmlAttribute <| HtmlAttributes.id "decision-tree" ] none
         , MarkdownThemed.renderFull
             """
 *Portions of this page are modifications based on work created and shared by the [Android Open Source Project](https://developers.google.com/terms/site-policies) and used according to terms described in the [Creative Commons 2.5 Attribution License](http://creativecommons.org/licenses/by/2.5/).*
 """
         ]
+
+
+diagramaEngrande : Element msg
+diagramaEngrande =
+    el [ width fill, height fill, htmlAttribute <| HtmlAttributes.id "decision-tree" ] none

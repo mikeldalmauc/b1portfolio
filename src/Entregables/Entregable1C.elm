@@ -7,7 +7,7 @@ import Html.Attributes as HtmlAttributes
 import MarkdownThemed
 import Route exposing (Route(..))
 import Types exposing (..)
-import Views.ContenidosViews exposing (..)
+import Views.Componentes exposing (..)
 
 
 view : Dimensions -> Element msg

@@ -9,7 +9,7 @@ import Route exposing (Route(..))
 import Styles exposing (montserrat)
 import Svg.Attributes exposing (fontSize)
 import Types exposing (..)
-import Views.ContenidosViews exposing (..)
+import Views.Componentes exposing (..)
 
 
 view : Dimensions -> Element msg
@@ -27,4 +27,12 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    MarkdownThemed.renderFull
+        """
+## Entregable 2 
+
+- [Contenido básico](/entregable2a)
+- [contenido avanzado](/entregable2b)
+
+![](2wave.webp)
+    """

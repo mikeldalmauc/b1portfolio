@@ -49,10 +49,10 @@ botonHome id hovered =
                     Element.link
                         [ width fill, height fill ]
                         { url = Route.encode HomepageRoute
-                        , label = el [alpha 0.0] (text "Esquema")
+                        , label = el [ alpha 0.0 ] (text "Esquema")
                         }
 
-               -- , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
+               -- , Events.onClick <| Openentregable entregable.tituloentregable entregable.vistaentregable
                ]
         )
     <|
@@ -103,10 +103,10 @@ botonEntregable entregable id hovered =
                     Element.link
                         [ width fill, height fill ]
                         { url = Route.encode entregable.route
-                        , label = el [alpha 0.0] (text entregable.codigo)
+                        , label = el [ alpha 0.0 ] (text entregable.codigo)
                         }
 
-               -- , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
+               -- , Events.onClick <| Openentregable entregable.tituloentregable entregable.vistaentregable
                ]
         )
     <|
@@ -155,15 +155,15 @@ botonCompetencia entregable entrega ids hovered =
             Element.link
                 [ width fill, height fill ]
                 { url = Route.encode entregable.route
-                , label = el [alpha 0.0] (text entregable.codigo)
+                , label = el [ alpha 0.0 ] (text entregable.codigo)
                 }
 
-        -- , Events.onClick <| OpenModal entregable.tituloModal entregable.vistaModal
+        -- , Events.onClick <| Openentregable entregable.tituloentregable entregable.vistaentregable
         ]
         [ el (shadowStyle ++ montserratBold ++ [ Font.center, centerX, centerY, width <| px 50, height <| px 50, Background.color color, Border.width 1, Border.solid, Border.rounded 50, padding 15 ]) (text entregable.codigo)
         , column [ alignLeft, width fill, spacing 10 ]
-            [ paragraph (montserratSemiBold ++ [ Font.color color, Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer color factor } ]) [ text entregable.descripcionEntregable ]
-            , paragraph (montserratLight ++ [ Font.shadow { offset = ( 0.5, 0.5 ), blur = 0, color = oscurecer grisclaro factor } ]) [ text entrega ]
+            [ paragraph (montserratSemiBold ++ [ Font.color <| oscurecer color 0.3, Font.shadow { offset = ( 1, 1 ), blur = 0, color = oscurecer color factor } ]) [ text entregable.descripcionEntregable ]
+            , paragraph (montserratLight ++ [ Font.color <| oscurecer color factor, Font.shadow { offset = ( 0.5, 0.5 ), blur = 0, color = oscurecer grisclaro factor } ]) [ text entrega ]
             ]
         , image [ height (px 50), htmlAttribute (HtmlAttributes.style "filter" dropShadowValue) ] { src = "assets/" ++ "video" ++ ".webp", description = "icono de video" }
         ]
@@ -187,11 +187,11 @@ sortOrderButton model =
 
 backButton : Model -> Element Msg
 backButton model =
-    leftArrowSvg
+    image
         [ paddingXY 0 0
         , height (px 30)
         , alignRight
         , htmlAttribute (HtmlAttributes.style "filter" "drop-shadow(2px 2px 0px #666666)")
         , Events.onClick <| GoTo Route.HomepageRoute
         ]
-        negroHex
+        { src = "assets/esquema.webp", description = "Logo de Ordenar" }

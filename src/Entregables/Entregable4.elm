@@ -9,7 +9,7 @@ import Route exposing (Route(..))
 import Styles exposing (montserrat)
 import Svg.Attributes exposing (fontSize)
 import Types exposing (..)
-import Views.ContenidosViews exposing (..)
+import Views.Componentes exposing (..)
 
 
 view : Dimensions -> Element msg

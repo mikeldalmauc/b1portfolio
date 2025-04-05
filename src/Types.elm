@@ -24,8 +24,8 @@ type Msg
     | HoverOnMany (List Int)
     | HoverOffMany (List Int)
     | HoverOffAll
-    | OpenModal Entregable
-    | CloseModal
+    | OpenEntregable Entregable
+    | CloseEntregable
     | SortEntregables SortOrder
     | GoTo Route
     | OpenMenu
@@ -33,6 +33,8 @@ type Msg
     | MountH5P
     | CleanH5PContent
     | Highlight
+    | OpenModal String
+    | CloseModal
 
 
 
@@ -45,16 +47,18 @@ type alias Model =
     , device : Device
     , dimensions : Dimensions
     , hovered : Set Int
-    , modalVisibility : ModalVisibilty
-    , modalView : Dimensions -> Element Msg
-    , modalTitle : String
+    , entregableVisibility : Visibility
+    , entregableView : Dimensions -> Element Msg
+    , entregableTitle : String
     , entregables : Dict String Entregable
+    , modalVisibility : Visibility
+    , modalView : String
     , sortOrder : SortOrder
-    , menuVisible : ModalVisibilty
+    , menuVisible : Visibility
     }
 
 
-type ModalVisibilty
+type Visibility
     = Visible
     | Hidden
 
@@ -79,8 +83,8 @@ type alias Entregable =
     , route : Route
     , descripcionEntregable : String
     , tipoEvidencia : Maybe String
-    , tituloModal : String
-    , vistaModal : Dimensions -> Element Msg
+    , tituloEntregable : String
+    , vistaEntregable : Dimensions -> Element Msg
     }
 
 

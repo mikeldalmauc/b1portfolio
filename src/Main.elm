@@ -92,9 +92,11 @@ init dimensions url key =
             , device = classifyDevice dimensions
             , dimensions = dimensions
             , hovered = Set.empty
+            , entregableVisibility = Hidden
+            , entregableView = \d -> none
+            , entregableTitle = ""
+            , modalView = ""
             , modalVisibility = Hidden
-            , modalView = \d -> none
-            , modalTitle = ""
             , entregables = entregables
             , sortOrder = Categories
             , menuVisible = Hidden
@@ -102,11 +104,11 @@ init dimensions url key =
     in
     case getEntregableFromRoute route of
         Just entregable ->
-            -- Si la ruta decodificada es un entregable, abrimos el modal directamente
+            -- Si la ruta decodificada es un entregable, abrimos el entregable directamente
             ( { baseModel
-                | modalVisibility = Visible
-                , modalTitle = entregable.tituloModal
-                , modalView = entregable.vistaModal
+                | entregableVisibility = Visible
+                , entregableTitle = entregable.tituloEntregable
+                , entregableView = entregable.vistaEntregable
               }
             , Cmd.batch [ startH5PContent, startLottieAnimations, checkMarkdownHighlight ]
             )
@@ -132,14 +134,14 @@ update msg model =
                     --     Just entregable ->
                     --         ( model, Cmd.batch [
                     --               Navigation.pushUrl model.key (Url.toString url)
-                    --                 , Task.perform (\_ -> OpenModal entregable) (Task.succeed ())])
+                    --                 , Task.perform (\_ -> Openentregable entregable) (Task.succeed ())])
                     --     Nothing ->
                     ( model
                     , Cmd.batch
                         [ Navigation.pushUrl model.key (Url.toString url)
                         , startLottieAnimations
-                        , highlight "code"
                         , checkMarkdownHighlight
+                        , closeModal
                         ]
                     )
 
@@ -171,7 +173,7 @@ update msg model =
                 Just entregable ->
                     ( { model | route = newRoute }
                     , Cmd.batch
-                        [ Task.perform (\_ -> OpenModal entregable) (Task.succeed ())
+                        [ Task.perform (\_ -> OpenEntregable entregable) (Task.succeed ())
                         , scrollCmd
                         , startLottieAnimations
                         , cleanH5PContent
@@ -183,7 +185,7 @@ update msg model =
                 Nothing ->
                     ( { model | route = newRoute }
                     , Cmd.batch
-                        [ Task.perform (\_ -> CloseModal) (Task.succeed ())
+                        [ Task.perform (\_ -> CloseEntregable) (Task.succeed ())
                         , startLottieAnimations
                         , cleanH5PContent
                         ]
@@ -225,15 +227,33 @@ update msg model =
             , Cmd.none
             )
 
-        OpenModal entregable ->
-            ( { model | modalVisibility = Visible, modalTitle = entregable.tituloModal, modalView = entregable.vistaModal }
+        OpenEntregable entregable ->
+            ( { model | entregableVisibility = Visible, entregableTitle = entregable.tituloEntregable, entregableView = entregable.vistaEntregable }
             , Cmd.none
             )
 
-        CloseModal ->
-            ( { model | modalVisibility = Hidden, modalView = \d -> none }
+        CloseEntregable ->
+            ( { model | entregableVisibility = Hidden, entregableView = \d -> none }
             , Cmd.batch
                 [ Task.perform identity (Task.succeed HoverOffAll)
+                ]
+            )
+
+        OpenModal modal ->
+            ( { model | modalVisibility = Visible, modalView = modal }
+            , Cmd.batch
+                [ startLottieAnimations
+                , cleanH5PContent
+                , startH5PContent
+                , checkMarkdownHighlight
+                ]
+            )
+
+        CloseModal ->
+            ( { model | modalVisibility = Hidden, modalView = "" }
+            , Cmd.batch
+                [ Task.perform identity (Task.succeed HoverOffAll)
+                , cleanH5PContent
                 ]
             )
 
@@ -293,6 +313,11 @@ startH5PContent =
 cleanH5PContent : Cmd Msg
 cleanH5PContent =
     Task.perform (\_ -> NoOp) (Task.succeed ())
+
+
+closeModal : Cmd Msg
+closeModal =
+    Task.perform (\_ -> CloseModal) (Task.succeed ())
 
 
 checkMarkdownHighlight : Cmd Msg
@@ -356,8 +381,8 @@ viewHome model =
 --         , text ("device: " ++ Debug.toString model.device)
 --         , text ("dimensions: " ++ Debug.toString model.dimensions)
 --         , text ("hovered: " ++ Debug.toString model.hovered)
---         , text ("modalVisibility: " ++ Debug.toString model.modalVisibility)
---         , text ("modalTitle: " ++ model.modalTitle)
+--         , text ("entregableVisibility: " ++ Debug.toString model.entregableVisibility)
+--         , text ("entregableTitle: " ++ model.entregableTitle)
 --         , text ("entregables: " ++ Debug.toString model.entregables)
 --         , text ("sortOrder: " ++ Debug.toString model.sortOrder)
 --         ]

@@ -53,7 +53,7 @@
       'class': 'h5p-image-hotspot-popup ' + className,
       'tabindex': '0',
       'role': 'dialog',
-      'aria-modal': 'true',
+      'aria-entregable': 'true',
       'aria-labelledby': header ? 'h5p-image-hotspot-popup-header' : undefined,
     }).css({
       left: (toTheLeft ? '' : '-') + '100%',
