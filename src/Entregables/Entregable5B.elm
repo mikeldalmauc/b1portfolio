@@ -41,20 +41,45 @@ content d =
             """
 # 5.B Personalización del aprendizaje en base al rastro digital
 
-Supongamos que, en función del rastro digital que el contenido de profundización ofrecido a tus alumnos ha dejado en la plataforma de aprendizaje, el número de visitas que cada alumno o alumna ha necesitado para asimilar ese contenido es el siguiente
+- [Introducción](#introducción)
+- [Análisis de los datos](#analisis-de-los-datos)
+- [Propuesta de aprendizaje adaptada](#propuesta-de-aprendizaje-adaptada)
+
+## Introducción
+
+Supongamos que, en función del rastro digital que el contenido de profundización ofrecido a tus alumnos ha dejado en la plataforma de aprendizaje, el número de visitas que cada alumno o alumna ha necesitado para asimilar ese contenido es el siguiente.
     """
         , table
         , MarkdownThemed.renderFull
             """
+## Analisis de los datos
 
-## Análisis de los datos
+A simple vista podemos ver que hay un alumno que ha necesitado 42 visitas para asimilar el contenido, lo que nos indica que ha tenido problemas para entenderl o un error en la plataforma de aprendizaje.
 
+La mayoria de alumnos han necesitado entre 2 y 5 visitas para asimilar el contenido, lo que nos indica que el contenido es adecuado y ha sido bien diseñado. Sin embargo, 4 han superado la decena, lo que supone un 20 % de la clse.
+
+Por lo tanto, la clase estaría dividida en 2 grupos generales en una proporción de 80% y 20% y una diferencia de velocidad considerable entre ellos.
+
+- **Grupo A:** 2-5 visitas, 80% de la clase.
+- **Grupo B:** 6-15 visitas, 20% de la clase, velocidad 3 veces menor que el grupo 1.
+- **Grupo C:** 42 visitas, 1 alumno/a, velocidad 21 veces menor que el grupo 1. Puede ser un error o un alumno con problemas de aprendizaje.
+
+## Propuesta de aprendizaje adaptada
+
+Teniendo en cuenta los datos analizados, la mayoría de la clase puede emprender tareas más autónomas,menos guiadas, y más autoevaluadas, mientras que el grupo B necesita un ritmo más lento por lo que es posible que requieran de contenido más guiado e interactivo.
+
+- **Grupo A:** Avance autónomo y autoevaluación continua, foro, insignias y logros, mini proyectos de desarrollo.
+- **Grupo B:** Avance más guiado, enfocado a microlecciones y aumento del feedback instantaneo.
+- **Grupo C:** Tutoría individualizada, seguimiento y apoyo continuo.
+
+Entonces, podríamos adaptar el contenido de la siguiente manera:
+
+- **Contenido Básico:** Aumentar el número de microlecciones y aumentar el numero de componentes de feedback instantáneo. Tal vez crear una especie de recorrido visual, como el viaje del héroe, donde el alumno/a pueda ver su progreso y los pasos que le quedan por completar.
+
+- **Contenido Avanzado:** Añadir propuestas de mini-proyectos de desarrollo, donde el alumno/a pueda elegir entre diferentes opciones y avanzar a su ritmo. Mostrar otros contenidos de interes sobre el tema, integraciones, frameworks, proyectos, etc. que puedan ser de su interés y que le ayuden a avanzar en su aprendizaje.
 """
-        , el [ width fill, height (fill |> maximum 500), centerX, centerY ] <| Element.html chart
-        , MarkdownThemed.renderFull
-            """ 
 
-"""
+        ---  , el [ width fill, height (fill |> maximum 500), centerX, centerY ] <| Element.html chart
         ]
 
 
