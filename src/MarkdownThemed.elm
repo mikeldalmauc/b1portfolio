@@ -145,7 +145,7 @@ renderer theme =
                             case listItem of
                                 ListItem _ children ->
                                     wrappedRow
-                                        [ spacing 5
+                                        [ spacing 15
                                         , paddingEach { top = 0, right = 0, bottom = 0, left = 20 }
                                         , width fill
                                         ]
@@ -162,7 +162,7 @@ renderer theme =
                     |> List.indexedMap
                         (\index itemBlocks ->
                             wrappedRow
-                                [ spacing 5
+                                [ spacing 15
                                 , paddingEach { top = 0, right = 0, bottom = 0, left = 20 }
                                 , width fill
                                 ]
