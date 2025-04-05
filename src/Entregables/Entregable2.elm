@@ -27,12 +27,14 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    MarkdownThemed.renderFull
-        """
+    column [ paddingEach { top = 20, right = 0, bottom = 20, left = 0 } ]
+        [ MarkdownThemed.renderFull
+            """
 ## Entregable 2 
 
 - [Contenido básico](/entregable2a)
 - [contenido avanzado](/entregable2b)
 
-![](2wave.webp)
     """
+        , videoView d "https://www.youtube.com/embed/KD2d2vpqkSo?si=wI2hyvcu6D0lH2J0"
+        ]
