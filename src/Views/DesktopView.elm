@@ -51,7 +51,7 @@ view model =
                     [ inFront <| Menu.view model ]
     in
     Html.div [ class "main-container" ]
-        [ Header.headerHtml
+        [ Header.headerHtml model
         , layout
             (menu
                 ++ [ width fill
