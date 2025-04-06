@@ -27,4 +27,16 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    column [ paddingEach { top = 20, right = 0, bottom = 20, left = 0 } ]
+        [ MarkdownThemed.renderFull
+            """
+## 5 Empoderando al alumnado
+
+En este vídeo se presentan las medidas de accesibilidad y personalización que se han implementado en los contenidos digitales para el alumnado.
+
+- [Accesibilidad de los contenidos digitales](/entregable5a)
+- [Personalización del aprendizaje en base al rastro digital](/entregable5b)
+
+    """
+        , videoView d "https://www.youtube.com/embed/IkdFbLRZMNs?si=vUKlzMbZBIi9W-a"
+        ]

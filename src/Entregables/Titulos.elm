@@ -47,7 +47,7 @@ titulo code =
             "4.C"
 
         "E5" ->
-            "5"
+            "5 Empoderamiento del alumnado"
 
         "E5A" ->
             "5.A Accesibilidad de los contenidos digitales"
