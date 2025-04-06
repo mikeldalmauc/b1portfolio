@@ -30,10 +30,12 @@ content d =
     column [ paddingEach { top = 20, right = 0, bottom = 20, left = 0 } ]
         [ MarkdownThemed.renderFull
             """
-## Entregable 2 
+## 2 Contenidos Ditigales
+
+En este vídeo se presentan las dos tipologías de contenidos digitales que se han creado para el alumnado.
 
 - [Contenido básico](/entregable2a)
-- [contenido avanzado](/entregable2b)
+- [Contenido avanzado](/entregable2b)
 
     """
         , videoView d "https://www.youtube.com/embed/KD2d2vpqkSo?si=wI2hyvcu6D0lH2J0"
