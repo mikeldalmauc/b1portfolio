@@ -21,6 +21,7 @@ import H5P
 import Html exposing (Html, div)
 import Html.Attributes exposing (class, style)
 import Lottie
+import Process
 import Route
 import Set exposing (Set)
 import Styles exposing (..)
@@ -100,6 +101,7 @@ init dimensions url key =
             , entregables = entregables
             , sortOrder = Categories
             , menuVisible = Hidden
+            , pendingCloseMenu = Nothing
             }
     in
     case getEntregableFromRoute route of
@@ -269,15 +271,42 @@ update msg model =
 
         OpenMenu ->
             ( { model
-                | menuVisible =
-                    if model.menuVisible == Visible then
-                        Hidden
-
-                    else
-                        Visible
+                | menuVisible = Visible
+                , pendingCloseMenu = Maybe.map (\_ -> 2) model.pendingCloseMenu
               }
-            , scrollToTop
+            , Cmd.batch [ scrollToTop ]
             )
+
+        CloseMenu ->
+            let
+                menuVis =
+                    case model.pendingCloseMenu of
+                        Just id ->
+                            if id == 1 then
+                                Hidden
+
+                            else
+                                Visible
+
+                        Nothing ->
+                            Hidden
+            in
+            ( { model
+                | menuVisible = menuVis
+                , pendingCloseMenu = Nothing
+              }
+            , Cmd.batch []
+            )
+
+        ScheduleClose ->
+            let
+                cmd =
+                    Task.perform (\pid -> CloseMenu) <|
+                        Process.sleep 2000
+
+                -- 2 segundos
+            in
+            ( { model | pendingCloseMenu = Just 1 }, cmd )
 
         LottieMsg ->
             ( model

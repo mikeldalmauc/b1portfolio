@@ -29,6 +29,13 @@ encabezadoFijado model =
 
             else
                 "none"
+
+        onCliclMenu =
+            if model.menuVisible == Visible then
+                Events.onClick CloseMenu
+
+            else
+                Events.onClick OpenMenu
     in
     layout [ Background.color blanco ] <|
         row
@@ -40,7 +47,7 @@ encabezadoFijado model =
             --, explain Debug.todo
             ]
             [ el
-                [ Events.onClick OpenMenu
+                [ onCliclMenu
                 , htmlAttribute <| HtmlAttributes.class "bordered"
                 , padding 10
                 ]
