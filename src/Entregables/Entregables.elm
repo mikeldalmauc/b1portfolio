@@ -135,7 +135,7 @@ secciones =
             }
           )
         , ( "colabalumn"
-          , { titulo = "Contexto colaborativo del alumnado"
+          , { titulo = "Trabajando con el alumnado"
             , entregables = List.map (\e -> getEntregable e dictEntregables) [ "6.A", "6.B", "6.C", "6.D", "6.E" ]
             , color = turquesa
             }
