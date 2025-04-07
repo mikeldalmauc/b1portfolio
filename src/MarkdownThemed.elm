@@ -58,7 +58,7 @@ render chosenRenderer markdownBody =
                        )
                     |> column
                         [ width fill
-                        , spacing 10
+                        , spacing 24
                         ]
            )
 
@@ -79,7 +79,7 @@ bulletPoint children =
 renderer : Theme -> Markdown.Renderer.Renderer (Element msg)
 renderer theme =
     { heading = \data -> row [] [ heading theme data ]
-    , paragraph = paragraph [ spacing 15, paddingEach { left = 0, right = 0, top = 0, bottom = 20 } ]
+    , paragraph = paragraph [ spacing 20, paddingEach { left = 0, right = 0, top = 0, bottom = 20 } ]
     , blockQuote =
         \children ->
             column
@@ -137,7 +137,7 @@ renderer theme =
             column
                 [ spacing 15
                 , width fill
-                , paddingEach { top = 0, right = 0, bottom = 40, left = 0 }
+                , paddingEach { top = 10, right = 0, bottom = 0, left = 0 }
                 ]
                 (items
                     |> List.map
@@ -146,7 +146,7 @@ renderer theme =
                                 ListItem _ children ->
                                     wrappedRow
                                         [ spacing 15
-                                        , paddingEach { top = 0, right = 0, bottom = 0, left = 20 }
+                                        , paddingEach { top = 0, right = 0, bottom = 0, left = 30 }
                                         , width fill
                                         ]
                                         [ paragraph
@@ -157,13 +157,13 @@ renderer theme =
                 )
     , orderedList =
         \startingIndex items ->
-            column [ spacing 15, width fill ]
+            column [ spacing 15, width fill, paddingEach { top = 10, right = 0, bottom = 40, left = 0 } ]
                 (items
                     |> List.indexedMap
                         (\index itemBlocks ->
                             wrappedRow
                                 [ spacing 15
-                                , paddingEach { top = 0, right = 0, bottom = 0, left = 20 }
+                                , paddingEach { top = 0, right = 0, bottom = 0, left = 30 }
                                 , width fill
                                 ]
                                 [ paragraph
@@ -232,7 +232,7 @@ heading theme { level, rawText, children } =
 
             3 ->
                 [ Font.color theme.defaultText
-                , Font.size 20
+                , Font.size 24
                 , Font.bold
 
                 --, Font.medium
@@ -241,7 +241,7 @@ heading theme { level, rawText, children } =
 
             4 ->
                 [ Font.color theme.defaultText
-                , Font.size 16
+                , Font.size 22
                 , Font.bold
                 , paddingEach { top = 0, right = 0, bottom = 10, left = 0 }
                 ]

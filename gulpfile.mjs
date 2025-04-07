@@ -148,4 +148,4 @@ function watchTask() {
 const dev = series(build, watchTask);
 
 // Exporta las tareas
-export { dev, watchTask as watch, build, build as default, entregableAssetsTask as entregableAssets};
+export { dev, watchTask as watch, build, build as default, entregableAssetsTask as assets};

@@ -29,12 +29,14 @@ type Msg
     | SortEntregables SortOrder
     | GoTo Route
     | OpenMenu
+    | CloseMenu
     | LottieMsg
     | MountH5P
     | CleanH5PContent
     | Highlight
     | OpenModal String
     | CloseModal
+    | ScheduleClose
 
 
 
@@ -55,6 +57,7 @@ type alias Model =
     , modalView : String
     , sortOrder : SortOrder
     , menuVisible : Visibility
+    , pendingCloseMenu : Maybe Int
     }
 
 

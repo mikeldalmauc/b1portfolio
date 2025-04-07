@@ -59,19 +59,19 @@ titulo code =
             "6"
 
         "E6A" ->
-            "6.A"
+            "6.A: Búsquedas eficacez"
 
         "E6B" ->
-            "6.B"
+            "6.B: Definición de normas de comportamiento"
 
         "E6C" ->
-            "6.C"
+            "6.C: Desarrollo de contenidos digitales"
 
         "E6D" ->
-            "6.D"
+            "6.D: Uso responsable"
 
         "E6E" ->
-            "6.E"
+            "6.E: Resolución de problemas digitales"
 
         "Esquema" ->
             "Esquema"

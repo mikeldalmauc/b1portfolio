@@ -4,6 +4,7 @@ import Dict exposing (Dict)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
+import Element.Events as Events
 import Element.Font as Font
 import Entregables.Entregables exposing (..)
 import Html exposing (Html, div)
@@ -36,6 +37,8 @@ view model =
         , Border.widthEach { top = 0, left = 0, bottom = 1, right = 1 }
         , Border.solid
         , Border.color negro
+        , Events.onMouseLeave ScheduleClose
+        , Events.onMouseEnter OpenMenu
         ]
     <|
         [ row [ centerX, centerY, width fill, height fill, paddingEach { top = 10, left = 0, bottom = 50, right = 0 } ] <|
