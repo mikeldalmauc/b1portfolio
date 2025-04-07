@@ -35,7 +35,6 @@ content d =
 
 En el siguiente vídeo muestro que herramientas digitales componen el contexto colaborativo del alumnado y cómo he puesto los contenidos creados a disposición del alumnado en la plataforma Moodle.
 
-
-    """
+"""
         , videoView d "https://www.youtube.com/embed/qHZ4tY08wsk?si=jxkNXdabunRK_3T-"
         ]
