@@ -19,7 +19,7 @@ view d =
             ]
         , content d
         , footerNavigation d
-            (Just ( Entregable1A, titulo "E1B" ))
+            (Just ( Entregable1B, titulo "E1B" ))
             (Just ( Entregable2, titulo "E2" ))
         ]
 
