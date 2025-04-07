@@ -7,20 +7,29 @@ import Element.Events as Events
 import Html exposing (Html)
 import Html.Attributes as HtmlAttributes exposing (style)
 import Route
+import Set
 import Styles exposing (..)
 import Types exposing (..)
 import Views.Botones exposing (..)
 
 
-headerHtml : Html Msg
-headerHtml =
+headerHtml : Model -> Html Msg
+headerHtml model =
     Html.div
         [ HtmlAttributes.class "fixed-header" ]
-        [ encabezadoFijado ]
+        [ encabezadoFijado model ]
 
 
-encabezadoFijado : Html Msg
-encabezadoFijado =
+encabezadoFijado : Model -> Html Msg
+encabezadoFijado model =
+    let
+        dropShadowValue =
+            if Set.member 532 model.hovered then
+                "drop-shadow(3px 3px 0px black)"
+
+            else
+                "none"
+    in
     layout [ Background.color blanco ] <|
         row
             [ centerY
@@ -48,10 +57,20 @@ encabezadoFijado =
                     Element.link
                         [ width fill, height fill ]
                         { url = Route.encode Route.HomepageRoute
-                        , label = el [alpha 0.0] (text "Inicio")
+                        , label = el [ alpha 0.0 ] (text "Inicio")
                         }
+                , Events.onMouseEnter (HoverOn 532)
+                , Events.onMouseLeave (HoverOff 532)
+                , htmlAttribute (HtmlAttributes.style "filter" dropShadowValue)
                 ]
-                { src = "assets/favicon.svg", description = "Logo de Mikel" }
+                { src =
+                    if model.route == Route.HomepageRoute then
+                        "assets/favicon.svg"
+
+                    else
+                        "assets/esquema.webp"
+                , description = "Logo de Mikel"
+                }
             ]
 
 

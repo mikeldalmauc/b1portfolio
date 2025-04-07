@@ -27,4 +27,16 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    column [ paddingEach { top = 20, right = 0, bottom = 20, left = 0 } ]
+        [ MarkdownThemed.renderFull
+            """
+# 3 Contexto colaboraivo del alumnado
+
+En este vídeo muestro cómo he puesto los contenidos creados a disposición del alumnado en la plataforma Moodle.
+
+- [Contexto colaborativo del alumnao](/entregable3a)
+- [Puesta a disposición](/entregable3b)
+
+    """
+        , videoView d "https://www.youtube.com/embed/KD2d2vpqkSo?si=wI2hyvcu6D0lH2J0"
+        ]

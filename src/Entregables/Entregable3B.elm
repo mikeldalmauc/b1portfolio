@@ -28,4 +28,14 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    column [ paddingEach { top = 20, right = 0, bottom = 20, left = 0 } ]
+        [ MarkdownThemed.renderFull
+            """
+# 3B Puesta a disposición de los recursos
+
+En el siguiente vídeo muestro que herramientas digitales componen el contexto colaborativo del alumnado y cómo he puesto los contenidos creados a disposición del alumnado en la plataforma Moodle.
+
+
+    """
+        , videoView d "https://www.youtube.com/embed/qHZ4tY08wsk?si=jxkNXdabunRK_3T-"
+        ]

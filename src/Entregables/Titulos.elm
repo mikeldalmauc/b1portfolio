@@ -26,13 +26,13 @@ titulo code =
             "2.B Contenido de Profundización"
 
         "E3" ->
-            "3"
+            "3 Evidencia del Contexto colaborativo del alumnado"
 
         "E3A" ->
-            "3.A"
+            "3.A Contexto colaborativo del alumnado"
 
         "E3B" ->
-            "3.B"
+            "3.B Puesta a disposición de los recursos"
 
         "E4" ->
             "4"
