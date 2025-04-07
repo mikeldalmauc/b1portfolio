@@ -38,5 +38,5 @@ En este vídeo muestro cómo he puesto los contenidos creados a disposición del
 - [Puesta a disposición](/entregable3b)
 
     """
-        , videoView d "https://www.youtube.com/embed/KD2d2vpqkSo?si=wI2hyvcu6D0lH2J0"
+        , videoView d "https://www.youtube.com/embed/60UrkJMkj9Q?si=bQawUGP1KJuL9BIH"
         ]
