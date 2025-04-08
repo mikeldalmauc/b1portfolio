@@ -34,7 +34,6 @@ content d =
 
 ![Gente creando contenido digital.](assets/6Ccontent.webp)
 
-
 - [Actividad. Creacion de contenido digital](#actividad-creacion-de-contenido-digital)
 - [1. Competencia](#1-competencia)
 - [2. Herramientas y recursos necesarios](#2-herramientas-y-recursos-necesarios)
@@ -50,7 +49,7 @@ content d =
 
 ## Actividad. Creacion de contenido digital
 Esta actividad se puede realizar en dos sesiones de 2 horas. Está diseñada para fomentar la creación de contenido digital interactivo a partir de un tema, los alumnos tendrán libertad para elegir el tipo de formato (presentación, vídeo, mapa conceptual, gráfico…). Se trabajará la síntesis, la creatividad y la capacidad de comunicar con claridad temas complejos.
-
+La actividad está diseñada para ser desarrollada a mitad del itinerario formativo, cuando el alumnado va comenzar a cerar el contenido.
 ---
 <br></br>
 <br></br>

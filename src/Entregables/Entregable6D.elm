@@ -28,4 +28,77 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    MarkdownThemed.renderFull
+        """
+# 6.D: Uso responsable
+
+![Chica haciendo un selfie frente al portal de casa](assets/6Dselfie.webp)
+
+- [Actividad. Análisis y reflexión sobre la huella digital](#actividad-analisis-y-reflexión-sobre-la-huella-digital)
+- [1. Competencia](#1-competencia)
+- [2. Herramientas y recursos necesarios](#2-herramientas-y-recursos-necesarios)
+- [3. Descripción de la actividad](#3-descripcion-de-la-actividad)
+- [3.1. Exploración y toma de conciencia](#31-exploracion-y-toma-de-conciencia)
+- [3.2. Reflexión y propuestas de mejora](#32-reflexion-y-propuestas-de-mejora)
+- [4. Evidencias](#4-evidencias)
+- [5. Indicadores de logro](#5-indicadores-de-logro)
+
+## Actividad. Analisis y reflexión sobre la huella digital
+
+Esta actividad se puede realizar en una sesión de 2 horas, preferiblemente con trabajo colaborativo en grupos de 3 o 4 personas. El objetivo es que el alumnado tome conciencia de qué datos personales comparte en Internet, reflexione sobre los riesgos y responsabilidades asociados, y proponga pequeñas acciones para mejorar la protección y el uso responsable de sus datos en entornos digitales.
+
+La actividad está diseñada para ser realizada a mitad del itinerario formativo más o menos.
+---
+
+### 1. Competencia
+
+La competencia que se trabajará será:  
+*"Analizar y gestionar de forma crítica la propia huella digital, promoviendo un uso responsable y seguro de las tecnologías digitales."*  
+
+El nivel en el que se trabajará es **básico-intermedio**, con especial énfasis en la toma de conciencia, la reflexión y la adquisición de hábitos digitales más seguros.
+
+### 2. Herramientas y recursos necesarios
+
+- **Moodle**: Se habilitará un espacio de entrega y un foro de debate donde el alumnado publicará sus reflexiones y conclusiones.  
+- **Internet y buscadores**: Para investigar la huella digital personal (se solicitará que busquen solo datos públicos o accesibles de forma responsable).  
+- **VSCode + Markdown**: Para documentar el proceso.
+
+### 3. Descripcion de la actividad
+
+#### 3.1. Exploracion y toma de conciencia
+
+1. **Introducción mediante ejemplo real**  
+   Se muestra un caso práctico o una breve noticia sobre alguien que ha enfrentado problemas por compartir demasiada información en redes sociales (pérdida de privacidad, robo de identidad, ciberacoso, etc.).  
+
+2. **Búsqueda guiada de la propia huella digital** (individual)  
+   - Cada alumno/a revisará, dentro de los límites de la seguridad y el sentido común, qué tipo de información suya aparece en Internet y redes sociales (su nombre, imágenes, redes, etc.).  
+   - Se pide que tomen apuntes sobre qué datos están disponibles públicamente (fotos, comentarios, perfiles en redes sociales, etc.). Este análisis se centra en **lo que la persona puede encontrar de forma sencilla**, evitando cualquier acción que comprometa la privacidad o vulnere la ley.  
+
+3. **Compartir y reflexionar:** Cada alumno/a comparte brevemente sus hallazgos con el grupo.  
+
+#### 3.2. Reflexion y propuestas de mejora
+
+Redacta en **formato Markdown** y publica en GitHub en el repositorio de la asignatura un documento con el nombre `plan_de_reducción_de_exposición.md`.
+
+El documento ha de incluir:
+
+1. **Reflexion** sobre cuestiones como:
+    1. ¿Por qué es importante saber qué huella digital dejamos?  
+    2. ¿Qué riesgos identifican?  
+    3. ¿Qué acciones podríamos tomar para mejorar la protección de nuestros datos?  
+2. **Redacción de un pequeño “Plan de acción digital”**
+   1. Definir 2 o 3 medidas prácticas para reducir la exposición de datos en redes sociales.  
+   2. Definir una lista de buenas prácticas para compartir información (pensar antes de publicar, ajustar configuraciones de privacidad, etc.).  
+
+### 4. Evidencias
+
+Esta tarea se evidenciará mediante la entrega en Moodle del enlace al documento de GitHub que ha de estar debidamente cumplimentado.
+
+### 5. Indicadores de logro
+
+1. El alumnado ha realizado una búsqueda responsable y ha sido capaz de identificar parte de los datos personales que son de acceso público o semipúblico.  
+2. En el documento final, se incluyen al menos dos o tres medidas concretas para proteger la privacidad y minimizar la exposición de datos.  
+3. Se observa una reflexión crítica sobre los riesgos asociados a la sobreexposición de información (problemas legales, robo de identidad, ciberacoso).  
+4. La documentación está presentada de forma clara y completa.
+
+"""
