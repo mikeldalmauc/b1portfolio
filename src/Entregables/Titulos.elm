@@ -35,16 +35,16 @@ titulo code =
             "3.B Puesta a disposición de los recursos"
 
         "E4" ->
-            "4"
+            "4 Evaluación y retroalimentación"
 
         "E4A" ->
-            "4.A"
+            "4.A Evaluación previa"
 
         "E4B" ->
-            "4.B"
+            "4.B Evaluación formativa"
 
         "E4C" ->
-            "4.C"
+            "4.C Retroalimentación"
 
         "E5" ->
             "5 Empoderamiento del alumnado"
@@ -56,7 +56,7 @@ titulo code =
             "5.B Personalización del aprendizaje"
 
         "E6" ->
-            "6"
+            "6 Trabajo con el alumnado"
 
         "E6A" ->
             "6.A: Búsquedas eficacez"

@@ -90,7 +90,7 @@ aside model =
         [ centerX
         , centerY
         , height fill
-        , width (fill |> maximum 340)
+        , width (fill |> maximum 380)
         , padding 25
         , spacing 40
         ]

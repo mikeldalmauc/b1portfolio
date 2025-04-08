@@ -27,4 +27,21 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    column [ paddingEach { top = 20, right = 0, bottom = 20, left = 0 } ]
+        [ MarkdownThemed.renderFull
+            """
+## 4 Evaluación y Feedback
+
+En este vídeo se muestra
+
+- [Actividad 4A: Evaluación Previa](/entregable4a)
+- [Actividad 4B: Evaluación Formativa](/entregable4b)
+- [Actividad 4C: Retroalimentación ](/entregable4c)
+
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+"""
+        , videoView d "https://www.youtube.com/embed/IkdFbLRZMNs?si=vUKlzMbZBIi9W-a"
+        ]

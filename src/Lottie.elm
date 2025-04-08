@@ -23,8 +23,8 @@ viewTeaching =
     el
         [ centerX
         , centerY
-        , padding 10
-        , moveDown 350
+        , padding 0
+        , moveDown 370
         , moveLeft 650
         , htmlAttribute (Html.Attributes.style "filter" "saturate(2)")
         ]

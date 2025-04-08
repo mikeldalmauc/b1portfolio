@@ -30,7 +30,7 @@ content : Dimensions -> Element msg
 content d =
     MarkdownThemed.renderFull
         """
-# 6.B: Definición de normas de comportamiento
+# 6.B: Definición de normas de comportamiento 
 
 ![persona confundida con los graficos de github](assets/6Bnetiqueta.webp)
 

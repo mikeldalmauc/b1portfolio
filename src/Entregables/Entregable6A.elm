@@ -50,6 +50,8 @@ content d =
 
 Esta actividad se puede realizar en una sesión de 2 horas, e idealmente en parejas. El objetivo es que el alumnado aprenda a formular preguntas útiles, realizar búsquedas en profundidad con inteligencia artificial, y analizar críticamente las respuestas obtenidas. Se trabajarán habilidades clave como el diseño de prompts, el análisis de informacióna.
 
+La actividad está diseñada para ser realizada al comienzo del itinerario formativo.
+
 ---
 
 ### 1. Competencia

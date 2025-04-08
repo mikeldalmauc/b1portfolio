@@ -147,7 +147,7 @@ botonCompetencia entregable entrega ids hovered =
         [ width fill
         , height (px 70)
         , padding 7
-        , spacing 30
+        , spacing 18
         , pointer
         , Events.onMouseEnter (HoverOnMany ids)
         , Events.onMouseLeave (HoverOffMany ids)

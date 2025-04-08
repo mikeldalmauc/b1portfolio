@@ -28,4 +28,87 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    MarkdownThemed.renderFull
+        """
+# 6.D: Uso responsable
+
+![Chica haciendo un selfie frente al portal de casa](assets/6Dselfie.webp)
+
+- [Actividad. Análisis de la Huella Digital en el Entorno del Desarrollo de Software](#actividad-análisis-de-la-huella-digital-en-el-entorno-del-desarrollo-de-software)
+- [1. Competencia](#1-competencia)
+- [2. Herramientas y recursos necesarios](#2-herramientas-y-recursos-necesarios)
+- [3. Descripción de la actividad](#3-descripción-de-la-actividad)
+- [3.1. Exploración y toma de conciencia](#31-exploración-y-toma-de-conciencia)
+- [3.2. Reflexión y propuestas de mejora](#32-reflexión-y-propuestas-de-mejora)
+- [4. Evidencias](#4-evidencias)
+- [5. Indicadores de logro](#5-indicadores-de-logro)
+
+<br></br>
+<br></br>
+## Actividad. Análisis de la Huella Digital en el Entorno del Desarrollo de Software
+
+Esta actividad se puede realizar en una sesión de 2 horas, preferiblemente con trabajo colaborativo en grupos de 3 o 4 personas. El objetivo es que el alumnado de **Desarrollo de Software** tome conciencia de los datos profesionales y personales que comparte en Internet (p. ej.: contribuciones a proyectos de código abierto, redes sociales técnicas, repositorios, perfiles en foros de programación), reflexione sobre los riesgos y responsabilidades asociados, y proponga acciones para mejorar la protección y el uso responsable de estos datos en entornos digitales.
+
+La actividad está diseñada para ser realizada a mitad del itinerario formativo, cuando el alumnado ya tenga cierta experiencia en compartir código y participar en repositorios públicos.
+
+---
+
+### 1. Competencia
+
+La competencia que se trabajará será:  
+*"Analizar y gestionar de forma crítica la propia huella digital en el ámbito del desarrollo de software, promoviendo un uso responsable, seguro y profesional de las tecnologías digitales."*  
+
+El nivel en el que se trabajará es **básico-intermedio**, con especial énfasis en la **toma de conciencia**, la **reflexión** y la **implementación de buenas prácticas** para la reputación profesional y la seguridad digital.
+
+### 2. Herramientas y recursos necesarios
+
+- **Moodle**: Se habilitará un espacio de entrega y un foro de debate donde el alumnado publicará sus reflexiones y conclusiones.  
+- **Internet y buscadores**: Para investigar la huella digital (perfiles en GitHub, GitLab, Stack Overflow, LinkedIn, etc.).  
+- **VSCode + Markdown**: Para documentar el proceso y elaborar la propuesta de mejora.  
+- **GitHub**: Para publicar el documento final en un repositorio de la asignatura.
+
+### 3. Descripción de la actividad
+
+#### 3.1. Exploración y toma de conciencia
+
+1. **Introducción mediante ejemplo real**  
+   Se presenta un caso práctico de una persona desarrolladora que enfrentó problemas al exponer información sensible en repositorios públicos (por ejemplo, publicar credenciales por error en commits antiguos) o que publicó comentarios poco profesionales en foros de programación y afectó negativamente su reputación laboral.
+
+2. **Búsqueda guiada de la propia huella digital** (individual)  
+   - Cada alumno/a investiga sus propios perfiles y contribuciones en sitios como GitHub, GitLab, Stack Overflow, foros de programación o redes profesionales (LinkedIn).  
+   - Se hace hincapié en identificar datos personales, comentarios públicos, credenciales expuestas (API keys, contraseñas) o incluso mensajes en commits que podrían ser problemáticos.  
+   - Se pide que tomen notas sobre qué información está **disponible públicamente** y qué tipo de imagen profesional proyectan sus cuentas y repositorios.
+
+3. **Compartir y reflexionar**  
+   - En grupos de 3-4 personas, cada alumno/a comenta brevemente sus hallazgos.  
+   - Se reflexiona sobre los riesgos, las oportunidades (una buena reputación profesional en GitHub puede ayudar a conseguir trabajo) y las acciones que cada uno puede llevar a cabo para mejorar su huella digital.
+
+#### 3.2. Reflexión y propuestas de mejora
+
+Cada alumno/a redactará un documento en **formato Markdown** y lo publicará en el repositorio de la asignatura con el nombre `plan_de_mejora_huella_digital.md`.
+
+El documento debe incluir:
+
+1. **Reflexión Personal**  
+   - ¿Por qué es importante la huella digital en el ámbito del desarrollo de software?  
+   - ¿Qué riesgos se identifican al exponer información sensible en repositorios o foros públicos?  
+   - ¿Cómo influye la huella digital en la reputación profesional?
+
+2. **Plan de Acción**  
+   - Al menos **2 o 3 medidas prácticas** para reducir la exposición de datos sensibles en repositorios (ej.: uso de archivos `.gitignore`, revisión de commits antiguos, cuidado con archivos de configuración).  
+   - **Buenas prácticas** para publicar proyectos y comentarios en la comunidad técnica (ej.: redactar README claro, usar licencias correctas, no compartir contraseñas ni keys).  
+
+### 4. Evidencias
+
+- **Entrega en Moodle**: Cada alumno/a subirá el enlace a su documento `plan_de_mejora_huella_digital.md` alojado en GitHub.  
+- **Participación en el Foro de Moodle**: Se abrirá un debate donde los grupos pueden compartir breves consejos o pautas que consideren relevantes para proteger la huella digital y fomentar una buena reputación profesional en el sector del desarrollo de software.
+
+
+### 5. Indicadores de logro
+
+1. **Búsqueda responsable**: El alumnado ha revisado adecuadamente sus propios repositorios y perfiles públicos, identificando posibles riesgos o información sensible expuesta.  
+2. **Propuestas específicas**: El documento final incluye al menos dos o tres medidas concretas para mejorar la privacidad y reputación profesional en entornos de desarrollo de software.  
+3. **Reflexión crítica**: El alumnado demuestra comprensión de los peligros de la sobreexposición digital (seguridad, robo de credenciales, afectación a la imagen profesional).  
+4. **Buena documentación**: El documento está redactado con claridad en formato Markdown y publicado correctamente en GitHub.  
+5. **Participación activa**: Han compartido sus impresiones en el foro de Moodle, aportando sugerencias y ayudando a compañeros a descubrir posibles mejoras en su huella digital.
+"""
