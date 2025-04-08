@@ -37,6 +37,6 @@ En este vídeo se presentan las dos tipologías de contenidos digitales que se h
 - [Contenido básico](/entregable2a)
 - [Contenido avanzado](/entregable2b)
 
-    """
+"""
         , videoView d "https://www.youtube.com/embed/KD2d2vpqkSo?si=wI2hyvcu6D0lH2J0"
         ]

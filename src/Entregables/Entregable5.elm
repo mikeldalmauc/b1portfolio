@@ -37,6 +37,9 @@ En este vídeo se presentan las medidas de accesibilidad y personalización que 
 - [Accesibilidad de los contenidos digitales](/entregable5a)
 - [Personalización del aprendizaje en base al rastro digital](/entregable5b)
 
+<br></br>
+<br></br>
+<br></br>
     """
         , videoView d "https://www.youtube.com/embed/IkdFbLRZMNs?si=vUKlzMbZBIi9W-a"
         ]

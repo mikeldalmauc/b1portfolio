@@ -27,4 +27,23 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    wip d
+    column [ paddingEach { top = 20, right = 0, bottom = 20, left = 0 } ]
+        [ MarkdownThemed.renderFull
+            """
+## 6 Trabajando con el alumnado
+
+En este vídeo se muestra que actividades propongo para trabajar con el alumnado las siguientes dimensiones de la competencia digital enfocado a alumnos del grado de multiplataforma.
+
+- [Actividad 6A: Búsquedas eficaces](/entregable6a)
+- [Actividad 6B: Definición de normas de comportamiento](/entregable6b)
+- [Actividad 6C: Desarrollo de contenidos digitales](/entregable6c)
+- [Actividad 6D: Uso responsable](/entregable6d)
+- [Actividad 6E: Resolución de problemas digitales](/entregable6e)
+
+<br></br>
+<br></br>
+<br></br>
+<br></br>
+"""
+        , videoView d "https://www.youtube.com/embed/IkdFbLRZMNs?si=vUKlzMbZBIi9W-a"
+        ]

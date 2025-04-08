@@ -29,31 +29,32 @@ view d =
 content : Dimensions -> Element msg
 content d =
     MarkdownThemed.renderFull
-        """ 
+        """
 # 6.C Desarrollo de contenidos digitales
 
 ![Gente creando contenido digital.](assets/6Ccontent.webp)
 
-- [Actividad. Creacion de contenido digital](#actividad-creacion-de-contenido-digital)
 - [1. Competencia](#1-competencia)
 - [2. Herramientas y recursos necesarios](#2-herramientas-y-recursos-necesarios)
-- [3. Descripción de la actividad](#3-descripcion-de-la-actividad)
-- [3.1. Inspiración y diseño](#31-inspiracion-y-diseño)
-- [3.2. Creación y publicación](#32-creacion-y-publicacion)
+- [3. Descripcion de la actividad](#3-descripcion-de-la-actividad)
+- [3.1. Inspiracion y diseño](#31-inspiracion-y-diseño)
+- [3.2. Creacion y publicacion](#32-creacion-y-publicacion)
 - [4. Evidencias](#4-evidencias)
 - [5. Indicadores de logro](#5-indicadores-de-logro)
-
 
 <br></br>
 <br></br>
 
 ## Actividad. Creacion de contenido digital
+
 Esta actividad se puede realizar en dos sesiones de 2 horas. Está diseñada para fomentar la creación de contenido digital interactivo a partir de un tema, los alumnos tendrán libertad para elegir el tipo de formato (presentación, vídeo, mapa conceptual, gráfico…). Se trabajará la síntesis, la creatividad y la capacidad de comunicar con claridad temas complejos.
-La actividad está diseñada para ser desarrollada a mitad del itinerario formativo, cuando el alumnado va comenzar a cerar el contenido.
+
+La actividad está diseñada para ser desarrollada a inicio del itinerario formativo, el objetivo es que los alumnos aprendan a crear contenido digital atractivo y comprensible, y que se sientan cómodos utilizando diferentes herramientas digitales. 
+
+Es importante que la activiadad se realize en dos sesiones, para que los alumnos tengan el tiempo suficiente de asimiliar e ir desarrollando las ideas, de esta forma se evita la sobrecarga cognitiva y se fomenta la creatividad, además vienen más motivados y con ideas frescas a la segunda sesión.
+
 ---
-<br></br>
-<br></br>
-<br></br>
+
 ### 1. Competencia
 
 La competencia que se trabajará será:  
@@ -86,7 +87,7 @@ El nivel en el que se trabajará será **medio**, con especial atención a la or
    - Presentación tipo carrusel.
    - Mini vídeo explicativo (máx. 3 minutos).
    - Infografía o cartel digital.
-   - 
+  
 5. Se da un tiempo de 90 minutos para diseñar un borrador del contenido en la herramienta elegida. Puede ser individual o en parejas si se prefiere trabajo cooperativo.
 
 6. Se hace una **revisión cruzada rápida** entre compañeros/as:  
@@ -102,7 +103,7 @@ El nivel en el que se trabajará será **medio**, con especial atención a la or
 
 ### 4. Evidencias
 
-Esta tarea se evidenciará mediante la publicación de un enlace funcional al Moodle.
+Esta tarea se evidenciará mediante la publicación de un enlace funcional en Moodle.
 
 ### 5. Indicadores de logro
 
@@ -110,4 +111,5 @@ Esta tarea se evidenciará mediante la publicación de un enlace funcional al Mo
 2. Se adapta al formato elegido y se entiende sin necesidad de explicación adicional.
 3. La información técnica es precisa y adecuada al nivel.
 4. Se utilizan recursos gráficos, texto y voz de forma equilibrada.
+
 """
