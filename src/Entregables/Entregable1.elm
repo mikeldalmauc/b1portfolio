@@ -37,6 +37,8 @@ En este vídeo se muestra el portfolio y los tres entregables correspondientes a
 --- 
 
 <br/>
+<br/>
+<br/>
 """
         , videoView d "https://www.youtube.com/embed/a4ljkcniF4U?si=GBCfKhfEx-MxMFJ9"
         ]

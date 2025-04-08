@@ -37,6 +37,11 @@ En este vídeo muestro cómo he puesto los contenidos creados a disposición del
 - [Contexto colaborativo del alumnao](/entregable3a)
 - [Puesta a disposición](/entregable3b)
 
+<br></br>
+<br></br>
+--- 
+<br></br>
+
 """
         , videoView d "https://www.youtube.com/embed/60UrkJMkj9Q?si=bQawUGP1KJuL9BIH"
         ]
