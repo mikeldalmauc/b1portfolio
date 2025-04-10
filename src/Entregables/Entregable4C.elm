@@ -28,33 +28,33 @@ view d =
 
 content : Dimensions -> Element msg
 content d =
-    MarkdownThemed.renderFull
-    """
+    column [ width fill, height fill, spacing 10 ]
+        [ MarkdownThemed.renderFull <| """
 # 4C Estrategia de evaluación formativa centrada en el feedback
 
-- [4C Estrategia de evaluación formativa centrada en el feedback](#4c-estrategia-de-evaluación-formativa-centrada-en-el-feedback)
-  - [Vídeo explicativo](#vídeo-explicativo)
-  - [Feedback formativo con GitHub Classroom](#feedback-formativo-con-github-classroom)
-  - [Feedback formativo con Moodle](#feedback-formativo-con-moodle)
-  - [Evidencias de retroalimentación](#evidencias-de-retroalimentación)
+<img width='600' src='assets/4CFeedback.webp' alt='Una persona dando feedback a otra.'/>
+
+- [Vídeo explicativo](#vídeo-explicativo)
+- [Feedback formativo con GitHub Classroom](#feedback-formativo-con-github-classroom)
+- [Feedback formativo con Moodle](#feedback-formativo-con-moodle)
 
 <br></br>
+<br></br>
+<br></br>
+<br></br>
+
+
+En este documento propongo un conjunto de estrategias de feedback, basadas en las herramientas de evaluación elegidas en el apartado [4.B Evaluación Formativa](/entregable4b) que son **Moodle** y **Github**. Por lo tanto trataré de aprovechar en la medida de lo posible los distintos recursos que ofrecen estas plataformas. Sin olvidar que el objetivo principal es ofrecer retroalimentación continua y ajustada a la evolución de cada estudiante.
+
 
 ## Vídeo explicativo
-
-<br></br>
-En un breve vídeo, podemos mostrar al alumnado **cómo y cuándo** va a recibir feedback sobre su proceso de aprendizaje, tanto en GitHub Classroom como en Moodle:
-
-1. **Explicar las etapas de desarrollo del proyecto** y cómo se revisan en GitHub Classroom.  
-2. **Mostrar ejemplos de rúbricas** y dónde el alumnado verá sus calificaciones y comentarios en Moodle.  
-
+"""
+        , el [ paddingEach { bottom = 70, top = 5, left = 0, right = 0 } ] <| videoView d "https://www.youtube.com/embed/IkdFbLRZMNs?si=vUKlzMbZBIi9W-a"
+        , MarkdownThemed.renderFull <| """
 <br></br>
 
----
 
 ## Feedback formativo con GitHub Classroom
-
-El **objetivo** principal es ofrecer retroalimentación continua y ajustada a la evolución de cada estudiante. Para ello, se aprovechan las funcionalidades de GitHub Classroom:
 
 1. **Revisiones de Pull Requests**  
    - Cada vez que el alumnado sube su código mediante un pull request (PR), se comentan aspectos como:
@@ -68,27 +68,19 @@ El **objetivo** principal es ofrecer retroalimentación continua y ajustada a la
    - Se aconsejan prácticas de *commit* frecuentes y descriptivos (por ejemplo, *“fix: corrige bug en el formulario de login”*).  
    - Un historial ordenado es un indicador de disciplina y organización.
 
-3. **Uso de issues**  
-   - Se crean *issues* cuando se detectan fallos o posibles mejoras.  
-   - El alumnado aprende a gestionar y cerrar esos *issues*, dejando constancia del proceso de resolución.  
-   - Es útil para fomentar la comunicación, ya que no solo el profesor, sino también los compañeros, pueden opinar y ayudar.
-
-4. **Plantillas de feedback automático** (opcional)  
-   - Se pueden configurar pequeños tests o *checks* con GitHub Actions, que alerten sobre errores de compilación o fallos en pruebas unitarias.  
-   - Ofrecen una retroalimentación rápida y objetiva, complementando la revisión manual.
-
----
+3. **Plantillas de feedback automático** (opcional)  
+   - Se pueden configurar pequeños tests con GitHub Actions, que alerten sobre errores de compilación o fallos en pruebas unitarias.  
+   - Ofrecen una retroalimentación rápida y objetiva, complementando la revisión manual, ideal para ciertos ejercicios de programación.
+   
 
 ## Feedback formativo con Moodle
-
-**Moodle** ofrece una plataforma centralizada para comentarios y calificaciones cualitativas, donde podemos aplicar diferentes técnicas de retroalimentación:
 
 1. **Rúbricas detalladas**  
    - Cada práctica o proyecto se acompaña de una rúbrica con **criterios claros** (organización del código, usabilidad de la app, documentación…).  
    - Con solo puntuar cada criterio, Moodle puede **generar la nota** y mostrar **comentarios personalizados** en cada sección.
 
 2. **Retroalimentación escrita o multimedia**  
-   - El docente puede añadir anotaciones específicas acerca de la forma de resolver la práctica o sugerir recursos adicionales.  
+   - El docente puede añadir anotaciones específicas acerca de la forma de resolver la práctica o sugerir recursos adicionales.
    - Los **comentarios en audio o vídeo** suelen resultar cercanos y motivadores para el alumnado.
 
 3. **Cuestionarios de autoevaluación**  
@@ -99,27 +91,9 @@ El **objetivo** principal es ofrecer retroalimentación continua y ajustada a la
    - Un espacio en el que se plantean dudas, se discuten problemas concretos y se ofrece *feedback* público para toda la clase.  
    - En ocasiones, las respuestas de los compañeros pueden complementar la visión del docente.
 
-5. **Badges o insignias de progreso**  
+5. **Insignias de progreso**  
    - Una forma de **motivar** al alumnado reconociendo logros específicos (por ejemplo, *“Excelente documentación”*, *“Resolución de bugs”*).  
    - Se pueden automatizar las condiciones para asignar estas insignias según la calificación, la participación en foros, o la entrega puntual de tareas.
 
----
-
-## Evidencias de retroalimentación
-
-1. **Historial de Pull Requests comentados**  
-   - Muestra las sugerencias y consejos aportados al alumnado, así como las respuestas y correcciones de este.
-
-2. **Informe de rúbricas y calificaciones en Moodle**  
-   - Permite al alumnado ver sus **fortalezas y debilidades** en aspectos concretos.  
-   - El profesorado puede exportar estos informes para supervisar el progreso global y proponer ajustes pedagógicos.
-
-3. **Participación en foros y issues**  
-   - El conteo de mensajes y su contenido reflejan el grado de implicación del alumnado y su aprendizaje colaborativo.
-
-4. **Mejoras implementadas**  
-   - Se comparan versiones antiguas del código con las nuevas para ver si las sugerencias de *feedback* han sido aplicadas.  
-   - Esto evidencia la **evolución real** del estudiante.
-
-En resumen, la retroalimentación continua basada en **comentarios de código**, **rúbricas de Moodle**, **discusiones en foros** y **auto-evaluaciones** constituye un pilar fundamental en la **evaluación formativa** de un curso de Desarrollo de Aplicaciones Multiplataforma. De esta manera, el alumnado no solo sabe cuál es su calificación final, sino también **por qué** la ha obtenido y **cómo** puede mejorar en cada paso del proceso.
-    """
+"""
+    ]

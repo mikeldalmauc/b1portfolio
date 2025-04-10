@@ -32,7 +32,7 @@ content d =
         """
 # 6.C Desarrollo de contenidos digitales
 
-![Gente creando contenido digital.](assets/6Ccontent.webp)
+<img width='600' src='assets/6Ccontent.webp' alt='Gente creando contenido digital.'/>
 
 - [1. Competencia](#1-competencia)
 - [2. Herramientas y recursos necesarios](#2-herramientas-y-recursos-necesarios)
