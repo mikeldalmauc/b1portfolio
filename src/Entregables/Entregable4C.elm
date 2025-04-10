@@ -40,6 +40,12 @@ content d =
 
 <br></br>
 <br></br>
+<br></br>
+<br></br>
+
+
+En este documento propongo un conjunto de estrategias de feedback, basadas en las herramientas de evaluación elegidas en el apartado [4.B Evaluación Formativa](/entregable4b) que son **Moodle** y **Github**. Por lo tanto trataré de aprovechar en la medida de lo posible los distintos recursos que ofrecen estas plataformas. Sin olvidar que el objetivo principal es ofrecer retroalimentación continua y ajustada a la evolución de cada estudiante.
+
 
 ## Vídeo explicativo
 """
@@ -49,8 +55,6 @@ content d =
 
 
 ## Feedback formativo con GitHub Classroom
-
-El **objetivo** principal es ofrecer retroalimentación continua y ajustada a la evolución de cada estudiante. Para ello, se aprovechan las funcionalidades de GitHub Classroom:
 
 1. **Revisiones de Pull Requests**  
    - Cada vez que el alumnado sube su código mediante un pull request (PR), se comentan aspectos como:
@@ -70,8 +74,6 @@ El **objetivo** principal es ofrecer retroalimentación continua y ajustada a la
    
 
 ## Feedback formativo con Moodle
-
-**Moodle** ofrece una plataforma centralizada para comentarios y calificaciones cualitativas, donde podemos aplicar diferentes técnicas de retroalimentación:
 
 1. **Rúbricas detalladas**  
    - Cada práctica o proyecto se acompaña de una rúbrica con **criterios claros** (organización del código, usabilidad de la app, documentación…).  
