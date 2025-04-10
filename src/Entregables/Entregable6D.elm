@@ -32,7 +32,7 @@ content d =
         """
 # 6.D: Uso responsable
 
-![Chica haciendo un selfie frente al portal de casa](assets/6Dselfie.webp)
+<img width='600' src='assets/6Dselfie.webp' alt='Chica haciendo un selfie frente al portal de casa'/>
 
 - [Actividad. Análisis de la Huella Digital en el Entorno del Desarrollo de Software](#actividad-análisis-de-la-huella-digital-en-el-entorno-del-desarrollo-de-software)
 - [1. Competencia](#1-competencia)

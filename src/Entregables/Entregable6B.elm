@@ -32,7 +32,7 @@ content d =
         """
 # 6.B: Definición de normas de comportamiento 
 
-![persona confundida con los graficos de github](assets/6Bnetiqueta.webp)
+<img width='600' src='assets/6Bnetiqueta.webp' alt='persona confundida con los graficos de github'/>
 
 - [Actividad. Normas de colaboracion y netiqueta en GitHub](#actividad-normas-de-colaboracion-y-netiqueta-en-github)
     - [1. Competencia](#1-competencia)

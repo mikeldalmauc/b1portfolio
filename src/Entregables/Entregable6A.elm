@@ -32,7 +32,7 @@ content d =
         """
 # 6.C Búsquedas eficacez
 
-![persona explorando un mar de datos con una linterna](assets/6Amar.webp)
+<img width='600' src='assets/6Amar.webp' alt='persona explorando un mar de datos con una linterna'/>
 
 - [Actividad. Estrategias de búsqueda con Inteligencias Artificiales](#actividad-estrategias-de-busqueda-con-inteligencias-artificiales)
     - [1. Competencia](#1-competencia)
