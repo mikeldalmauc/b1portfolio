@@ -32,7 +32,7 @@ content d =
         """
 # 6.E Resolución de problemas digitales
 
-![Tres personas reparando un contenido digital](assets/6Ereparadores.webp)
+<img width='600' src='assets/6Ereparadores.webp' alt='Tres personas reparando un contenido digital'/>
 
 - [Actividad. Resolucion de Incidencias Digitales en Entornos de Desarrollo de Software (con apoyo de IA)](#actividad-resolucion-de-incidencias-digitales-en-entornos-de-desarrollo-de-software-con-apoyo-de-ia)
 - [1. Competencia](#1-competencia)
