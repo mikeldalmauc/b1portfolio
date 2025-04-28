@@ -43,7 +43,7 @@ content d =
 
 ## Vídeo explicativo
 """
-        , el [ paddingEach { bottom = 70, top = 5, left = 0, right = 0 } ] <| videoView d "https://www.youtube.com/embed/IkdFbLRZMNs?si=vUKlzMbZBIi9W-a"
+        , el [ paddingEach { bottom = 70, top = 5, left = 0, right = 0 } ] <| videoView d "https://www.youtube.com/embed/IHYwic3Yi84?si=UuRrgiOY8LtcazpU"
         , MarkdownThemed.renderFull <|
             """
 La evaluación formativa se basa en la observación continua del proceso de aprendizaje, no en pruebas puntuales. Se trata de una evaluación que acompaña el proceso de enseñanza-aprendizaje. 
@@ -86,7 +86,7 @@ Tambíen permite al alumno ver su progreso en el curso y el seguimiento de las a
 - **Calidad de los mensajes de commit**.\tRevisión de buenas prácticas de documentación del código
 - **Evolución del código**.\tComparativa entre versiones a lo largo del proyecto
 - **Uso de ramas y pull requests**.\tBuenas prácticas en control de versiones
-- **Participación en el trabajo colaborativo**.\tEn proyectos grupales, análisis de contribuciones de cada mie
+- **Participación en el trabajo colaborativo**.\tEn proyectos grupales, análisis de contribuciones de cada miembro.
 
 ## Elementos que se van a medir en Moodle
 

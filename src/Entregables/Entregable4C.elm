@@ -30,7 +30,7 @@ content : Dimensions -> Element msg
 content d =
     column [ width fill, height fill, spacing 10 ]
         [ MarkdownThemed.renderFull <| """
-# 4C Estrategia de evaluación formativa centrada en el feedback
+# 4C Feedback utilizando herramientas digitales
 
 <img width='600' src='assets/4CFeedback.webp' alt='Una persona dando feedback a otra.'/>
 
@@ -49,7 +49,7 @@ En este documento propongo un conjunto de estrategias de feedback, basadas en la
 
 ## Vídeo explicativo
 """
-        , el [ paddingEach { bottom = 70, top = 5, left = 0, right = 0 } ] <| videoView d "https://www.youtube.com/embed/IkdFbLRZMNs?si=vUKlzMbZBIi9W-a"
+        , el [ paddingEach { bottom = 70, top = 5, left = 0, right = 0 } ] <| videoView d "https://www.youtube.com/embed/oqLeZB3yyVU?si=SkivQCNfnuCVTB6p"
         , MarkdownThemed.renderFull <| """
 <br></br>
 
@@ -96,4 +96,4 @@ En este documento propongo un conjunto de estrategias de feedback, basadas en la
    - Se pueden automatizar las condiciones para asignar estas insignias según la calificación, la participación en foros, o la entrega puntual de tareas.
 
 """
-    ]
+        ]
